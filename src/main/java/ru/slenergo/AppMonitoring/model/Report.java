@@ -1,10 +1,7 @@
 package ru.slenergo.AppMonitoring.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -18,9 +15,13 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private Long station_id;
+    @Column
     private LocalDateTime date;
+    @Column
     private TypeReports type;
+    @Column
     private String url;
 
 

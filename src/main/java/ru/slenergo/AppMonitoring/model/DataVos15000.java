@@ -14,11 +14,17 @@ public class DataVos15000 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private final Long station_id = 2L;
+    @Column
     private Long user_id;
+    @Column
     private LocalDateTime date;
+    @Column
     private Double volExtr;
+    @Column
     private Double volCiti;
+    @Column
     private Double cleanWaterSupply;
 
 
