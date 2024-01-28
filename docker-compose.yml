@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:16.1-alpine3.18
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=mgrDB
+      - POSTGRES_USER=mgrDB
+      - POSTGRES_DB=mgrDb
+    volumes:
+      - ./database:/var/lib/postgresql/data

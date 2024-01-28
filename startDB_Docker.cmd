@@ -1,0 +1,1 @@
+cmd /c docker-compose.exe up

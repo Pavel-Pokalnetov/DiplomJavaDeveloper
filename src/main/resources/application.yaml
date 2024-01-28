@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/mgrDB
+    username: "mgrDB"
+    password: "mgrDB"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
