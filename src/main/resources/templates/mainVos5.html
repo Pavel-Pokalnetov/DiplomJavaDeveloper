@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <title>Часовые расходы ВОС5000</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-14">
+            <h4 class="ml-auto mr-0">Часовые расходы ВОС5000. Дата: 01 января 2024 г</h4>
+            <div class="col-14 btn-group">
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/input">Ввод данных</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1">Отчеты</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1">Настройка</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1">Выход</a>
+            </div>
+            <div class="table-responsive-sm">
+                <table class="table table-compact table-bordered table-hover text-center table-sm">
+                    <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>V</br>часовой</th>
+                        <th>V</br>обр.город</th>
+                        <th>V</br>обр.ВОС15000</th>
+                        <th>Итого приход воды</th>
+                        <th>V</br>подача в город</th>
+                        <th>Запас</br>в РЧВ</th>
+                        <th>Рост запаса</br> в РЧВ</th>
+                        <th>Давление</br>подача в город</th>
+                        <th>Давление</br>обр.город</th>
+                        <th>Давление</br>обр.ВОС15000</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!--
+                        DataVos5(id=1,
+                        station_id=3,
+                        user_id=4,
+                        date=2023-06-12T00:00,
+                        volExtr=8.0,
+                        volCiti=7.0,
+                        volBackCity=5.0,
+                        volBackVos15=6.0,
+                        cleanWaterSupply=1.0,
+                        pressureCity=2.0,
+                        pressureBackCity=2.0,
+                        pressureBackVos15=3.0)
+                    -->
+                    <tr th:each="data: ${dataVos5}">
+                        <td th:text="${data.getDate()}">-</td>
+                        <td th:text="${data.getVolBackCity()}">93</td>
+                        <td th:text="${data.getVolBackVos15()}">12</td>
+                        <td th:text="${data.get}">25</td>
+                        <td th:text="${}">129,65</td>
+                        <td th:text="${}">96</td>
+                        <td th:text="${}">34</td>
+                        <td th:text="${}" class="bg-success text-white">2950</td>
+                        <td th:text="${}">6,0</td>
+                        <td th:text="${}">5,2</td>
+                        <td th:text="${}">5,3</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

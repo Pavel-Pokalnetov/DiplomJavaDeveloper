@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/shared.js"></script>
     <title>Часовые расходы ВОС5000</title>
 </head>
 
@@ -14,12 +15,12 @@
     <div class="container">
         <div class="row">
             <div class="col-14">
-                <h4 class="ml-auto mr-0">Часовые расходы ВОС5000. Дата: 01 января 2024 г</h4>
+                <h4 class="ml-auto mr-0">Часовые расходы ВОС15000. </h4><p><span id="current-date"></span></p>
                 <div class="col-14 btn-group">
-                    <button type="button" class="btn btn-primary btn-sm mr-1">Ввод данных</button>
-                    <button type="button" class="btn btn-primary btn-sm mr-1">Отчеты</button>
-                    <button type="button" class="btn btn-primary btn-sm mr-1">Настройка</button>
-                    <button type="button" class="btn btn-primary btn-sm mr-1">Выход</button>
+                    <a type="button" class="btn btn-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
+                    <a type="button" class="btn btn-primary btn-sm mr-1">Отчеты</a>
+                    <a type="button" class="btn btn-primary btn-sm mr-1">Настройка</a>
+                    <a type="button" class="btn btn-primary btn-sm mr-1">Выход</a>
                 </div>
                 <div class="table-responsive-sm">
                     <table class="table table-compact table-bordered table-hover text-center table-sm">
@@ -58,6 +59,6 @@
             </div>
         </div>
     </div>
-</body>
+
 
 </html>

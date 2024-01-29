@@ -8,14 +8,13 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@NoArgsConstructor
 @Table(name = "datavos15")
-public class DataVos15000 {
+public class DataVos15 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private final Long station_id = 2L;
+    private Long station_id;
     @Column
     private Long user_id;
     @Column
@@ -26,12 +25,6 @@ public class DataVos15000 {
     private Double volCiti;
     @Column
     private Double cleanWaterSupply;
-
-
-    public DataVos15000(Double volExtr, Double volCiti, Double cleanWaterSupply) {
-        this.volExtr = volExtr;
-        this.volCiti = volCiti;
-        this.cleanWaterSupply = cleanWaterSupply;
-    }
-
+    @Column
+    private Double pressureCity;
 }

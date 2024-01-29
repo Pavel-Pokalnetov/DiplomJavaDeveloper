@@ -2,20 +2,36 @@ package ru.slenergo.AppMonitoring.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import ru.slenergo.AppMonitoring.model.DataVos15;
+import ru.slenergo.AppMonitoring.model.DataVos5;
+import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
+import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
+import ru.slenergo.AppMonitoring.services.DataService;
 import ru.slenergo.AppMonitoring.services.UserServices;
 
+import java.util.List;
+
 @Controller
-@RequestMapping({"/"})
 public class MainPageController {
     @Autowired
+    DataService dataService;
+    @Autowired
     UserServices userServices;
-    @GetMapping("/main")
-    public String mainPage(){
-        return "main";
+    @GetMapping("/main/vos5")
+    public String mainPageVos5(Model model){
+        List<DataVos5> data = dataService.getAllVos5();
+        model.addAttribute("dataVos5",data);
+        return "mainVos5";
     }
+
+//    @GetMapping("/main/vos15")
+//    public String mainPageVos15(Model model){
+//        List<DataVos15> data = dataService.getAllVos15();
+//        model.addAttribute("dataVos",data);
+//        return "mainVos15";
+//    }
 
     @GetMapping("/login")
     public String loginPage(){
