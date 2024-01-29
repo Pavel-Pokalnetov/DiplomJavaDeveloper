@@ -18,8 +18,11 @@ public class DataService {
     DataRepositoryVos15 dataRep15;
 
     public List<DataVos5> getAllVos5() {
-        List<DataVos5> dataVos = new ArrayList<>();
-        dataRep5.findAll().iterator().forEachRemaining(System.out::println);
-        return dataVos;
+        List<DataVos5> dataVos5 = new ArrayList<>();
+        dataRep5.findAll().iterator().forEachRemaining(dataVos5::add);
+        return dataVos5;
     }
+
+
+
 }

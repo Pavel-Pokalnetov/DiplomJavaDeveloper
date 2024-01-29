@@ -1,8 +1,8 @@
 package ru.slenergo.AppMonitoring.model;
 
-
-import lombok.Data;
 import jakarta.persistence.*;
+import lombok.Data;
+
 @Data
 @Entity
 @Table(name = "users")
