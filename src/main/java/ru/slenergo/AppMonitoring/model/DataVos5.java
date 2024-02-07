@@ -1,9 +1,7 @@
 package ru.slenergo.AppMonitoring.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,14 +11,16 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @Table(name = "datavos5")
+@AllArgsConstructor
+@NoArgsConstructor
 public class DataVos5 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private Long station_id;
+    private Long stationId;
     @Column
-    private Long user_id;
+    private Long userId;
     @Column
     private LocalDateTime date;
     @Column
@@ -41,9 +41,6 @@ public class DataVos5 {
     private Double pressureBackCity;
     @Column
     private Double pressureBackVos15;
-
-    public DataVos5() {
-    }
 
     public Double getVolAll() {
         return volExtract + volBackCity + volBackVos15;

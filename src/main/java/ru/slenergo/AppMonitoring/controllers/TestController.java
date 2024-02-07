@@ -14,6 +14,6 @@ public class TestController {
     DataService ds;
     @RequestMapping("/test")
     public String testRequest(){
-        return ds.getLastDataItem().toString();
+        return ds.getLastDataItemVos5().toString();
     }
 }

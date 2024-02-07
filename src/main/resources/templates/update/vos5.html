@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <title>Ввод данных часового расхода ВОС5000</title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="row g-3 col-10">
+            <form id="myForm" th:action="@{/update/vos5/{id}(id=${id})}" method="POST">
+                <h3>Коррекция данных часового расхода ВОС-5000</h3>
+                <p><span id="current-date"></span></p>
+                <div class="form-group col-7">
+                    <input type="hidden" name="id" th:value="${entity.id}">
+                    <label for="clean_water_supply">Clean water supply</label>
+                    <input type="number" name="clean_water_supply" th:value="${entity.clean_water_supply}">
+                    <label for="date">Date</label>
+                    <input type="date" name="date" th:value="${entity.date}">
+                    <label for="delta_clean_water_supply">Delta clean water supply</label>
+                    <input type="number" name="delta_clean_water_supply" th:value="${entity.delta_clean_water_supply}">
+                    <label for="pressure_back_city">Pressure back city</label>
+                    <input type="number" name="pressure_back_city" th:value="${entity.pressure_back_city}">
+                    <label for="pressure_back_vos15">Pressure back VOS15</label>
+                    <input type="number" name="pressure_back_vos15" th:value="${entity.pressure_back_vos15}">
+                    <label for="pressure_city">Pressure city</label>
+                    <input type="number" name="pressure_city" th:value="${entity.pressure_city}">
+                    <label for="station_id">Station ID</label>
+                    <input type="number" name="station_id" th:value="${entity.station_id}">
+                    <label for="user_id">User ID</label>
+                    <input type="number" name="user_id" th:value="${entity.user_id}">
+                    <label for="vol_back_city">Vol back city</label>
+                    <input type="number" name="vol_back_city" th:value="${entity.vol_back_city}">
+                    <label for="vol_back_vos15">Vol back VOS15</label>
+                    <input type="number" name="vol_back_vos15" th:value="${entity.vol_back_vos15}">
+                    <label for="vol_citi">Vol city</label>
+                    <input type="number" name="vol_citi" th:value="${entity.vol_citi}">
+                    <label for="vol_extract">Vol extract</label>
+                    <input type="number" name="vol_extract" th:value="${entity.vol_extract}">
+                </div>
+                <button type="submit" class="btn btn-primary">Записать</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -37,25 +37,27 @@
                         <th>Рост запаса</br> в РЧВ</th>
                         <th>Давление</br>подача в город</th>
                         <th>Давление</br>обр.город</th>
-                        <th>Давление</br>обр.ВОС15000</th>
+                        <th>Давление</br>обр.ВОС15000</th><th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${dataVos5}">
-                        <td th:text="${data.getDateT()}">1</td>
-                        <td th:text="${data.getVolExtract()}">2</td>
-                        <td th:text="${data.getVolBackCity()}">3</td>
-                        <td th:text="${data.getVolBackVos15()}">4</td>
-                        <td th:text="${data.getVolAll()}">5</td>
-                        <td th:text="${data.getVolCiti()}">6</td>
-                        <td th:text="${data.getCleanWaterSupply()}">7</td>
+                        <td th:text="${data.getDateT()}">-</td>
+                        <td th:text="${data.getVolExtract()}">-</td>
+                        <td th:text="${data.getVolBackCity()}">-</td>
+                        <td th:text="${data.getVolBackVos15()}">-</td>
+                        <td th:text="${data.getVolAll()}">-</td>
+                        <td th:text="${data.getVolCiti()}">-</td>
+                        <td th:text="${data.getCleanWaterSupply()}">-</td>
 
                         <td th:text="${data.getDeltaCleanWaterSupply()}"
-                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')">8
+                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')">
+                            -
                         </td>
-                        <td>9</td>
-                        <td>10</td>
-                        <td>11</td>
+                        <td th:text="${data.getPressureCity()}">-</td>
+                        <td th:text="${data.getPressureBackCity()}">-</td>
+                        <td th:text="${data.getPressureBackVos15()}">-</td>
+                        <td><a th:href="@{/update/vos5/{id}(id=${data.getId()})}" class="btn btn-sm">E</a></td>
                     </tr>
                     </tbody>
                 </table>

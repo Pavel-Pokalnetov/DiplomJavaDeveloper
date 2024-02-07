@@ -1,3 +1,5 @@
+server:
+  port: 80
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -11,17 +13,3 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
-
-
-
-
-
-
-
-
-
-
-
-
-
-  #jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
