@@ -18,31 +18,31 @@
                 <h3>Коррекция данных часового расхода ВОС-5000</h3>
                 <p><span id="current-date"></span></p>
                 <div class="form-group col-7">
-                    <input type="hidden" name="id" th:value="${entity.id}">
+                    <input type="hidden" name="id" th:value="${entity.getId()}">
                     <label for="clean_water_supply">Clean water supply</label>
-                    <input type="number" name="clean_water_supply" th:value="${entity.clean_water_supply}">
+                    <input type="number" name="cleanWaterSupply" th:value="${entity.getCleanWaterSupply()}">
                     <label for="date">Date</label>
-                    <input type="date" name="date" th:value="${entity.date}">
+                    <input type="datetime-local" name="date" th:value="${entity.getDate()}">
                     <label for="delta_clean_water_supply">Delta clean water supply</label>
-                    <input type="number" name="delta_clean_water_supply" th:value="${entity.delta_clean_water_supply}">
+                    <input type="number" name="deltaCleanWaterSupply" th:value="${entity.getDeltaCleanWaterSupply()}">
                     <label for="pressure_back_city">Pressure back city</label>
-                    <input type="number" name="pressure_back_city" th:value="${entity.pressure_back_city}">
+                    <input type="number" name="pressureBackCity" th:value="${entity.getPressureBackCity()}">
                     <label for="pressure_back_vos15">Pressure back VOS15</label>
-                    <input type="number" name="pressure_back_vos15" th:value="${entity.pressure_back_vos15}">
+                    <input type="number" name="pressureBackVos15" th:value="${entity.getPressureBackVos15()}">
                     <label for="pressure_city">Pressure city</label>
-                    <input type="number" name="pressure_city" th:value="${entity.pressure_city}">
+                    <input type="number" name="pressureCity" th:value="${entity.getPressureCity()}">
                     <label for="station_id">Station ID</label>
-                    <input type="number" name="station_id" th:value="${entity.station_id}">
+                    <input type="number" name="stationId" th:value="${entity.getStationId()}">
                     <label for="user_id">User ID</label>
-                    <input type="number" name="user_id" th:value="${entity.user_id}">
+                    <input type="number" name="userId" th:value="${entity.getUserId()}">
                     <label for="vol_back_city">Vol back city</label>
-                    <input type="number" name="vol_back_city" th:value="${entity.vol_back_city}">
+                    <input type="number" name="volBackCity" th:value="${entity.getVolBackCity()}">
                     <label for="vol_back_vos15">Vol back VOS15</label>
-                    <input type="number" name="vol_back_vos15" th:value="${entity.vol_back_vos15}">
+                    <input type="number" name="volBackVos15" th:value="${entity.getVolBackVos15()}">
                     <label for="vol_citi">Vol city</label>
-                    <input type="number" name="vol_citi" th:value="${entity.vol_citi}">
+                    <input type="number" name="volCiti" th:value="${entity.getVolCiti()}">
                     <label for="vol_extract">Vol extract</label>
-                    <input type="number" name="vol_extract" th:value="${entity.vol_extract}">
+                    <input type="number" name="volExtract" th:value="${entity.getVolExtract()}">
                 </div>
                 <button type="submit" class="btn btn-primary">Записать</button>
             </form>

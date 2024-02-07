@@ -67,7 +67,7 @@ public class InputDataController {
         return "/input/result";
     }
 
-    @PostMapping("/input/vos5/{id}")
+    @PostMapping("/update/vos5/{id}")
     public String updateDataVos5(@PathVariable Long id,
                                  @RequestParam Long stationId,
                                  @RequestParam Long userId,
@@ -98,7 +98,7 @@ public class InputDataController {
                 pressureBackVos15);
 
         if (ds.updateDataVos5(dataVos5)) {
-            model.addAttribute("result", "Данные обновлены");
+            model.addAttribute("result", "Данные обновлены\n"+dataVos5);
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
@@ -109,7 +109,8 @@ public class InputDataController {
     public String updateFormVos5(@PathVariable long id, Model model) {
         DataVos5 dataVos5 = ds.getDataVosById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
-        model.addAttribute("dataVos5", dataVos5);
+        System.out.println(dataVos5);
+        model.addAttribute("entity", dataVos5);
         return "/update/vos5";
     }
 

@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.Aspect;
 
 @Aspect
 public class UserActionTrackingAspect {
-    @Around("execution (public * ru.slenergo.AppMonitoring..*.*(..))")
+    @Around("execution (public * ru.slenergo.AppMonitoring.*.*(..))")
     public Object trackUserAction(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         System.out.print("Вызов метода: " + joinPoint.getSignature().getName() + ", аргументы: " + args.toString());

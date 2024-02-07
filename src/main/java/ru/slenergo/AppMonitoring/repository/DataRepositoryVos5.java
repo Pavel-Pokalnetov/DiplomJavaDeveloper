@@ -18,21 +18,22 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
 
 
 
-//    @Modifying
-//    @Query("UPDATE DataVos5 e " +
-//            "SET e.cleanWaterSupply = :cleanWaterSupply," +
-//            " e.date = :date," +
-//            " e.deltaCleanWaterSupply = :deltaCleanWaterSupply," +
-//            " e.pressureBackCity = :pressureBackCity," +
-//            " e.pressureBackVos15 = :pressureBackVos15," +
-//            " e.pressureCity = :pressureCity," +
-//            " e.stationId = :stationId," +
-//            " e.userId = :userId," +
-//            " e.volBackCity = :volBackCity," +
-//            " e.volBackVos15 = :volBackVos15," +
-//            " e.volCiti = :volCiti," +
-//            " e.volExtract = :volExtract " +
-//            "WHERE e.id = :id")
-//    void update( DataVos5 data);
+/*
+SQL
+получить предыдущую по времени запись
+8 февраля в 02:05
+Вы можете использовать подзапрос для получения предыдущей по времени записи. Вот пример:
+
+SELECT * 
+FROM your_table t1
+WHERE t1.date < (SELECT MAX(t2.date) FROM your_table t2 WHERE t2.date < t1.date)
+ORDER BY t1.date DESC
+LIMIT 1;
+
+В этом запросе мы сначала выбираем все записи из таблицы "your_table",
+затем фильтруем их, чтобы оставить только те, у которых дата меньше,
+чем максимальная дата среди записей с более ранней датой. Затем мы сортируем оставшиеся
+записи в обратном порядке по дате и выбираем только одну запись.
+*/
 
 }
