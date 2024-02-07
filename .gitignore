@@ -31,6 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-./database/
-database/*
-/database/
+
