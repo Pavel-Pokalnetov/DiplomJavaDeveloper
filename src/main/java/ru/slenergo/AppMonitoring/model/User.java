@@ -1,12 +1,14 @@
 package ru.slenergo.AppMonitoring.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
+import lombok.Data;
+import jakarta.persistence.*;
+
 @Entity
 @Table(name = "users")
+@Data
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,4 +22,5 @@ public class User {
     private Long groupId;
     @Column
     private Long stationId;
+
 }

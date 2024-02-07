@@ -14,31 +14,31 @@
 <div class="container">
     <div class="row">
         <div class="row g-3 col-10">
-            <form id="myForm" action="/post/vos5" method="POST">
+            <form id="myForm" action="/input/vos5" method="POST">
                 <h3>Ввод данных часового расхода ВОС5000</h3>
                 <p><span id="current-date"></span></p>
                 <div class="form-group col-7">
                     <label class="form-label" for="Vextr">Объем часовой добычи станции м3/час</label>
-                    <input class="form-control" type="number" id="Vextr" name="Vextr" placeholder="" value="">
+                    <input class="form-control" type="number" id="Vextr" name="volExtract" placeholder="" value="">
                     <label class="form-label" for="Vback_city">Объем воды с обратного трубопровода из города
                         м3/час</label>
-                    <input class="form-control" type="number" id="Vback_city" name="Vback_city" placeholder="">
+                    <input class="form-control" type="number" id="Vback_city" name="volBackCity" placeholder="">
                     <label class="form-label" for="Vback_vos15">Объем воды с обратного трубопровода от ВОС15000
                         м3/час</label>
-                    <input class="form-control" type="number" id="Vback_vos15" name="Vback_vos15" placeholder="">
+                    <input class="form-control" type="number" id="Vback_vos15" name="volBackVos15" placeholder="">
                     <label class="form-label" for="Vcity">Подача воды в город м3/час</label>
-                    <input class="form-control" type="number" id="Vcity" name="Vcity" placeholder="">
+                    <input class="form-control" type="number" id="Vcity" name="volCiti" placeholder="">
                     <label class="form-label" for="Vcwst">Запас воды в РЧВ м3</label>
-                    <input class="form-control" type="number" id="Vcwst" name="Vcwst" placeholder="">
+                    <input class="form-control" type="number" id="Vcwst" name="cleanWaterSupply" placeholder="">
                     <label class="form-label" for="Pcity">Давление воды в трубопроводе - подача в город ВОС-5000.
                         Кгс/см2</label>
-                    <input class="form-control" type="number" id="Pcity" name="Pcity" placeholder="">
+                    <input class="form-control" type="number" id="Pcity" name="pressureCity" placeholder="">
                     <label class="form-label" for="Pback_city">Давление воды в обратном трубопроводе из города
                         Кгс/см2</label>
-                    <input class="form-control" type="number" id="Pback_city" name="Pback_city" placeholder="">
+                    <input class="form-control" type="number" id="Pback_city" name="pressureBackCity" placeholder="">
                     <label class="form-label" for="Pback_vos15">Давление воды в обратном трубопроводе от ВОС15000
                         Кгс/см2</label>
-                    <input class="form-control" type="number" id="Pback_vos15" name="Pback_vos15" placeholder="">
+                    <input class="form-control" type="number" id="Pback_vos15" name="pressureBackVos15" placeholder="">
                 </div>
                 <button type="submit" class="btn btn-primary">Записать</button>
             </form>

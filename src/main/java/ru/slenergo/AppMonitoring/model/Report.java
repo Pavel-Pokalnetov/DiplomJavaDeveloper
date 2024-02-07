@@ -1,17 +1,15 @@
 package ru.slenergo.AppMonitoring.model;
 
 
-import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name="reports")
 public class Report {
-    @jakarta.persistence.Id
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

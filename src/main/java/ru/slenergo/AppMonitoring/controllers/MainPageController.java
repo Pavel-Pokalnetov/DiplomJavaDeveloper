@@ -20,6 +20,7 @@ public class MainPageController {
     @GetMapping("/main/vos5")
     public String mainPageVos5(Model model) {
         List<DataVos5> dataVos5 = dataService.getAllVos5();
+        System.out.println(dataVos5);
         model.addAttribute("dataVos5", dataVos5);
         return "mainVos5";
     }

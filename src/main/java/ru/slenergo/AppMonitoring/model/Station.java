@@ -1,7 +1,7 @@
 package ru.slenergo.AppMonitoring.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
+import jakarta.persistence.*;
 
 @Entity
 @Data
