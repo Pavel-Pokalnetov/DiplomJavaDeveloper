@@ -9,18 +9,19 @@
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/shared.js"></script>
     <title>Часовые расходы ВОС5000</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
 <div class="container">
     <div class="row">
-        <div class="col-14">
-            <h4 class="ml-auto mr-0">Часовые расходы ВОС5000.</h4><p><span id="current-date"></span></p>
-            <div class="col-14 btn-group">
+        <div class="col-12">
+            <h3 class="ml-auto mr-0 mt-4">Часовые расходы ВОС5000</h3>
+            <p><span id="current-date"></span></p>
+            <div class="col-5 btn-group">
                 <a type="button" class="btn btn-primary btn-sm mr-1" href="/input/vos5">Ввод данных</a>
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/reports">Отчеты</a>
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/setings">Настройка</a>
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/logout">Выход</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/reports/vos5">Отчеты</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/setings/vos5">Настройка</a>
             </div>
             <div class="table-responsive-sm">
                 <table class="table table-compact table-bordered table-hover text-center table-sm">
@@ -40,21 +41,25 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each ="data:${dataVos5}">
-                        <td th:text="${data.getDate()}">1</td>
+                    <tr th:each="data:${dataVos5}">
+                        <td th:text="${data.getDateT()}">1</td>
                         <td th:text="${data.getVolExtract()}">2</td>
                         <td th:text="${data.getVolBackCity()}">3</td>
                         <td th:text="${data.getVolBackVos15()}">4</td>
                         <td th:text="${data.getVolAll()}">5</td>
                         <td th:text="${data.getVolCiti()}">6</td>
                         <td th:text="${data.getCleanWaterSupply()}">7</td>
-                        <td th:text="${data.getDeltaCleanWaterSupply()}" class="bg-success text-white">8</td>
+
+                        <td th:text="${data.getDeltaCleanWaterSupply()}"
+                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')">8
+                        </td>
                         <td>9</td>
                         <td>10</td>
                         <td>11</td>
                     </tr>
                     </tbody>
                 </table>
+                <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
         </div>
     </div>

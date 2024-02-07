@@ -1,3 +1,17 @@
 .dev {
     border: 1px solid red;
 }
+
+.delta-normal {
+    color: black;
+    background: none;
+}
+
+.delta-minus {
+    background: red;
+    color: white;
+}
+
+.delta-plus {
+    color: darkgreen;
+}

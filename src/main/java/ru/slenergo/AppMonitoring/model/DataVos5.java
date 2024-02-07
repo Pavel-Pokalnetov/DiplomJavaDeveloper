@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
@@ -48,5 +49,8 @@ public class DataVos5 {
         return volExtract + volBackCity + volBackVos15;
     }
 
-
+    public String getDateT(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
+        return date.format(formatter);
+    }
 }

@@ -19,8 +19,7 @@ public class MainPageController {
 
     @GetMapping("/main/vos5")
     public String mainPageVos5(Model model) {
-        List<DataVos5> dataVos5 = dataService.getAllVos5();
-        System.out.println(dataVos5);
+        List<DataVos5> dataVos5 = dataService.getLastMontVos5();
         model.addAttribute("dataVos5", dataVos5);
         return "mainVos5";
     }
@@ -35,5 +34,10 @@ public class MainPageController {
     @GetMapping("/login")
     public String loginPage() {
         return "login";
+    }
+
+    @GetMapping("/")
+    public String indexPage(){
+        return "redirect:/index.html";
     }
 }
