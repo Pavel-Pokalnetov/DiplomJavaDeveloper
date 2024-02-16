@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 @Table(name = "users")
 @Data
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,9 +17,6 @@ public class User {
     private String login;
     @Column
     private String password;
-    @Column
+    @Column(name = "group_id")
     private Long groupId;
-    @Column
-    private Long stationId;
-
 }

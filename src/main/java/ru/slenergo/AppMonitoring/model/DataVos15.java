@@ -12,8 +12,6 @@ public class DataVos15 {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private Long station_id;
-    @Column
     private Long user_id;
     @Column
     private LocalDateTime date;

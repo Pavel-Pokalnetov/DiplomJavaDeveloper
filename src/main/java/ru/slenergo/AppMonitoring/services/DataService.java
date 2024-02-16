@@ -50,7 +50,6 @@ public class DataService {
      * @return
      */
     public DataVos5 getLastDataItemVos5() {
-
         DataVos5 data = dataRep5.findLastItem();
         return data;
     }
@@ -64,8 +63,7 @@ public class DataService {
      */
     public boolean saveDataToDbVos5(DataVos5 dataVos5) {
         try {
-            dataRep5.save(dataVos5);
-            dataRep5.flush();
+            dataRep5.saveAndFlush(dataVos5);
             return true;
         } catch (Exception e) {
             return false;
@@ -91,19 +89,24 @@ public class DataService {
                                    Double volBackCity, Double volBackVos15, Double cleanWaterSupply,
                                    Double pressureCity, Double pressureBackCity, Double pressureBackVos15)
             throws PrematureEntryException {
-        DataVos5 dataVos5 = new DataVos5();
-        DataVos5 dataLost = getLastDataItemVos5();
-        Double lostCleanWaterSupply = 0.0;
 
-        if (dataLost != null) {
+        date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени (отбрасываем все что меньше часа)
+        if (dataRep5.existsByDate(date)) {
+            throw new PrematureEntryException(date);
+        }
+        DataVos5 dataVos5 = new DataVos5();
+
+        /* проверка на повторное добавление записи в текущем часе*/
+        DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
+        Double lostCleanWaterSupply = 0.0;
+        if (dataPrev != null) {
             // если предыдущей записи нет
-            lostCleanWaterSupply = dataLost.getCleanWaterSupply();
+            lostCleanWaterSupply = dataPrev.getCleanWaterSupply();
+
         }
 
-        /*проверка на повторное добавление записи в текущем часе*/
-        if (dataLost != null && isHourDateInHourNow(date, dataLost.getDate())) throw new PrematureEntryException(dataLost.getDate());
-
-        dataVos5.setDate(date.truncatedTo(ChronoUnit.HOURS));
+        dataVos5.setUserId(1L);
+        dataVos5.setDate(date);
         dataVos5.setVolExtract(volExtract);
         dataVos5.setVolCiti(volCiti);
         dataVos5.setVolBackCity(volBackCity);
@@ -112,27 +115,22 @@ public class DataService {
         dataVos5.setPressureCity(pressureCity);
         dataVos5.setPressureBackCity(pressureBackCity);
         dataVos5.setPressureBackVos15(pressureBackVos15);
-
         dataVos5.setDeltaCleanWaterSupply(dataVos5.getCleanWaterSupply() - lostCleanWaterSupply);
-
-
         return dataVos5;
     }
 
 
     /**
-     * Проверка совпадение времени (час) с текущим моментом
-     * если во времени совпадает значение часа, то возвращает TRUE
+     * Проверка двух моментов вермени на принадлежностьк одному часу
      *
-     * @param dateToCheck
-     * @return
+     * @param date        - дата1
+     * @param dateToCheck - дата2
+     * @return - true, если обе даты находятся в одном астрономическом часе
+     * (23:00 и 23:59 дадут true,  23:00 и 22:59 - дадут false
      */
     private boolean isHourDateInHourNow(LocalDateTime date, LocalDateTime dateToCheck) {
-        int hour1 = date.toLocalTime().getHour();
-        int hour2 = dateToCheck.toLocalTime().getHour();
-        int day1 = date.toLocalDate().getDayOfMonth();
-        int day2 = dateToCheck.toLocalDate().getDayOfMonth();
-        return (hour1 == hour2) && (day1 == day2);
+        return (date == dateToCheck);
+
     }
 
     public boolean updateDataVos5(DataVos5 dataVos5) {
@@ -145,13 +143,10 @@ public class DataService {
     }
 
     public DataVos5 getDataVosById(long id) {
-        if (dataRep5.existsById(id)) {
             return dataRep5.findById(id).orElse(null);
-        }
-        return null;
     }
 
-    public DataVos5 createDataVos5(Long id, Long stationId, Long userId, LocalDateTime date,
+    public DataVos5 createDataVos5(Long id, Long userId, LocalDateTime date,
                                    Double volExtract, Double volCiti,
                                    Double volBackCity, Double volBackVos15,
                                    Double cleanWaterSupply, Double deltaCleanWaterSupply,
@@ -160,7 +155,7 @@ public class DataService {
         if (prevData != null) deltaCleanWaterSupply = cleanWaterSupply - prevData.getCleanWaterSupply();
 
 
-        return new DataVos5(id, stationId, userId, date,
+        return new DataVos5(id, userId, date,
                 volExtract, volCiti,
                 volBackCity, volBackVos15,
                 cleanWaterSupply, deltaCleanWaterSupply,

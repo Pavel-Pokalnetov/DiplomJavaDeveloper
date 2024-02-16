@@ -22,10 +22,19 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     @Query("SELECT d FROM DataVos5  d ORDER BY d.date LIMIT 24")
     List<DataVos5> findLastDay();
 
-
     /**
      *получить предыдущую по времени запись
      */
     @Query("SELECT d FROM DataVos5 d where d.date< :date ORDER BY d.date DESC LIMIT 1")
     DataVos5 getPrevData(@Param("date") LocalDateTime date);
+
+    /**
+     * Проверка наличия записи с заданной датой
+     *
+     * @param date - дата LocalDateTime
+     * @return true-есть запись
+     * false - нет записи
+     */
+    @Query("select case when count (d)>0 then true else false end from DataVos5 d where d.date=:date")
+    boolean existsByDate(@Param("date") LocalDateTime date);
 }

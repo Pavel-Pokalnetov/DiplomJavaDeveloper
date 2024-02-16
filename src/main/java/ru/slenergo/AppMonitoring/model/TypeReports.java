@@ -4,5 +4,5 @@ public enum TypeReports {
     DAILY,
     WEEKLY,
     MONTHLY,
-    DECADAL
+    YEARLY
     }

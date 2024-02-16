@@ -17,9 +17,7 @@ public class DataVos5 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private Long stationId;
-    @Column
+    @Column(name = "user_id")
     private Long userId;
     @Column
     private LocalDateTime date;

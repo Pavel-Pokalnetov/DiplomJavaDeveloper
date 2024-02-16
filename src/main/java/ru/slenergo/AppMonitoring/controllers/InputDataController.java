@@ -18,18 +18,18 @@ public class InputDataController {
 
     @GetMapping("/input/vos5")
     public String inputDataVos5() {
-        return "/input/vos5";
+        return "inputVos5";
     }
 
 
     @GetMapping("/input/vos15")
     public String inputDataVos15() {
-        return "/input/vos15";
+        return "inputVos15";
     }
 
 
     /**
-     * Запись данных для ВОС5000 в базу
+     * Запись новых данных для ВОС5000 в базу
      */
     @RequestMapping(value = "/input/vos5", method = RequestMethod.POST)
     public String addDataVos5(@RequestParam Double volExtract,
@@ -71,7 +71,6 @@ public class InputDataController {
 
     @PostMapping("/update/vos5/{id}")
     public String updateDataVos5(@PathVariable Long id,
-                                 @RequestParam Long stationId,
                                  @RequestParam Long userId,
                                  @RequestParam LocalDateTime date,
                                  @RequestParam Double volExtract,
@@ -84,9 +83,8 @@ public class InputDataController {
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
                                  Model model) {
-
+        if(userId==null) userId= 0L;
         DataVos5 dataVos5 = ds.createDataVos5(id,
-                stationId,
                 userId,
                 date,
                 volExtract,
@@ -104,6 +102,7 @@ public class InputDataController {
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
+        model.addAttribute("url","/main/vos5");
         return "/input/result";
     }
 
@@ -116,9 +115,8 @@ public class InputDataController {
     public String updateFormVos5(@PathVariable long id, Model model) {
         DataVos5 dataVos5 = ds.getDataVosById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
-        System.out.println(dataVos5);
         model.addAttribute("entity", dataVos5);
-        return "/update/vos5";
+        return "updateVos5";
     }
 
 }
