@@ -33,6 +33,7 @@ public class InputDataController {
      */
     @RequestMapping(value = "/input/vos5", method = RequestMethod.POST)
     public String addDataVos5(@RequestParam Double volExtract,
+                              @RequestParam LocalDateTime date,
                               @RequestParam Double volCiti,
                               @RequestParam Double volBackCity,
                               @RequestParam Double volBackVos15,
@@ -45,6 +46,7 @@ public class InputDataController {
         DataVos5 dataVos5;
         try {
             dataVos5 = ds.createDataVos5(
+                    date,
                     volExtract,
                     volCiti,
                     volBackCity,
@@ -105,6 +107,11 @@ public class InputDataController {
         return "/input/result";
     }
 
+    /** форма для изменения записи ВОС5
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/update/vos5/{id}")
     public String updateFormVos5(@PathVariable long id, Model model) {
         DataVos5 dataVos5 = ds.getDataVosById(id);
