@@ -6,6 +6,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
+
 @Entity
 @Data
 @Getter
@@ -19,7 +21,7 @@ public class DataVos5 {
     private Long id;
     @Column
     private Long userId;
-    @Column
+    @Column(unique = true)
     private LocalDateTime date;
     @Column
     private Double volExtract;
@@ -40,7 +42,6 @@ public class DataVos5 {
     @Column
     private Double pressureBackVos15;
 
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
 
     public Double getVolAll() {
         return volExtract + volBackCity + volBackVos15;

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/summaryReports.js"></script>
     <title>Отчеты </title>
 </head>
 
@@ -14,15 +15,15 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <div class="navbar btn-group">
-                <a class="btn btn-outline-primary" href="/static">Пересчитать дневной отчет</a>
-                <a class="btn btn-outline-primary" href="/static">Кнопка 2</a>
-                <a class="btn btn-outline-primary" href="/static">Кнопка 3</a>
-                <a class="btn btn-outline-primary" href="/static">Кнопка 4</a>
-                <a class="btn btn-outline-primary" href="/static">Кнопка 5</a>
+            <div class="btn-group">
+                <a class="btn btn-outline-primary" href="/report/summary/update">Пересчитать дневной отчет</a>
+                <a class="btn btn-outline-primary" href="">Кнопка 2</a>
+                <a class="btn btn-outline-primary" href="/main/vos5">ВОС5000</a>
+                <a class="btn btn-outline-primary" href="/main/vos15">ВОС15000</a>
+                <a class="btn btn-outline-primary" href="/">На главную</a>
             </div>
         </div>
-        <div id="report" class="col-md-6">
+        <div id="report" class="col-md-12">
             <div class="table-responsive-sm">
                 <table class="table table-compact table-bordered table-hover text-center table-sm">
                     <thead>
@@ -36,7 +37,7 @@
                     </thead>
                     <tbody>
                     <tr th:each="data:${dataSummaryList}">
-                        <td th:text="${data.getDate()}"></td>
+                        <td th:text="${data.getDateT()}"></td>
                         <td th:text="${data.getVolExtract()}"></td>
                         <td th:text="${data.getVolCiti()}"></td>
                         <td th:text="${data.getCleanWaterSupply()}"></td>

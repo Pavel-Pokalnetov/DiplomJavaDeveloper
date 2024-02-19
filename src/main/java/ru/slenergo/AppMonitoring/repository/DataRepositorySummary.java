@@ -11,5 +11,7 @@ import java.util.List;
 @Repository
 public interface DataRepositorySummary extends ListCrudRepository<DataSummary, Long> {
     List<DataSummary> getDataSummaryByDateBetween(LocalDateTime date, LocalDateTime date2);
+@Transactional
+    void deleteDataSummaryByDateBetween(LocalDateTime dateStart,LocalDateTime dateEnd);
 
 }

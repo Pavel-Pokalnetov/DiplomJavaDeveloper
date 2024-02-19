@@ -7,6 +7,8 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
+
 
 /**
  * Запись чосового расхода по станции ВОС15000
@@ -24,7 +26,7 @@ public class DataVos15 {
     private Long id;
     @Column
     private Long userId;
-    @Column
+    @Column(unique = true)
     private LocalDateTime date;
     @Column
     private Double volExtract;
@@ -38,7 +40,6 @@ public class DataVos15 {
     private Double pressureCity;
 
 
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
 
     public String getDateT() {
         return date.format(formatter);

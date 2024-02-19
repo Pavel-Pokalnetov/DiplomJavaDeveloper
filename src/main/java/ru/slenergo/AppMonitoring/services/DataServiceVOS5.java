@@ -10,14 +10,14 @@ import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DataServiceVOS5 {
     @Autowired
     DataRepositoryVos5 dataRep5;
-
+    @Autowired
+    ReportService reportService;
     /**
      * Получить все данные для ВОС5000
      */
@@ -48,6 +48,7 @@ public class DataServiceVOS5 {
         try {
             dataRep5.saveAndFlush(dataVos5);
             updateNextDataCleanWaterSupply(dataVos5);
+            reportService.saveDataSummaryOneRecord(dataVos5.getDate());
             return true;
         } catch (Exception e) {
             return false;
@@ -134,7 +135,8 @@ public class DataServiceVOS5 {
     public boolean updateDataVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
-            updateNextDataCleanWaterSupply(dataVos5);
+            updateNextDataCleanWaterSupply(dataVos5); //обновляем значение раста запаса РЧВ в следующей по времени, существующей записи
+            reportService.saveDataSummaryOneRecord(dataVos5.getDate());//обновляем соответствующую запись сводного отчета
             return true;
         } catch (Exception e) {
             return false;

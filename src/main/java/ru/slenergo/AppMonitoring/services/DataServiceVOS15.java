@@ -18,7 +18,8 @@ public class DataServiceVOS15 {
 
     @Autowired
     DataRepositoryVos15 dataRep15;
-
+@Autowired
+ReportService reportService;
     /**
      * Получить все данные для ВОС15000
      */
@@ -49,6 +50,7 @@ public class DataServiceVOS15 {
         try {
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
+            reportService.saveDataSummaryOneRecord(dataVos15.getDate());
             return true;
         } catch (Exception e) {
             return false;
@@ -74,12 +76,8 @@ public class DataServiceVOS15 {
      * @param date              - дата
      * @param volExtract        - объем добычи
      * @param volCiti           - отдача в город
-     * @param volBackCity       - обратка из города
-     * @param volBackVos15      - обратка от ВОС15000
      * @param cleanWaterSupply  - запас чистой воды
      * @param pressureCity      - давление в трубопроводе в город
-     * @param pressureBackCity  - давление в трубопроводе обратка из города
-     * @param pressureBackVos15 - давление в трубопроводе обратка от ВОС15000
      * @return DataVos15
      * @throws PrematureEntryException
      */
@@ -118,6 +116,7 @@ public class DataServiceVOS15 {
         try {
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
+            reportService.saveDataSummaryOneRecord(dataVos15.getDate());
             return true;
         } catch (Exception e) {
             return false;

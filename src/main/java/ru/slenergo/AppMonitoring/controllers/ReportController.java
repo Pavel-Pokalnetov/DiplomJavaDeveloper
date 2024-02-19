@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.slenergo.AppMonitoring.model.DataSummary;
 import ru.slenergo.AppMonitoring.services.ReportService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -23,5 +24,11 @@ public class ReportController {
         List<DataSummary> dataSummaryList = reportService.getSummaryReportToDay();
         model.addAttribute(dataSummaryList);
         return "/report/reportSymmary";
+    }
+
+    @GetMapping("/report/summary/update")
+    public String summaryReportUpdate(){
+        reportService.recalcSummaryReportByDate(LocalDateTime.now());
+        return "redirect:/report/summary";
     }
 }
