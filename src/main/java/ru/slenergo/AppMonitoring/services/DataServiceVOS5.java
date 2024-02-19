@@ -22,27 +22,21 @@ public class DataServiceVOS5 {
      * Получить все данные для ВОС5000
      */
     public List<DataVos5> getAllVos5() {
-        List<DataVos5> dataVos5 = new ArrayList<>();
-        dataRep5.findAll().iterator().forEachRemaining(dataVos5::add);
-        return dataVos5;
+        return dataRep5.findAll();
     }
 
     /**
      * Получить данные для ВОС5000 за последние 24 часа
      */
     public List<DataVos5> getLastDayVos5() {
-
-        List<DataVos5> dataVos5 = new ArrayList<>();
-        dataRep5.findLastDay().iterator().forEachRemaining(dataVos5::add);
-        return dataVos5;
+        return dataRep5.findLastDay();
     }
 
     /**
      * Получить последнюю запись для ВОС5000
      */
     public DataVos5 getLastDataItemVos5() {
-        DataVos5 data = dataRep5.findLastItem();
-        return data;
+        return dataRep5.findLastItem();
     }
 
 
@@ -140,13 +134,14 @@ public class DataServiceVOS5 {
     public boolean updateDataVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
+            updateNextDataCleanWaterSupply(dataVos5);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    public DataVos5 getDataVosById(long id) {
+    public DataVos5 getDataVos5ById(long id) {
         return dataRep5.findById(id).orElse(null);
     }
 

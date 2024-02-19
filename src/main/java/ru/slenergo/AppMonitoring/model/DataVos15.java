@@ -7,6 +7,10 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
+/**
+ * Запись чосового расхода по станции ВОС15000
+ */
 @Entity
 @Data
 @Getter
@@ -18,7 +22,7 @@ public class DataVos15 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "user_id")
+    @Column
     private Long userId;
     @Column
     private LocalDateTime date;

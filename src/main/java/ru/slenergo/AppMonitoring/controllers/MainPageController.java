@@ -31,8 +31,8 @@ public class MainPageController {
 
     @GetMapping("/main/vos15")
     public String mainPageVos15(Model model){
-        List<DataVos15> data = dataServiceVOS15.getAllVos15();
-        model.addAttribute("dataVos",data);
+        List<DataVos15> data = dataServiceVOS15.getLastDayVos15();
+        model.addAttribute("dataVos15",data);
         return "/vos15/mainVos15";
     }
 

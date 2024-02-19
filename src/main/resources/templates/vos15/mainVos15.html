@@ -12,53 +12,48 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-14">
-                <h4 class="ml-auto mr-0">Часовые расходы ВОС15000. </h4><p><span id="current-date"></span></p>
-                <div class="col-14 btn-group">
-                    <a type="button" class="btn btn-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
-                    <a type="button" class="btn btn-primary btn-sm mr-1">Отчеты</a>
-                    <a type="button" class="btn btn-primary btn-sm mr-1">Настройка</a>
-                    <a type="button" class="btn btn-primary btn-sm mr-1">Выход</a>
-                </div>
-                <div class="table-responsive-sm">
-                    <table class="table table-compact table-bordered table-hover text-center table-sm">
-                        <thead>
-                            <tr>
-                                <th>Время</th>
-                                <th>V</br>часовой</th>
-                                <th>V</br>обр.город</th>
-                                <th>V</br>обр.ВОС15000</th>
-                                <th>Итого приход воды</th>
-                                <th>V</br>подача в город</th>
-                                <th>Запас</br>в РЧВ</th>
-                                <th>Рост запаса</br> в РЧВ </th>
-                                <th>Давление</br>подача в город</th>
-                                <th>Давление</br>обр.город</th>
-                                <th>Давление</br>обр.ВОС15000</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>01:00</td>
-                                <td>93</td>
-                                <td>12</td>
-                                <td>25</td>
-                                <td>129,65</td>
-                                <td>96</td>
-                                <td>34</td>
-                                <td class="bg-success text-white">2950</td>
-                                <td>6,0</td>
-                                <td>5,2</td>
-                                <td>5,3</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-14">
+            <h4 class="ml-auto mr-0 mt-4">Часовые расходы ВОС15000. </h4>
+            <p><span id="current-date"></span></p>
+            <div class="col-14 btn-group">
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/reports/vos15">Отчеты</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/settings/vos15">Настройка</a>
+                <a type="button" class="btn btn-primary btn-sm mr-1" href="/">Выход</a>
+            </div>
+            <div class="table-responsive-sm">
+                <table class="table table-compact table-bordered table-hover text-center table-sm">
+                    <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>V<br>часовой</th>
+                        <th>V<br>подача в город</th>
+                        <th>Запас<br>в РЧВ</th>
+                        <th>Рост запаса<br> в РЧВ</th>
+                        <th>Давление<br>подача в город</th>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${dataVos15}">
+                        <td th:text="${data.getDateT()}"></td>
+                        <td th:text="${data.getVolExtract()}"></td>
+                        <td th:text="${data.getVolCiti()}"></td>
+                        <td th:text="${data.getCleanWaterSupply()}"></td>
+                        <td th:text="${data.getDeltaCleanWaterSupply()}"
+                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+                        <td th:text="${data.getPressureCity()}"></td>
+                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}" class="btn btn-sm">E</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
         </div>
     </div>
-
-
+</div>
+</body>
 </html>
