@@ -44,5 +44,5 @@ public interface DataRepositoryVos15 extends JpaRepository<DataVos15, Long> {
     @Query("select case when count (d)>0 then true else false end from DataVos15 d where d.date=:date")
     boolean existsByDate(@Param("date") LocalDateTime date);
 
-
+    DataVos15 getDataVos15ByDate(LocalDateTime date);
 }

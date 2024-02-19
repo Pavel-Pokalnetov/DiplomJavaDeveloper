@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <title>Отчеты </title>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="navbar btn-group">
+                <a class="btn btn-outline-primary" href="/static">Пересчитать дневной отчет</a>
+                <a class="btn btn-outline-primary" href="/static">Кнопка 2</a>
+                <a class="btn btn-outline-primary" href="/static">Кнопка 3</a>
+                <a class="btn btn-outline-primary" href="/static">Кнопка 4</a>
+                <a class="btn btn-outline-primary" href="/static">Кнопка 5</a>
+            </div>
+        </div>
+        <div id="report" class="col-md-6">
+            <div class="table-responsive-sm">
+                <table class="table table-compact table-bordered table-hover text-center table-sm">
+                    <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>Добыча воды со скважин</th>
+                        <th>Подача в город</th>
+                        <th>Запас в РЧВ</th>
+                        <th>Рост запаса в РЧВ</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="data:${dataSummaryList}">
+                        <td th:text="${data.getDate()}"></td>
+                        <td th:text="${data.getVolExtract()}"></td>
+                        <td th:text="${data.getVolCiti()}"></td>
+                        <td th:text="${data.getCleanWaterSupply()}"></td>
+                        <td th:text="${data.getDeltaCleanWaterSupply()}"
+                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
