@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.model.DataVos5;
-import ru.slenergo.AppMonitoring.services.DataService;
+import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
+import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
 import ru.slenergo.AppMonitoring.services.UserServices;
 
 import java.util.List;
@@ -13,28 +16,25 @@ import java.util.List;
 @Controller
 public class MainPageController {
     @Autowired
-    DataService dataService;
+    DataServiceVOS5 dataServiceVOS5;
+    @Autowired
+    DataServiceVOS15 dataServiceVOS15;
     @Autowired
     UserServices userServices;
 
     @GetMapping("/main/vos5")
     public String mainPageVos5(Model model) {
-        List<DataVos5> dataVos5 = dataService.getLastDayVos5();
+        List<DataVos5> dataVos5 = dataServiceVOS5.getLastDayVos5();
         model.addAttribute("dataVos5", dataVos5);
-        return "mainVos5";
+        return "/vos5/mainVos5";
     }
 
-//    @GetMapping("/main/vos15")
-//    public String mainPageVos15(Model model){
-//        List<DataVos15> data = dataService.getAllVos15();
-//        model.addAttribute("dataVos",data);
-//        return "mainVos15";
-//    }
-
-//    @GetMapping("/login")
-//    public String loginPage() {
-//        return "login";
-//    }
+    @GetMapping("/main/vos15")
+    public String mainPageVos15(Model model){
+        List<DataVos15> data = dataServiceVOS15.getAllVos15();
+        model.addAttribute("dataVos",data);
+        return "/vos15/mainVos15";
+    }
 
     @GetMapping("/")
     public String indexPage(){

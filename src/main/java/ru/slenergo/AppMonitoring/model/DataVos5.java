@@ -40,12 +40,13 @@ public class DataVos5 {
     @Column
     private Double pressureBackVos15;
 
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
+
     public Double getVolAll() {
         return volExtract + volBackCity + volBackVos15;
     }
 
     public String getDateT(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
         return date.format(formatter);
     }
 }

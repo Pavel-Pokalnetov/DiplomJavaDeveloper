@@ -1,10 +1,10 @@
 package ru.slenergo.AppMonitoring.services;
 
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.slenergo.AppMonitoring.model.DataVos5;
-import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
 import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
 
@@ -14,17 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DataService {
+public class DataServiceVOS5 {
     @Autowired
     DataRepositoryVos5 dataRep5;
 
-    @Autowired
-    DataRepositoryVos15 dataRep15;
-
     /**
-     * Получить все данные для ВОС5
-     *
-     * @return
+     * Получить все данные для ВОС5000
      */
     public List<DataVos5> getAllVos5() {
         List<DataVos5> dataVos5 = new ArrayList<>();
@@ -33,9 +28,7 @@ public class DataService {
     }
 
     /**
-     * Получить данные для ВОС5 за последние 24 часа
-     *
-     * @return
+     * Получить данные для ВОС5000 за последние 24 часа
      */
     public List<DataVos5> getLastDayVos5() {
 
@@ -45,9 +38,7 @@ public class DataService {
     }
 
     /**
-     * Получить последнюю запись для ВОС5
-     *
-     * @return
+     * Получить последнюю запись для ВОС5000
      */
     public DataVos5 getLastDataItemVos5() {
         DataVos5 data = dataRep5.findLastItem();
@@ -57,13 +48,12 @@ public class DataService {
 
     /**
      * Запись в базу данных для ВОС5000
-     *
-     * @param dataVos5
-     * @return true - если успешно,
      */
+    @Transactional
     public boolean saveDataToDbVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
+            updateNextDataCleanWaterSupply(dataVos5);
             return true;
         } catch (Exception e) {
             return false;
@@ -71,18 +61,31 @@ public class DataService {
     }
 
     /**
+     * Обновление поля роста запаса чистой воды в следующей по времени записи
+     *
+     * @param dataVos5 - текущая запись
+     */
+    private void updateNextDataCleanWaterSupply(DataVos5 dataVos5) {
+        DataVos5 nextData = dataRep5.getNextData(dataVos5.getDate());
+        if (nextData != null) {
+            nextData.setDeltaCleanWaterSupply(nextData.getCleanWaterSupply() - dataVos5.getCleanWaterSupply());
+            dataRep5.saveAndFlush(nextData);
+        }
+    }
+
+    /**
      * Создание записи по данным из формы с проверкой на повторный ввод в текущем часе
      *
-     * @param date
-     * @param volExtract
-     * @param volCiti
-     * @param volBackCity
-     * @param volBackVos15
-     * @param cleanWaterSupply
-     * @param pressureCity
-     * @param pressureBackCity
-     * @param pressureBackVos15
-     * @return
+     * @param date              - дата
+     * @param volExtract        - объем добычи
+     * @param volCiti           - отдача в город
+     * @param volBackCity       - обратка из города
+     * @param volBackVos15      - обратка от ВОС15000
+     * @param cleanWaterSupply  - запас чистой воды
+     * @param pressureCity      - давление в трубопроводе в город
+     * @param pressureBackCity  - давление в трубопроводе обратка из города
+     * @param pressureBackVos15 - давление в трубопроводе обратка от ВОС15000
+     * @return DataVos5
      * @throws PrematureEntryException
      */
     public DataVos5 createDataVos5(LocalDateTime date, Double volExtract, Double volCiti,
@@ -90,19 +93,19 @@ public class DataService {
                                    Double pressureCity, Double pressureBackCity, Double pressureBackVos15)
             throws PrematureEntryException {
 
-        date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени (отбрасываем все что меньше часа)
+        date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени до часа (отбрасываем все что меньше часа)
         if (dataRep5.existsByDate(date)) {
             throw new PrematureEntryException(date);
         }
         DataVos5 dataVos5 = new DataVos5();
 
         /* проверка на повторное добавление записи в текущем часе*/
-        DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
-        Double lostCleanWaterSupply = 0.0;
-        if (dataPrev != null) {
-            // если предыдущей записи нет
-            lostCleanWaterSupply = dataPrev.getCleanWaterSupply();
 
+        DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
+        Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
+        if (dataPrev != null) {
+            // если запись есть по устанавливаем новое значение предыдущего запаса воды
+            lostCleanWaterSupply = dataPrev.getCleanWaterSupply();
         }
 
         dataVos5.setUserId(1L);
@@ -133,6 +136,7 @@ public class DataService {
 
     }
 
+    @Transactional
     public boolean updateDataVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
@@ -143,7 +147,7 @@ public class DataService {
     }
 
     public DataVos5 getDataVosById(long id) {
-            return dataRep5.findById(id).orElse(null);
+        return dataRep5.findById(id).orElse(null);
     }
 
     public DataVos5 createDataVos5(Long id, Long userId, LocalDateTime date,

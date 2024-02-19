@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.model.DataVos5;
-import ru.slenergo.AppMonitoring.services.DataService;
+import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
+import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
 import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
@@ -14,17 +16,24 @@ import java.time.LocalDateTime;
 @RequestMapping
 public class InputDataController {
     @Autowired
-    DataService ds;
+    DataServiceVOS5 dataServiceVOS5;
+    @Autowired
+    DataServiceVOS15 dataServiceVOS15;
 
+    /**
+     * Форма ввода записи для ВОС5000
+     */
     @GetMapping("/input/vos5")
     public String inputDataVos5() {
-        return "inputVos5";
+        return "/vos5/inputVos5";
     }
 
-
+    /**
+     * Форма ввода записи для ВОС15000
+     */
     @GetMapping("/input/vos15")
     public String inputDataVos15() {
-        return "inputVos15";
+        return "/vos15/inputVos15";
     }
 
 
@@ -45,7 +54,7 @@ public class InputDataController {
 
         DataVos5 dataVos5;
         try {
-            dataVos5 = ds.createDataVos5(
+            dataVos5 = dataServiceVOS5.createDataVos5(
                     date,
                     volExtract,
                     volCiti,
@@ -56,7 +65,7 @@ public class InputDataController {
                     pressureBackCity,
                     pressureBackVos15);
             model.addAttribute("result",
-                    ds.saveDataToDbVos5(dataVos5) ?
+                    dataServiceVOS5.saveDataToDbVos5(dataVos5) ?
                             "Запись добавлена" :
                             "Ошибка записи. Обратитесь к администратру.");
 
@@ -66,7 +75,36 @@ public class InputDataController {
                     e.getMessage());
         }
         model.addAttribute("url", "/main/vos5");
-        return "/input/result";
+        return "/result";
+    }
+
+    @PostMapping("/update/vos15/{id}")
+    public String updateDataVos15(@PathVariable Long id,
+                                 @RequestParam Long userId,
+                                 @RequestParam LocalDateTime date,
+                                 @RequestParam Double volExtract,
+                                 @RequestParam Double volCiti,
+                                 @RequestParam Double cleanWaterSupply,
+                                 @RequestParam Double deltaCleanWaterSupply,
+                                 @RequestParam Double pressureCity,
+                                 Model model) {
+        if (userId == null) userId = 0L;
+        DataVos15 dataVos15 = dataServiceVOS15.createDataVos15(id,
+                userId,
+                date,
+                volExtract,
+                volCiti,
+                cleanWaterSupply,
+                deltaCleanWaterSupply,
+                pressureCity);
+
+        if (dataServiceVOS15.updateDataVos15(dataVos15)) {
+            model.addAttribute("result", "Данные обновлены\n" + dataVos15);
+        } else {
+            model.addAttribute("result", "Приобновлении данных произошла ошибка");
+        }
+        model.addAttribute("url", "/main/vos5");
+        return "/result";
     }
 
     @PostMapping("/update/vos5/{id}")
@@ -83,8 +121,8 @@ public class InputDataController {
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
                                  Model model) {
-        if(userId==null) userId= 0L;
-        DataVos5 dataVos5 = ds.createDataVos5(id,
+        if (userId == null) userId = 0L;
+        DataVos5 dataVos5 = dataServiceVOS5.createDataVos5(id,
                 userId,
                 date,
                 volExtract,
@@ -97,26 +135,28 @@ public class InputDataController {
                 pressureBackCity,
                 pressureBackVos15);
 
-        if (ds.updateDataVos5(dataVos5)) {
-            model.addAttribute("result", "Данные обновлены\n"+dataVos5);
+        if (dataServiceVOS5.updateDataVos5(dataVos5)) {
+            model.addAttribute("result", "Данные обновлены\n" + dataVos5);
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
-        model.addAttribute("url","/main/vos5");
-        return "/input/result";
+        model.addAttribute("url", "/main/vos5");
+        return "/result";
     }
 
-    /** форма для изменения записи ВОС5
+    /**
+     * форма для изменения записи ВОС5
+     *
      * @param id
      * @param model
      * @return
      */
     @GetMapping("/update/vos5/{id}")
     public String updateFormVos5(@PathVariable long id, Model model) {
-        DataVos5 dataVos5 = ds.getDataVosById(id);
+        DataVos5 dataVos5 = dataServiceVOS5.getDataVosById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
         model.addAttribute("entity", dataVos5);
-        return "updateVos5";
+        return "/vos5/updateVos5";
     }
 
 }
