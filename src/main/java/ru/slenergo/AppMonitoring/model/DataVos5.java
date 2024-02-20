@@ -42,7 +42,9 @@ public class DataVos5 {
     @Column
     private Double pressureBackVos15;
 
-
+    public Double getDeltaCleanWaterSupplyCalculated(){
+        return getVolAll()-volCiti;
+    }
     public Double getVolAll() {
         return volExtract + volBackCity + volBackVos15;
     }

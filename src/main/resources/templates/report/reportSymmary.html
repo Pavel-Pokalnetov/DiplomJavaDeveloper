@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/anychart-base.min.js"></script>
     <script src="/js/summaryReports.js"></script>
     <title>Отчеты </title>
 </head>
@@ -14,10 +16,10 @@
 <body>
 <div class="container">
     <div class="row">
+
         <div class="col-12">
             <div class="btn-group">
                 <a class="btn btn-outline-primary" href="/report/summary/update">Пересчитать дневной отчет</a>
-                <a class="btn btn-outline-primary" href="">Кнопка 2</a>
                 <a class="btn btn-outline-primary" href="/main/vos5">ВОС5000</a>
                 <a class="btn btn-outline-primary" href="/main/vos15">ВОС15000</a>
                 <a class="btn btn-outline-primary" href="/">На главную</a>
@@ -48,9 +50,11 @@
                 </table>
                 <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
+            <div id="graphic-container"></div>
         </div>
     </div>
 </div>
+
 </body>
 
 </html>

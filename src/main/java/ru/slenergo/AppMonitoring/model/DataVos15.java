@@ -11,7 +11,8 @@ import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
 
 
 /**
- * Запись чосового расхода по станции ВОС15000
+ * Запись часового расхода по станции ВОС15000
+ *
  */
 @Entity
 @Data
@@ -39,7 +40,9 @@ public class DataVos15 {
     @Column
     private Double pressureCity;
 
-
+    public Double getDeltaCleanWaterSupplyCalculated(){
+        return volExtract-volCiti;
+    }
 
     public String getDateT() {
         return date.format(formatter);
