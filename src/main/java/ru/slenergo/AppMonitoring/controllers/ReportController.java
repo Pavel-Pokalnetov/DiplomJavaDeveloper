@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import ru.slenergo.AppMonitoring.model.DataSummary;
 import ru.slenergo.AppMonitoring.services.ReportService;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateOnly;
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 @Controller
 public class ReportController {
@@ -23,6 +27,7 @@ public class ReportController {
     public String summaryReport(Model model){
         List<DataSummary> dataSummaryList = reportService.getSummaryReportToDay();
         model.addAttribute(dataSummaryList);
+        model.addAttribute("currentdate",LocalDate.now().format(formatterDateOnly));
         return "/report/reportSymmary";
     }
 

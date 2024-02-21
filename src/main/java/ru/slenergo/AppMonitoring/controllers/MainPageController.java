@@ -26,6 +26,7 @@ public class MainPageController {
     public String mainPageVos5(Model model) {
         List<DataVos5> dataVos5 = dataServiceVOS5.getLastDayVos5();
         model.addAttribute("dataVos5", dataVos5);
+        System.out.println(dataVos5);
         return "/vos5/mainVos5";
     }
 

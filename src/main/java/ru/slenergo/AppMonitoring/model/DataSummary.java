@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 @Entity
 @Data
@@ -29,6 +29,6 @@ public class DataSummary {
     @Column
     private Double deltaCleanWaterSupply;
     public String getDateT(){
-        return date.format(formatter);
+        return date.format(formatterTimeOnly);
     }
 }

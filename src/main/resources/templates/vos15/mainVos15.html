@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/anychart-base.min.js"></script>
@@ -18,7 +19,7 @@
         <div class="col-14">
             <h4>Часовые расходы ВОС15000. </h4>
             <p><span id="current-date"></span></p>
-            <div class="col-14 btn-group">
+            <div class="col-14 btn-group-sm">
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Отчеты</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
@@ -42,7 +43,7 @@
                     <tr th:each="data:${dataVos15}">
                         <td th:text="${data.getDateT()}"></td>
                         <td th:text="${data.getVolExtract()}"></td>
-                        <td th:text="${data.getVolCiti()}"></td>
+                        <td th:text="${data.getVolCity()}"></td>
                         <td th:text="${data.getCleanWaterSupply()}"></td>
                         <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getDeltaCleanWaterSupply()}"

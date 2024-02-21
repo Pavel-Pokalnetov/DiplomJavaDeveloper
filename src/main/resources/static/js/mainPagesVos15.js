@@ -92,6 +92,8 @@ anychart.onDocumentReady(function () {
     firstSeries.hovered().markers().enabled(true).type("circle").size(4);
     secondSeries.hovered().markers().enabled(true).type("circle").size(4);
     thirdSeries.hovered().markers().enabled(true).type("circle").size(4);
+    fourthSeries.hovered().markers().enabled(true).type("circle").size(4);
+
 
     // включите перекрестие
     chart.crosshair().enabled(true).yStroke(null).yLabel(false);

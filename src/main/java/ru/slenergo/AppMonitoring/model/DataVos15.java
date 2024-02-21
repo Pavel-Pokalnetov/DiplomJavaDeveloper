@@ -5,9 +5,8 @@ import lombok.*;
 
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 
 /**
@@ -32,7 +31,7 @@ public class DataVos15 {
     @Column
     private Double volExtract;
     @Column
-    private Double volCiti;
+    private Double volCity;
     @Column
     private Double cleanWaterSupply;
     @Column
@@ -41,10 +40,10 @@ public class DataVos15 {
     private Double pressureCity;
 
     public Double getDeltaCleanWaterSupplyCalculated(){
-        return volExtract-volCiti;
+        return volExtract- volCity;
     }
 
     public String getDateT() {
-        return date.format(formatter);
+        return date.format(formatterTimeOnly);
     }
 }

@@ -1,8 +1,8 @@
-var countDown = 300;
+let countDown = 300;
 
 function countdown() {
     setInterval(function () {
-        if (countDown == 0) {
+        if (countDown === 0) {
             location.reload();
         } else {
             countDown--;
@@ -15,43 +15,49 @@ countdown();
 
 window.onload = function () {
     window.setInterval(function () {
-        var options = {
+        let options = {
             year: 'numeric',
             month: 'long',
             day: 'numeric',
             timezone: 'UTC'
         };
-        var currentDate = new Date()
-        var clock = document.getElementById("current-clock");
-        var date = document.getElementById("current-date");
-        // clock.innerHTML = currentDate.toLocaleDateString("ru",options);
-
-
+        let currentDate = new Date()
+        let date = document.getElementById("current-date");
         date.innerHTML = currentDate.toLocaleTimeString("ru", options);
     }, 100);
-
-
 };
 
-
+//отрисовка графиков
 anychart.onDocumentReady(function () {
-
     // Получаем элемент таблицы
-    var table = document.getElementById('dataTable');
+    let table = document.getElementById('dataTable');
 
 // Создаем массив для хранения данных
-    var data = [];
+    let data = [];
 
-// Проходим по каждой строке таблицы
-    for (var i = 0; i < table.rows.length; i++) {
+// Проходим по каждой строке таблицы 'dataTable'
+    for (let i = 1; i < table.rows.length; i++) {
         // Создаем новый массив для хранения данных строки
-        var rowData = [];
+        let rowData = [];
 
         // Проходим по каждой ячейке строки
-        for (var j = 0; j < table.rows[i].cells.length; j++) {
+        for (let j = 0; j < table.rows[i].cells.length; j++) {
 
             // Добавляем значение ячейки в массив данных строки
-            rowData.push(table.rows[i].cells[j].innerText);
+            let tempvol = table.rows[i].cells[j].innerText
+
+            switch (j) {
+                case 6: 
+                    tempvol /= 100;// сжатия графика для "Запас в РЧВ"
+                    break;
+                case 9:
+                case 10:
+                case 11:
+                    tempvol *= 10;// расширение графиков для давлений трубопровода
+                    break;
+            }
+            console.log(j, tempvol)
+            rowData.push(tempvol);
         }
         // Добавляем массив данных строки в общий массив
         data.push(rowData);
@@ -59,49 +65,97 @@ anychart.onDocumentReady(function () {
 
 
     // создайте набор данных
-    var dataSet = anychart.data.set(data);
+    let dataSet = anychart.data.set(data);
 
     // сопоставьте данные для всех серий
-    var firstSeriesData = dataSet.mapAs({x: 0, value: 1});
-    var secondSeriesData = dataSet.mapAs({x: 0, value: 2});
-    var thirdSeriesData = dataSet.mapAs({x: 0, value: 3});
-    var fourthSeriesData = dataSet.mapAs({x: 0, value: 4});
-    var fiveSeriesData = dataSet.mapAs({x: 0, value: 5});
+    let volExtract = dataSet.mapAs({x: 0, value: 1});
+    let volBackCity = dataSet.mapAs({x: 0, value: 2});
+    let volBackVos15 = dataSet.mapAs({x: 0, value: 3});
+    let volAll = dataSet.mapAs({x: 0, value: 4});
+    let volCity = dataSet.mapAs({x: 0, value: 5});
+    let cleanWaterSupply = dataSet.mapAs({x: 0, value: 6});
+    let deltaCleanWaterSupply = dataSet.mapAs({x: 0, value: 7});
+    let deltaCleanWaterSupplyCalc = dataSet.mapAs({x: 0, value: 8});
+    let pressureCity = dataSet.mapAs({x: 0, value: 9});
+    let pressureBackCity = dataSet.mapAs({x: 0, value: 10});
+    let pressureBackVos15 = dataSet.mapAs({x: 0, value: 11});
 
 
     // создайте линейную диаграмму
-    var chart = anychart.line();
+    let chart = anychart.line();
 
-    // создайте серии и назовите их
-    var firstSeries = chart.line(firstSeriesData);
-    firstSeries.name("Добыча воды со скважин");
-    var secondSeries = chart.line(secondSeriesData);
-    secondSeries.name("Обратка из города");
-    var thirdSeries = chart.line(thirdSeriesData);
-    thirdSeries.name("Обратка от ВОС15000");
-    var fourthSeries = chart.line(fourthSeriesData);
-    fourthSeries.name("Общий приход");
-    var fiveSeries = chart.line(fiveSeriesData);
-    fiveSeries.name("Подача в город");
+    // ссоздаем серии и называем их
+    let volExtractSeries = chart.line(volExtract);
+    volExtractSeries.name("Добыча воды со скважин");
+
+    let volBackCitySeries = chart.line(volBackCity);
+    volBackCitySeries.name("Обратка из города");
+
+    let volBackVos15Series = chart.line(volBackVos15);
+    volBackVos15Series.name("Обратка от ВОС15000");
+
+    let volAllSeries = chart.line(volAll);
+    volAllSeries.name("Общий приход");
+
+    let volCitySeries = chart.line(volCity);
+    volCitySeries.name("Подача в город");
+
+    let cleanWaterSupplySeries = chart.line(cleanWaterSupply);
+    cleanWaterSupplySeries.name("Запас в РЧВ *0.01");
+
+    let deltaCleanWaterSupplySeries = chart.line(deltaCleanWaterSupply);
+    deltaCleanWaterSupplySeries.name("Рост запаса в РЧВ расчетный");
+
+    let deltaCleanWaterSupplyCalcSeries = chart.line(deltaCleanWaterSupplyCalc);
+    deltaCleanWaterSupplyCalcSeries.name("Запас в РЧВ *0.01 фактический");
+
+    let pressureCitySeries = chart.line(pressureCity);
+    pressureCitySeries.name("Давление подачи в город");
+
+    let pressureBackCitySeries = chart.line(pressureBackCity);
+    pressureBackCitySeries.name("Давление обратки из города");
+
+    let pressureBackVos15Series = chart.line(pressureBackVos15);
+    pressureBackVos15Series.name("Давление обратки от ВОС1500");
 
 
-    // добавьте легенду
+    // включаем легенду
     chart.legend().enabled(true);
 
-    // добавьте заголовок
-    chart.title("Сводный график ");
 
-    // назовите оси
+    //  заголовок
+    chart.title("Часовые расходы");
+
+    // названия  осей
     chart.yAxis().title("М³");
     chart.xAxis().title("Время");
 
     // настройка маркеров серий
-    firstSeries.hovered().markers().enabled(true).type("circle").size(4);
-    secondSeries.hovered().markers().enabled(true).type("circle").size(4);
-    thirdSeries.hovered().markers().enabled(true).type("circle").size(4);
-    fourthSeries.hovered().markers().enabled(true).type("circle").size(4);
-    fiveSeries.hovered().markers().enabled(true).type("circle").size(4);
+    volExtractSeries.hovered().markers().enabled(true).type("circle").size(3);
+    volBackCitySeries.hovered().markers().enabled(true).type("circle").size(3);
+    volBackVos15Series.hovered().markers().enabled(true).type("circle").size(3);
+    volAllSeries.hovered().markers().enabled(true).type("circle").size(3);
+    volCitySeries.hovered().markers().enabled(true).type("circle").size(3);
+    cleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
+    deltaCleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
+    deltaCleanWaterSupplyCalcSeries.hovered().markers().enabled(true).type("circle").size(3);
+    pressureCitySeries.hovered().markers().enabled(true).type("circle").size(3);
+    pressureBackCitySeries.hovered().markers().enabled(true).type("circle").size(3);
+    pressureBackVos15Series.hovered().markers().enabled(true).type("circle").size(3);
 
+    //толщина некоторых графиков
+    cleanWaterSupplySeries.stroke(function () {
+        return {color: this.sourceColor, thickness: 4};
+    });
+    volAllSeries.stroke(function () {
+        return {color: this.sourceColor, thickness: 4};
+    });
+    volCitySeries.stroke(function () {
+        return {color: this.sourceColor, thickness: 4};
+    });
+    deltaCleanWaterSupplyCalcSeries.stroke(function () {
+        return {color: this.sourceColor, thickness: 4};
+    });
 
     // включите перекрестие
     chart.crosshair().enabled(true).yStroke(null).yLabel(false);

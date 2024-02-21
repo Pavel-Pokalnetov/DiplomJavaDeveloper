@@ -117,7 +117,6 @@ public class InputDataController {
                                  @RequestParam Double volBackCity,
                                  @RequestParam Double volBackVos15,
                                  @RequestParam Double cleanWaterSupply,
-                                 @RequestParam(required = false,value = "0") Double deltaCleanWaterSupply,
                                  @RequestParam Double pressureCity,
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
@@ -131,7 +130,6 @@ public class InputDataController {
                 volBackCity,
                 volBackVos15,
                 cleanWaterSupply,
-                deltaCleanWaterSupply,
                 pressureCity,
                 pressureBackCity,
                 pressureBackVos15);

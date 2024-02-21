@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatter;
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 @Entity
 @Data
@@ -26,7 +25,7 @@ public class DataVos5 {
     @Column
     private Double volExtract;
     @Column
-    private Double volCiti;
+    private Double volCity;
     @Column
     private Double volBackCity;
     @Column
@@ -43,13 +42,13 @@ public class DataVos5 {
     private Double pressureBackVos15;
 
     public Double getDeltaCleanWaterSupplyCalculated(){
-        return getVolAll()-volCiti;
+        return getVolAll()- volCity;
     }
     public Double getVolAll() {
         return volExtract + volBackCity + volBackVos15;
     }
 
     public String getDateT(){
-        return date.format(formatter);
+        return date.format(formatterTimeOnly);
     }
 }

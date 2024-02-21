@@ -1,6 +1,4 @@
 package ru.slenergo.AppMonitoring.services;
-
-
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class DataServiceVOS5 {
      * Получить данные для ВОС5000 за последние 24 часа
      */
     public List<DataVos5> getLastDayVos5() {
-        return dataRep5.findLastDay();
+        return dataRep5.findLast24Hours();
     }
 
     /**
@@ -38,7 +36,6 @@ public class DataServiceVOS5 {
     public DataVos5 getLastDataItemVos5() {
         return dataRep5.findLastItem();
     }
-
 
     /**
      * Запись в базу данных для ВОС5000
@@ -87,14 +84,13 @@ public class DataServiceVOS5 {
                                    Double volBackCity, Double volBackVos15, Double cleanWaterSupply,
                                    Double pressureCity, Double pressureBackCity, Double pressureBackVos15)
             throws PrematureEntryException {
-
         date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени до часа (отбрасываем все что меньше часа)
+
+        /* проверка на повторное добавление записи в текущем часе*/
         if (dataRep5.existsByDate(date)) {
             throw new PrematureEntryException(date);
         }
         DataVos5 dataVos5 = new DataVos5();
-
-        /* проверка на повторное добавление записи в текущем часе*/
 
         DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
         Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
@@ -106,7 +102,7 @@ public class DataServiceVOS5 {
         dataVos5.setUserId(1L);
         dataVos5.setDate(date);
         dataVos5.setVolExtract(volExtract);
-        dataVos5.setVolCiti(volCiti);
+        dataVos5.setVolCity(volCiti);
         dataVos5.setVolBackCity(volBackCity);
         dataVos5.setVolBackVos15(volBackVos15);
         dataVos5.setCleanWaterSupply(cleanWaterSupply);
@@ -116,7 +112,6 @@ public class DataServiceVOS5 {
         dataVos5.setDeltaCleanWaterSupply(dataVos5.getCleanWaterSupply() - lostCleanWaterSupply);
         return dataVos5;
     }
-
 
     /**
      * Проверка двух моментов вермени на принадлежностьк одному часу
@@ -147,14 +142,20 @@ public class DataServiceVOS5 {
         return dataRep5.findById(id).orElse(null);
     }
 
-    public DataVos5 createDataVos5(Long id, Long userId, LocalDateTime date,
-                                   Double volExtract, Double volCiti,
-                                   Double volBackCity, Double volBackVos15,
-                                   Double cleanWaterSupply, Double deltaCleanWaterSupply,
-                                   Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
+    public DataVos5 createDataVos5(Long id,
+                                   Long userId,
+                                   LocalDateTime date,
+                                   Double volExtract,
+                                   Double volCiti,
+                                   Double volBackCity,
+                                   Double volBackVos15,
+                                   Double cleanWaterSupply,
+                                   Double pressureCity,
+                                   Double pressureBackCity,
+                                   Double pressureBackVos15) {
         DataVos5 prevData = dataRep5.getPrevData(date);
+        double deltaCleanWaterSupply=0;
         if (prevData != null) deltaCleanWaterSupply = cleanWaterSupply - prevData.getCleanWaterSupply();
-
 
         return new DataVos5(id, userId, date,
                 volExtract, volCiti,

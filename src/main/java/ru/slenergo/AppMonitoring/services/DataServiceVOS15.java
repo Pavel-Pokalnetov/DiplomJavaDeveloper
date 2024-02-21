@@ -10,7 +10,6 @@ import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,7 +30,7 @@ ReportService reportService;
      * Получить данные для ВОС15000 за последние 24 часа
      */
     public List<DataVos15> getLastDayVos15() {
-        return dataRep15.findLastDay();
+        return dataRep15.findLast24Hours();
     }
 
     /**
@@ -81,17 +80,21 @@ ReportService reportService;
      * @return DataVos15
      * @throws PrematureEntryException
      */
-    public DataVos15 createDataVos15(LocalDateTime date, Double volExtract, Double volCiti,
-                                     Double cleanWaterSupply, Double pressureCity)
+    public DataVos15 createDataVos15(LocalDateTime date,
+                                     Double volExtract,
+                                     Double volCiti,
+                                     Double cleanWaterSupply,
+                                     Double pressureCity)
             throws PrematureEntryException {
 
         date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени до часа (отбрасываем все что меньше часа)
+        /* проверка на повторное добавление записи в текущем часе*/
         if (dataRep15.existsByDate(date)) {
             throw new PrematureEntryException(date);
         }
         DataVos15 dataVos15 = new DataVos15();
 
-        /* проверка на повторное добавление записи в текущем часе*/
+
 
         DataVos15 dataPrev = dataRep15.getPrevData(date); //находим предыдущую запись
         Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
@@ -103,7 +106,7 @@ ReportService reportService;
         dataVos15.setUserId(2L);
         dataVos15.setDate(date);
         dataVos15.setVolExtract(volExtract);
-        dataVos15.setVolCiti(volCiti);
+        dataVos15.setVolCity(volCiti);
         dataVos15.setCleanWaterSupply(cleanWaterSupply);
         dataVos15.setPressureCity(pressureCity);
         dataVos15.setDeltaCleanWaterSupply(dataVos15.getCleanWaterSupply() - lostCleanWaterSupply);

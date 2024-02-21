@@ -1,7 +1,6 @@
 package ru.slenergo.AppMonitoring.services;
 
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.slenergo.AppMonitoring.model.DataSummary;
@@ -32,7 +31,7 @@ public class ReportService {
         DataSummary dataSummary = new DataSummary();
         dataSummary.setDate(dataVos5.getDate());
         dataSummary.setVolExtract(dataVos5.getVolExtract() + dataVos15.getVolExtract());
-        dataSummary.setVolCiti(dataVos5.getVolAll() + dataVos15.getVolCiti());
+        dataSummary.setVolCiti(dataVos5.getVolAll() + dataVos15.getVolCity());
         dataSummary.setCleanWaterSupply(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply());
         dataSummary.setDeltaCleanWaterSupply(dataVos5.getDeltaCleanWaterSupply() + dataVos15.getDeltaCleanWaterSupply());
         System.out.println(dataSummary);
@@ -48,8 +47,8 @@ public class ReportService {
     }
 
     public List<DataSummary> getSummaryReportToDay() {
-        LocalDateTime dateBegin = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS).minusHours(1);
-        LocalDateTime dateEnd = dateBegin.plusHours(25);
+        LocalDateTime dateBegin = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
+        LocalDateTime dateEnd = dateBegin.plusHours(23);
         return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin,dateEnd);
     }
 

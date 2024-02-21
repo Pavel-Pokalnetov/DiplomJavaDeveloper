@@ -19,7 +19,7 @@ public interface DataRepositoryVos15 extends JpaRepository<DataVos15, Long> {
      * получить все записи за последние 24 часа
      */
     @Query("SELECT d FROM DataVos15  d ORDER BY d.date LIMIT 24")
-    List<DataVos15> findLastDay();
+    List<DataVos15> findLast24Hours();
 
     /**
      * получить предыдущую по времени запись

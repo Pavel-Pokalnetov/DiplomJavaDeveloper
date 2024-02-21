@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class Config {
-    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter formatterTimeOnly = DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter formatterDateOnly = DateTimeFormatter.ofPattern("dd.MM.uuuu");
 
 }
