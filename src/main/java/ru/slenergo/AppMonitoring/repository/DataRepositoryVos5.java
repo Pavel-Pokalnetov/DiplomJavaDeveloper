@@ -16,6 +16,8 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     @Query("SELECT d FROM DataVos5  d ORDER BY d.date DESC LIMIT 1")
     DataVos5 findLastItem();
 
+    //todo добавить метод получения только записей за текущий день
+
     /**
      * получить все записи за последние 24 часа
      */
