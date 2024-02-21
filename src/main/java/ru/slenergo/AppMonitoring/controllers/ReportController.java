@@ -28,7 +28,7 @@ public class ReportController {
         List<DataSummary> dataSummaryList = reportService.getSummaryReportToDay();
         model.addAttribute(dataSummaryList);
         model.addAttribute("currentdate",LocalDate.now().format(formatterDateOnly));
-        return "/report/reportSymmary";
+        return "report/reportSymmary";
     }
 
     @GetMapping("/report/summary/update")

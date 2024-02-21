@@ -26,15 +26,14 @@ public class MainPageController {
     public String mainPageVos5(Model model) {
         List<DataVos5> dataVos5 = dataServiceVOS5.getLastDayVos5();
         model.addAttribute("dataVos5", dataVos5);
-        System.out.println(dataVos5);
-        return "/vos5/mainVos5";
+        return "vos5/mainVos5";
     }
 
     @GetMapping("/main/vos15")
     public String mainPageVos15(Model model){
         List<DataVos15> data = dataServiceVOS15.getLastDayVos15();
         model.addAttribute("dataVos15",data);
-        return "/vos15/mainVos15";
+        return "vos15/mainVos15";
     }
 
     @GetMapping("/")

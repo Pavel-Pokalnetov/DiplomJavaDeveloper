@@ -9,8 +9,8 @@ import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
 import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
-
 import java.time.LocalDateTime;
+
 
 @Controller
 @RequestMapping
@@ -20,20 +20,22 @@ public class InputDataController {
     @Autowired
     DataServiceVOS15 dataServiceVOS15;
 
+
     /**
      * Форма ввода записи для ВОС5000
      */
     @GetMapping("/input/vos5")
     public String inputDataVos5() {
-        return "/vos5/inputVos5";
+        return "vos5/inputVos5";
     }
+
 
     /**
      * Форма ввода записи для ВОС15000
      */
     @GetMapping("/input/vos15")
     public String inputDataVos15() {
-        return "/vos15/inputVos15";
+        return "vos15/inputVos15";
     }
 
 
@@ -68,23 +70,23 @@ public class InputDataController {
                     dataServiceVOS5.saveDataToDbVos5(dataVos5) ?
                             "Запись добавлена" :
                             "Ошибка записи. Обратитесь к администратру.");
-
         } catch (PrematureEntryException e) {
-            // если данные за текущий час уже были добавлены в базу
+            //todo если данные за текущий час уже были добавлены в базу, то сообщаем об этом
             model.addAttribute("result",
                     e.getMessage());
         }
         model.addAttribute("url", "/main/vos5");
-        return "/result";
+        return "result";
     }
+
 
     @RequestMapping(value = "/input/vos15", method = RequestMethod.POST)
     public String addDataVos15(@RequestParam Double volExtract,
-                              @RequestParam LocalDateTime date,
-                              @RequestParam Double volCiti,
-                              @RequestParam Double cleanWaterSupply,
-                              @RequestParam Double pressureCity,
-                              Model model) {
+                               @RequestParam LocalDateTime date,
+                               @RequestParam Double volCiti,
+                               @RequestParam Double cleanWaterSupply,
+                               @RequestParam Double pressureCity,
+                               Model model) {
 
         DataVos15 dataVos15;
         try {
@@ -105,8 +107,9 @@ public class InputDataController {
                     e.getMessage());
         }
         model.addAttribute("url", "/main/vos15");
-        return "/result";
+        return "result";
     }
+
 
     @PostMapping("/update/vos5/{id}")
     public String updateDataVos5(@PathVariable Long id,
@@ -140,18 +143,19 @@ public class InputDataController {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
         model.addAttribute("url", "/main/vos5");
-        return "/result";
+        return "result";
     }
+
 
     @PostMapping("/update/vos15/{id}")
     public String updateDataVos15(@PathVariable Long id,
-                                 @RequestParam Long userId,
-                                 @RequestParam LocalDateTime date,
-                                 @RequestParam Double volExtract,
-                                 @RequestParam Double volCiti,
-                                 @RequestParam Double cleanWaterSupply,
-                                 @RequestParam Double pressureCity,
-                                 Model model) {
+                                  @RequestParam Long userId,
+                                  @RequestParam LocalDateTime date,
+                                  @RequestParam Double volExtract,
+                                  @RequestParam Double volCiti,
+                                  @RequestParam Double cleanWaterSupply,
+                                  @RequestParam Double pressureCity,
+                                  Model model) {
         if (userId == null) userId = 0L;
         DataVos15 dataVos15 = dataServiceVOS15.createDataVos15(id,
                 userId,
@@ -167,9 +171,8 @@ public class InputDataController {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
         model.addAttribute("url", "/main/vos15");
-        return "/result";
+        return "result";
     }
-
 
 
     /**
@@ -182,8 +185,9 @@ public class InputDataController {
         DataVos5 dataVos5 = dataServiceVOS5.getDataVos5ById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
         model.addAttribute("entity", dataVos5);
-        return "/vos5/updateVos5";
+        return "vos5/updateVos5";
     }
+
 
     /**
      * форма для изменения записи ВОС15000
@@ -195,7 +199,7 @@ public class InputDataController {
         DataVos15 dataVos15 = dataServiceVOS15.getDataVos15ById(id);
         if (dataVos15 == null) return "redirect:/main/vos15";
         model.addAttribute("entity", dataVos15);
-        return "/vos15/updateVos15";
+        return "vos15/updateVos15";
     }
 
 }
