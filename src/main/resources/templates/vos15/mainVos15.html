@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
-    <script src="/js/mainPages.js"></script>
+    <script src="/js/anychart-base.min.js"></script>
+    <script src="/js/mainPagesVos15.js"></script>
     <title>Часовые расходы ВОС5000</title>
 </head>
 
@@ -15,15 +16,15 @@
 <div class="container">
     <div class="row">
         <div class="col-14">
-            <h4 class="ml-auto mr-0 mt-4">Часовые расходы ВОС15000. </h4>
+            <h4>Часовые расходы ВОС15000. </h4>
             <p><span id="current-date"></span></p>
             <div class="col-14 btn-group">
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/report/summary">Отчеты</a>
-                <a type="button" class="btn btn-primary btn-sm mr-1" href="/">На главную</a>
+                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
+                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Отчеты</a>
+                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
             </div>
             <div class="table-responsive-sm">
-                <table class="table table-compact table-bordered table-hover text-center table-sm">
+                <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
                     <thead>
                     <tr>
                         <th>Время</th>
@@ -43,7 +44,7 @@
                         <td th:text="${data.getVolExtract()}"></td>
                         <td th:text="${data.getVolCiti()}"></td>
                         <td th:text="${data.getCleanWaterSupply()}"></td>
-                        <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"</td>
+                        <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getDeltaCleanWaterSupply()}"
                             th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
                         <td th:text="${data.getPressureCity()}"></td>
@@ -53,6 +54,7 @@
                 </table>
                 <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
+            <div id="graphic-container"></div>
         </div>
     </div>
 </div>

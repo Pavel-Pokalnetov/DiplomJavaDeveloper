@@ -137,7 +137,7 @@ public class InputDataController {
                 pressureBackVos15);
 
         if (dataServiceVOS5.updateDataVos5(dataVos5)) {
-            model.addAttribute("result", "Данные обновлены\n" + dataVos5);
+            model.addAttribute("result", "Данные обновлены\n");
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
@@ -164,7 +164,7 @@ public class InputDataController {
                 pressureCity);
 
         if (dataServiceVOS15.updateDataVos15(dataVos15)) {
-            model.addAttribute("result", "Данные обновлены\n" + dataVos15);
+            model.addAttribute("result", "Данные обновлены\n");
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");
         }
