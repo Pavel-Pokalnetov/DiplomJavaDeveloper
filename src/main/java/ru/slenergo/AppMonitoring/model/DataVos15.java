@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateTimeFull;
 import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 
@@ -40,7 +41,7 @@ public class DataVos15 {
     private Double pressureCity;
 
     public Double getDeltaCleanWaterSupplyCalculated(){
-        return volExtract- volCity;
+        return volExtract - volCity;
     }
 
     public String getDateT() {

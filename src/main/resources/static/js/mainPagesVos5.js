@@ -48,13 +48,9 @@ anychart.onDocumentReady(function () {
 
             switch (j) {
                 case 6: 
-                    tempvol /= 100;// сжатия графика для "Запас в РЧВ"
+                    tempvol /= 10;// сжатия графика для "Запас в РЧВ"
                     break;
-                case 9:
-                case 10:
-                case 11:
-                    tempvol *= 10;// расширение графиков для давлений трубопровода
-                    break;
+
             }
             console.log(j, tempvol)
             rowData.push(tempvol);
@@ -74,8 +70,8 @@ anychart.onDocumentReady(function () {
     let volAll = dataSet.mapAs({x: 0, value: 4});
     let volCity = dataSet.mapAs({x: 0, value: 5});
     let cleanWaterSupply = dataSet.mapAs({x: 0, value: 6});
-    let deltaCleanWaterSupply = dataSet.mapAs({x: 0, value: 7});
-    let deltaCleanWaterSupplyCalc = dataSet.mapAs({x: 0, value: 8});
+    let deltaCleanWaterSupplyCalc = dataSet.mapAs({x: 0, value: 7});
+    //let deltaCleanWaterSupply = dataSet.mapAs({x: 0, value: 8});
     let pressureCity = dataSet.mapAs({x: 0, value: 9});
     let pressureBackCity = dataSet.mapAs({x: 0, value: 10});
     let pressureBackVos15 = dataSet.mapAs({x: 0, value: 11});
@@ -83,6 +79,7 @@ anychart.onDocumentReady(function () {
 
     // создайте линейную диаграмму
     let chart = anychart.line();
+    let chartP = anychart.line();
 
     // ссоздаем серии и называем их
     let volExtractSeries = chart.line(volExtract);
@@ -103,32 +100,39 @@ anychart.onDocumentReady(function () {
     let cleanWaterSupplySeries = chart.line(cleanWaterSupply);
     cleanWaterSupplySeries.name("Запас в РЧВ *0.01");
 
-    let deltaCleanWaterSupplySeries = chart.line(deltaCleanWaterSupply);
-    deltaCleanWaterSupplySeries.name("Рост запаса в РЧВ расчетный");
+    // let deltaCleanWaterSupplySeries = chart.line(deltaCleanWaterSupply);
+    // deltaCleanWaterSupplySeries.name("Запас в РЧВ *0.01 фактический");
 
     let deltaCleanWaterSupplyCalcSeries = chart.line(deltaCleanWaterSupplyCalc);
-    deltaCleanWaterSupplyCalcSeries.name("Запас в РЧВ *0.01 фактический");
+    deltaCleanWaterSupplyCalcSeries.name("Рост запаса в РЧВ расчетный");
 
-    let pressureCitySeries = chart.line(pressureCity);
+    let pressureCitySeries = chartP.line(pressureCity);
     pressureCitySeries.name("Давление подачи в город");
 
-    let pressureBackCitySeries = chart.line(pressureBackCity);
+    let pressureBackCitySeries = chartP.line(pressureBackCity);
     pressureBackCitySeries.name("Давление обратки из города");
 
-    let pressureBackVos15Series = chart.line(pressureBackVos15);
+    let pressureBackVos15Series = chartP.line(pressureBackVos15);
     pressureBackVos15Series.name("Давление обратки от ВОС1500");
 
 
     // включаем легенду
     chart.legend().enabled(true);
-
+    chartP.legend().enabled(true);
 
     //  заголовок
     chart.title("Часовые расходы");
+    chartP.title("Давление в трубопроводах");
 
     // названия  осей
     chart.yAxis().title("М³");
     chart.xAxis().title("Время");
+
+    chartP.yAxis().title("М³");
+    chartP.xAxis().title("Время");
+
+
+
 
     // настройка маркеров серий
     volExtractSeries.hovered().markers().enabled(true).type("circle").size(3);
@@ -137,11 +141,11 @@ anychart.onDocumentReady(function () {
     volAllSeries.hovered().markers().enabled(true).type("circle").size(3);
     volCitySeries.hovered().markers().enabled(true).type("circle").size(3);
     cleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
-    deltaCleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
+    // deltaCleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
     deltaCleanWaterSupplyCalcSeries.hovered().markers().enabled(true).type("circle").size(3);
     pressureCitySeries.hovered().markers().enabled(true).type("circle").size(3);
     pressureBackCitySeries.hovered().markers().enabled(true).type("circle").size(3);
-    pressureBackVos15Series.hovered().markers().enabled(true).type("circle").size(3);
+    pressureBackVos15Series.hovered().markers().enabled(true).type("circle").size(7);
 
     //толщина некоторых графиков
     cleanWaterSupplySeries.stroke(function () {
@@ -153,21 +157,27 @@ anychart.onDocumentReady(function () {
     volCitySeries.stroke(function () {
         return {color: this.sourceColor, thickness: 4};
     });
-    deltaCleanWaterSupplyCalcSeries.stroke(function () {
-        return {color: this.sourceColor, thickness: 4};
-    });
+    // deltaCleanWaterSupplyCalcSeries.stroke(function () {
+    //     return {color: this.sourceColor, thickness: 4};
+    // });
 
     // включите перекрестие
     chart.crosshair().enabled(true).yStroke(null).yLabel(false);
+    chartP.crosshair().enabled(true).yStroke(null).yLabel(false);
 
     // измените положение всплывающей подсказки
     chart.tooltip().positionMode("point");
     chart.tooltip().position("right").anchor("left-center").offsetX(5).offsetY(5);
 
+    chartP.tooltip().positionMode("point");
+    chartP.tooltip().position("right").anchor("left-center").offsetX(5).offsetY(5);
+
     // укажите, где будет отображаться диаграмма
     chart.container("graphic-container");
+    chartP.container("graphic-container-pressure");
 
     // нарисуйте получившуюся диаграмму
     chart.draw();
+    chartP.draw();
 
 });

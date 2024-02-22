@@ -30,7 +30,9 @@ ReportService reportService;
      * Получить данные для ВОС15000 за последние 24 часа
      */
     public List<DataVos15> getLastDayVos15() {
-        return dataRep15.findLast24Hours();
+        List<DataVos15> last24Hours = dataRep15.findLast24Hours();
+        System.out.println(last24Hours);
+        return last24Hours;
     }
 
     /**
@@ -117,6 +119,7 @@ ReportService reportService;
     @Transactional
     public boolean updateDataVos15(DataVos15 dataVos15) {
         try {
+            dataRep15.deleteById(dataVos15.getId());
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
             reportService.saveDataSummaryOneRecord(dataVos15.getDate());

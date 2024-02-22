@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateTimeFull;
 import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 @Entity
@@ -20,7 +21,7 @@ public class DataVos5 {
     private Long id;
     @Column
     private Long userId;
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private LocalDateTime date;
     @Column
     private Double volExtract;
