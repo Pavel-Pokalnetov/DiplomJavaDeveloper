@@ -21,7 +21,7 @@ public class DataVos5 {
     private Long id;
     @Column
     private Long userId;
-    @Column(unique = true,nullable = false)
+    @Column
     private LocalDateTime date;
     @Column
     private Double volExtract;

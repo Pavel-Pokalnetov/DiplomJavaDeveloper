@@ -10,6 +10,7 @@ import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
 import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 
 @Controller
@@ -69,9 +70,8 @@ public class InputDataController {
             model.addAttribute("result",
                     dataServiceVOS5.saveDataToDbVos5(dataVos5) ?
                             "Запись добавлена" :
-                            "Ошибка записи. Обратитесь к администратру.");
+                            "Ошибка записи. Обратитесь к администратору.");
         } catch (PrematureEntryException e) {
-            //todo если данные за текущий час уже были добавлены в базу, то сообщаем об этом
             model.addAttribute("result",
                     e.getMessage());
         }
@@ -140,7 +140,7 @@ public class InputDataController {
         if (dataServiceVOS5.updateDataVos5(dataVos5)) {
             model.addAttribute("result", "Данные обновлены\n");
         } else {
-            model.addAttribute("result", "Приобновлении данных произошла ошибка");
+            model.addAttribute("result", "При обновлении данных произошла ошибка");
         }
         model.addAttribute("url", "/main/vos5");
         return "result";
@@ -156,6 +156,7 @@ public class InputDataController {
                                   @RequestParam Double cleanWaterSupply,
                                   @RequestParam Double pressureCity,
                                   Model model) {
+        date=date.truncatedTo(ChronoUnit.HOURS);
         if (userId == null) userId = 0L;
         DataVos15 dataVos15 = dataServiceVOS15.createDataVos15(id,
                 userId,

@@ -29,12 +29,12 @@
                     <thead>
                     <tr>
                         <th>Время</th>
-                        <th>V<br>часовой</th>
-                        <th>V<br>подача в город</th>
+                        <th>Добыча воды<br>со скважин</th>
+                        <th>Объем<br>подачи в город</th>
                         <th>Запас<br>в РЧВ</th>
                         <th>Рост запаса<br> в РЧВ расчетный</th>
                         <th>Рост запаса<br> в РЧВ фактический</th>
-                        <th>Давление<br>подача в город</th>
+                        <th>Давление<br>подачи в город</th>
                         <th></th>
 
                     </tr>
@@ -55,7 +55,10 @@
                 </table>
                 <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
-            <div id="graphic-container"></div>
+            <div class="row">
+                <div class="col-lg-8" id="graphic-container"></div>
+                <div class="col-lg-4" id="graphic-container-pressure"></div>
+            </div>
         </div>
     </div>
 </div>

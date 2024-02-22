@@ -16,13 +16,12 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     @Query("SELECT d FROM DataVos5  d ORDER BY d.date DESC LIMIT 1")
     DataVos5 findLastItem();
 
-    //todo добавить метод получения только записей за текущий день
-
     /**
      * получить все записи за последние 24 часа
      */
     @Query("SELECT d FROM DataVos5  d ORDER BY d.date LIMIT 24")
     List<DataVos5> findLast24Hours();
+
 
     /**
      * получить предыдущую по времени запись
@@ -48,4 +47,6 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     boolean existsByDate(@Param("date") LocalDateTime date);
 
     DataVos5 getDataVos5ByDate(LocalDateTime date);
+
+    List<DataVos5> findDataVos5sByDateIsAfter(LocalDateTime date);
 }

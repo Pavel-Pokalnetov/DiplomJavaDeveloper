@@ -27,7 +27,7 @@ public class DataServiceVOS5 {
      * Получить данные для ВОС5000 за последние 24 часа
      */
     public List<DataVos5> getLastDayVos5() {
-        return dataRep5.findLast24Hours();
+        return dataRep5.findDataVos5sByDateIsAfter(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
     }
 
     /**

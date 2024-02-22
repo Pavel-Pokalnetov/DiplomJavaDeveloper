@@ -116,10 +116,10 @@ ReportService reportService;
     }
 
 
-    @Transactional
     public boolean updateDataVos15(DataVos15 dataVos15) {
         try {
             dataRep15.deleteById(dataVos15.getId());
+
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
             reportService.saveDataSummaryOneRecord(dataVos15.getDate());
