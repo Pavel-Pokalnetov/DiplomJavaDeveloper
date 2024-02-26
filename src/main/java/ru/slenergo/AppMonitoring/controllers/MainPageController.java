@@ -11,9 +11,6 @@ import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
 import ru.slenergo.AppMonitoring.services.UserServices;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Controller
@@ -27,14 +24,14 @@ public class MainPageController {
 
     @GetMapping("/main/vos5")
     public String mainPageVos5(Model model) {
-        List<DataVos5> dataVos5 = dataServiceVOS5.getLastDayVos5();
+        List<DataVos5> dataVos5 = dataServiceVOS5.getCurrentDayVos5();
         model.addAttribute("dataVos5", dataVos5);
         return "vos5/mainVos5";
     }
 
     @GetMapping("/main/vos15")
     public String mainPageVos15(Model model){
-        List<DataVos15> data = dataServiceVOS15.getLastDayVos15();
+        List<DataVos15> data = dataServiceVOS15.getCurrentDayVos15();
         model.addAttribute("dataVos15",data);
         return "vos15/mainVos15";
     }
