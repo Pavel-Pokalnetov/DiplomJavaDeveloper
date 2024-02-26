@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.slenergo.AppMonitoring.model.DataVos15;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -45,4 +46,7 @@ public interface DataRepositoryVos15 extends JpaRepository<DataVos15, Long> {
     boolean existsByDate(@Param("date") LocalDateTime date);
 
     DataVos15 getDataVos15ByDate(LocalDateTime date);
+
+    List<DataVos15> findDataVos15sByDateIsAfterOrderByDateAsc(LocalDateTime localDateTime);
+
 }

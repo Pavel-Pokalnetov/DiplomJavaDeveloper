@@ -11,26 +11,19 @@ import java.util.List;
 
 public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     /**
-     * получить последнюю запись
+     * Получить последнюю запись
      */
     @Query("SELECT d FROM DataVos5  d ORDER BY d.date DESC LIMIT 1")
     DataVos5 findLastItem();
 
     /**
-     * получить все записи за последние 24 часа
-     */
-    @Query("SELECT d FROM DataVos5  d ORDER BY d.date LIMIT 24")
-    List<DataVos5> findLast24Hours();
-
-
-    /**
-     * получить предыдущую по времени запись
+     * Получить предыдущую по времени запись
      */
     @Query("SELECT d FROM DataVos5 d where d.date< :date ORDER BY d.date DESC LIMIT 1")
     DataVos5 getPrevData(@Param("date") LocalDateTime date);
 
     /**
-     * получить cледующую по времени запись
+     * Получить cледующую по времени запись
      */
     @Query("SELECT d FROM DataVos5 d where d.date> :date ORDER BY d.date ASC LIMIT 1")
     DataVos5 getNextData(@Param("date") LocalDateTime date);
@@ -48,5 +41,5 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
 
     DataVos5 getDataVos5ByDate(LocalDateTime date);
 
-    List<DataVos5> findDataVos5sByDateIsAfter(LocalDateTime date);
+    List<DataVos5> findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime date);
 }
