@@ -1,7 +1,9 @@
 package ru.slenergo.AppMonitoring.services;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
 import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
@@ -16,18 +18,12 @@ public class DataServiceVOS5 {
     DataRepositoryVos5 dataRep5;
     @Autowired
     ReportService reportService;
-    /**
-     * Получить все данные для ВОС5000
-     */
-    public List<DataVos5> getAllVos5() {
-        return dataRep5.findAll();
-    }
 
     /**
      * Получить данные для ВОС5000 за последние 24 часа
      */
-    public List<DataVos5> getLastDayVos5() {
-        return dataRep5.findDataVos5sByDateIsAfter(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
+    public List<DataVos5> getCurrentDayVos5() {
+        return dataRep5.findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
     }
 
     /**
@@ -85,13 +81,11 @@ public class DataServiceVOS5 {
                                    Double pressureCity, Double pressureBackCity, Double pressureBackVos15)
             throws PrematureEntryException {
         date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени до часа (отбрасываем все что меньше часа)
-
-        /* проверка на повторное добавление записи в текущем часе*/
         if (dataRep5.existsByDate(date)) {
+            //проверка на повторное добавление записи
             throw new PrematureEntryException(date);
         }
         DataVos5 dataVos5 = new DataVos5();
-
         DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
         Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
         if (dataPrev != null) {
@@ -113,17 +107,14 @@ public class DataServiceVOS5 {
         return dataVos5;
     }
 
-    /**
-     * Проверка двух моментов вермени на принадлежностьк одному часу
-     *
-     * @param date        - дата1
-     * @param dateToCheck - дата2
-     * @return - true, если обе даты находятся в одном астрономическом часе
-     * (23:00 и 23:59 дадут true,  23:00 и 22:59 - дадут false
-     */
-    private boolean isHourDateInHourNow(LocalDateTime date, LocalDateTime dateToCheck) {
-        return (date == dateToCheck);
-
+    public boolean updateDataVos5(
+            Long id, Long userId,
+            LocalDateTime date,
+            Double volExtract, Double volCiti,Double volBackCity,Double volBackVos15,
+            Double cleanWaterSupply,
+            Double pressureCity,Double pressureBackCity,Double pressureBackVos15){
+        DataVos5 updateData =  dataRep5.getDataVos5ByDate(date);
+        return updateDataVos5(updateData);
     }
 
     @Transactional
@@ -154,7 +145,7 @@ public class DataServiceVOS5 {
                                    Double pressureBackCity,
                                    Double pressureBackVos15) {
         DataVos5 prevData = dataRep5.getPrevData(date);
-        double deltaCleanWaterSupply=0;
+        double deltaCleanWaterSupply = 0;
         if (prevData != null) deltaCleanWaterSupply = cleanWaterSupply - prevData.getCleanWaterSupply();
 
         return new DataVos5(id, userId, date,
