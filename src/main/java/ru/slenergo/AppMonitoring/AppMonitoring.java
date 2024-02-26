@@ -9,6 +9,5 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 public class AppMonitoring {
     public static void main(String[] args) {
         SpringApplication.run(AppMonitoring.class, args);
-
     }
 }
