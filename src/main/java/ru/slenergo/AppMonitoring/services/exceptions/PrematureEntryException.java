@@ -13,8 +13,7 @@ public class PrematureEntryException extends Exception {
     String message;
     public PrematureEntryException(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-uuuu HH:mm");
-        message = "Данные за текущий час уже были переданы.\n" +
-                "Последние данные переданы "+date.format(formatter);
+        message = "Данные за "+date.format(formatter)+" уже были переданы.\n";
     }
 
 }
