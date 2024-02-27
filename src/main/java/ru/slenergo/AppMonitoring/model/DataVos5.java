@@ -71,6 +71,7 @@ public class DataVos5 {
                            Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         this.setId(id);
         this.setUserId(userId);
+        this.setDate(date);
         this.setVolExtract(volExtract);
         this.setVolCity(volCiti);
         this.setVolBackCity(volBackCity);

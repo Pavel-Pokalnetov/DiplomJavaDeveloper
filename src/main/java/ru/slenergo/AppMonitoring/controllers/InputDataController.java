@@ -15,7 +15,6 @@ import java.time.temporal.ChronoUnit;
 
 
 @Controller
-@RequestMapping
 public class InputDataController {
     @Autowired
     DataServiceVOS5 dataServiceVOS5;
@@ -46,7 +45,6 @@ public class InputDataController {
                               @RequestParam Double pressureBackCity,
                               @RequestParam Double pressureBackVos15,
                               Model model) {
-
         DataVos5 dataVos5;
         try {
             dataVos5 = dataServiceVOS5.createDataVos5(
@@ -85,10 +83,11 @@ public class InputDataController {
         return "vos5/updateVos5";
     }
 
-    /** Обновление данных из формы
+    /**
+     * Обновление данных из формы
      */
-    @PostMapping("/update/vos5/{id}")
-    public String updateDataVos5(@PathVariable Long id,
+    @RequestMapping(value = "/update/vos5", method = RequestMethod.POST)
+    public String updateDataVos5(@RequestParam Long id,
                                  @RequestParam Long userId,
                                  @RequestParam LocalDateTime date,
                                  @RequestParam Double volExtract,
@@ -100,13 +99,12 @@ public class InputDataController {
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
                                  Model model) {
-        if (userId == null) userId = 0L;
         if (dataServiceVOS5.updateDataVos5(
-                id,userId,
-                date,volExtract,
-                volCiti,volBackCity,volBackVos15,
+                id, userId,
+                date, volExtract,
+                volCiti, volBackCity, volBackVos15,
                 cleanWaterSupply,
-                pressureCity,pressureBackCity,pressureBackVos15)) {
+                pressureCity, pressureBackCity, pressureBackVos15)) {
             model.addAttribute("result", "Данные обновлены\n");
         } else {
             model.addAttribute("result", "При обновлении данных произошла ошибка");
@@ -123,7 +121,6 @@ public class InputDataController {
         return "vos15/inputVos15";
     }
 
-
     @RequestMapping(value = "/input/vos15", method = RequestMethod.POST)
     public String addDataVos15(@RequestParam Double volExtract,
                                @RequestParam LocalDateTime date,
@@ -131,7 +128,6 @@ public class InputDataController {
                                @RequestParam Double cleanWaterSupply,
                                @RequestParam Double pressureCity,
                                Model model) {
-
         DataVos15 dataVos15;
         try {
             dataVos15 = dataServiceVOS15.createDataVos15(
@@ -144,7 +140,6 @@ public class InputDataController {
                     dataServiceVOS15.saveDataToDbVos15(dataVos15) ?
                             "Запись добавлена" :
                             "Ошибка записи. Обратитесь к администратру.");
-
         } catch (PrematureEntryException e) {
             // если данные за текущий час уже были добавлены в базу
             model.addAttribute("result",
@@ -172,7 +167,6 @@ public class InputDataController {
                 volCiti,
                 cleanWaterSupply,
                 pressureCity);
-
         if (dataServiceVOS15.updateDataVos15(dataVos15)) {
             model.addAttribute("result", "Данные обновлены\n");
         } else {

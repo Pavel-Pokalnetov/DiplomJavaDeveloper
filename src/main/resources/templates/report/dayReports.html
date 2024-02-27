@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/anychart-base.min.js"></script>
+    <script src="/js/summaryReports.js"></script>
     <link rel="stylesheet" href="/css/style.css">
     <title>Сводный отчет</title>
 </head>
@@ -14,13 +16,18 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="btn-group-sm">
+            <nav class="btn-group-sm">
                 <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
                 <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
-            </div>
+            </nav>
         </div>
-
-        <div th:if="${dateIsDefine}" id="report" class="col-md-12">
+        <div id="report-form " class="col-md-12">
+            <form class="col-2" action="/report/dayreports" method="get">
+                <label class="form-label "><span th:text="${message}"></span></label>
+                <input class="form-control inline col-1" th:value="${currentdate}" type="date" required name="date">                <input type="submit" value="Показать">
+            </form>
+        </div>
+        <div th:if="${isReportExist}==true" id="report" class="col-md-12">
             <h4>Сводный дневной отчет на <span th:text="${currentdate}"></span></h4>
             <div class="table-responsive-sm">
                 <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
@@ -47,15 +54,6 @@
                 <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
             <div id="graphic-container"></div>
-        </div>
-        
-        <div th:if="${dateIsDefine}==false" id="report" class="col-md-12">
-            <form action="#" th:action="@{/date}" th:object="${date}">
-                <input type="date" th:field="*{day}">
-                <input type="date" th:field="*{month}">
-                <input type="date" th:field="*{year}">
-                <input type="submit" value="Submit">
-            </form>
         </div>
     </div>
 </div>

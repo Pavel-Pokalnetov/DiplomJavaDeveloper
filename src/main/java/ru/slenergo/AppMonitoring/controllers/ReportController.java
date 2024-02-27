@@ -11,6 +11,7 @@ import ru.slenergo.AppMonitoring.services.ReportService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateOnly;
@@ -35,8 +36,11 @@ public class ReportController {
     @GetMapping("/summary")
     public String summaryReport(Model model) {
         List<DataSummary> dataSummaryList = reportService.getSummaryReportToDay();
-        model.addAttribute(dataSummaryList);
-        model.addAttribute("currentdate", LocalDate.now().format(formatterDateOnly));
+        if(dataSummaryList==null){
+            dataSummaryList=new ArrayList<>();
+        }
+            model.addAttribute(dataSummaryList);
+            model.addAttribute("currentdate", LocalDate.now().format(formatterDateOnly));
         return "report/summaryReport";
     }
 
@@ -47,16 +51,27 @@ public class ReportController {
      */
     @GetMapping("/summary/update")
     public String summaryReportUpdate() {
-        reportService.recalcSummaryReportByDate(LocalDateTime.now());
+        reportService.recalcSummaryReportByDate(LocalDate.now());
         return "redirect:/report/summary";
     }
 
     @GetMapping("/dayreports")
     public String dayReports(@RequestParam(required = false) LocalDate date, Model model) {
+        System.out.println(date);
         if (date == null) {
-            model.addAttribute("dateIsDefine", false);
-            model.addAttribute();
-            return "report/dayReports";
+            model.addAttribute("isReportExist", false);
+            model.addAttribute("currentdate", " --- ");
+            model.addAttribute("message","Выберите дату отчета");
+        } else {
+            model.addAttribute("currentdate",date);
+            if(reportService.existReportByDate(date)) {
+                model.addAttribute("isReportExist",true);
+                model.addAttribute("dataList", reportService.getSummaryReportByDay(date));
+            }else {
+                model.addAttribute("isReportExist", false);
+                model.addAttribute("currentdate", " --- ");
+                model.addAttribute("message","Нет отчета на этот день "+date.format(formatterDateOnly)+". Выберите дату отчета");
+            }
         }
         return "report/dayReports";
     }

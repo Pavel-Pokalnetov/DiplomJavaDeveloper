@@ -47,4 +47,18 @@ public class DataVos15 {
     public String getDateT() {
         return date.format(formatterTimeOnly);
     }
+
+    public DataVos15 update(Long id, Long userId, LocalDateTime date,
+                           Double volExtract, Double volCiti,
+                           Double cleanWaterSupply,
+                           Double pressureCity) {
+        this.setId(id);
+        this.setUserId(userId);
+        this.setDate(date);
+        this.setVolExtract(volExtract);
+        this.setVolCity(volCiti);
+        this.setCleanWaterSupply(cleanWaterSupply);
+        this.setPressureCity(pressureCity);
+        return this;
+    }
 }

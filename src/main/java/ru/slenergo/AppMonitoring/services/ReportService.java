@@ -10,6 +10,7 @@ import ru.slenergo.AppMonitoring.repository.DataRepositorySummary;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -40,19 +41,25 @@ public class ReportService {
     }
 
     public void saveDataSummaryOneRecord(LocalDateTime date) {
-        DataSummary dataSummary = buildDataSummary(
-                dataRepositoryVos5.getDataVos5ByDate(date),
-                dataRepositoryVos15.getDataVos15ByDate(date));
+        DataSummary dataSummary = buildDataSummary(dataRepositoryVos5.getDataVos5ByDate(date), dataRepositoryVos15.getDataVos15ByDate(date));
         System.out.println(dataSummary);
         if (dataSummary != null) dataRepositorySummary.save(dataSummary);
     }
 
+    /**
+     * Получить отчет за текущий день
+     *
+     * @return
+     */
     public List<DataSummary> getSummaryReportToDay() {
-        LocalDateTime dateBegin = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
-        LocalDateTime dateEnd = dateBegin.plusHours(23);
-        return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin, dateEnd);
+        return getSummaryReportByDay(LocalDate.now());
     }
 
+    /**
+     * Перерасчет сводного отчета на указанную дату
+     *
+     * @param date - дата LocalDateTime
+     */
     public void recalcSummaryReportByDate(LocalDateTime date) {
         date = date.truncatedTo(ChronoUnit.DAYS);
         dataRepositorySummary.deleteDataSummaryByDateBetween(date, date.plusHours(23));
@@ -61,7 +68,41 @@ public class ReportService {
         }
     }
 
+    /**
+     * Перерасчет сводного отчета на указанную дату
+     *
+     * @param date - дата DateTime
+     */
+    public void recalcSummaryReportByDate(LocalDate date) {
+        recalcSummaryReportByDate(date.atStartOfDay());
+    }
 
+
+    /**
+     * Проверка существования отчета на указанную дату
+     *
+     * @param date -дата LocalDateTime
+     * @return
+     */
+    public boolean existReportByDate(LocalDate date) {
+        LocalDateTime localDate = date.atStartOfDay();
+        return !dataRepositorySummary.getDataSummaryByDateBetween(localDate, localDate.plusHours(23)).isEmpty();
+    }
+
+    /**
+     * Получить сводный отчет на указанную дату
+     *
+     * @param date
+     * @return
+     */
+    public List<DataSummary> getSummaryReportByDay(LocalDate date) {
+        if (existReportByDate(date)) {
+            LocalDateTime dateBegin = date.atStartOfDay();
+            LocalDateTime dateEnd = dateBegin.plusHours(23);
+            return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin, dateEnd);
+        }
+        return null;
+    }
 }
 
 

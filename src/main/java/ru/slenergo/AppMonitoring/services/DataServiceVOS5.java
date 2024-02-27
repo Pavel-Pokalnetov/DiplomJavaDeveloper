@@ -114,6 +114,8 @@ public class DataServiceVOS5 {
             Double cleanWaterSupply,
             Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         DataVos5 updateData = dataRep5.getDataVos5ByDate(date);
+        updateData.setUserId(userId);
+        updateData.setVolExtract(volExtract);
         return updateDataVos5(updateData);
     }
 

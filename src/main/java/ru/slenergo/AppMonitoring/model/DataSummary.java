@@ -18,7 +18,6 @@ public class DataSummary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(unique = true)
     private LocalDateTime date;
     @Column
     private Double volExtract;
