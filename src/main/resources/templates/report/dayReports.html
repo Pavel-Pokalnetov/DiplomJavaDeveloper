@@ -13,13 +13,15 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h4>Сводный дневной отчет <span th:text="${currentdate}"></span></h4>
+
             <div class="btn-group-sm">
                 <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
                 <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
             </div>
         </div>
-        <div id="report" class="col-md-12">
+
+        <div th:if="${dateIsDefine}" id="report" class="col-md-12">
+            <h4>Сводный дневной отчет на <span th:text="${currentdate}"></span></h4>
             <div class="table-responsive-sm">
                 <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
                     <thead>
@@ -32,7 +34,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="data:${dataSummaryList}">
+                    <tr th:each="data:${dataList}">
                         <td th:text="${data.getDateT()}"></td>
                         <td th:text="${data.getVolExtract()}"></td>
                         <td th:text="${data.getVolCiti()}"></td>
@@ -45,6 +47,15 @@
                 <p> Страница будет обновлена через: <span id="refreshCounter">300</span> сек.</p>
             </div>
             <div id="graphic-container"></div>
+        </div>
+        
+        <div th:if="${dateIsDefine}==false" id="report" class="col-md-12">
+            <form action="#" th:action="@{/date}" th:object="${date}">
+                <input type="date" th:field="*{day}">
+                <input type="date" th:field="*{month}">
+                <input type="date" th:field="*{year}">
+                <input type="submit" value="Submit">
+            </form>
         </div>
     </div>
 </div>
