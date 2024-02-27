@@ -36,10 +36,16 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
      * @return true-есть запись
      * false - нет записи
      */
-    @Query("select case when count (d)>0 then true else false end from DataVos5 d where d.date=:date")
-    boolean existsByDate(@Param("date") LocalDateTime date);
+    boolean existsByDate(LocalDateTime date);
 
+    /** Получить запись на указанную дату и время
+     */
     DataVos5 getDataVos5ByDate(LocalDateTime date);
 
+    /**
+     *  Получить все записи начиная с указанной даты сортировка по возрастанию даты
+     * @param date заданная дата и время LocalDateTime
+     * @return список DataVos5
+     */
     List<DataVos5> findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime date);
 }

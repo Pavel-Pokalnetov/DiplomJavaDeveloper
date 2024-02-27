@@ -1,8 +1,8 @@
 package ru.slenergo.AppMonitoring.services;
 
 
-import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
@@ -110,10 +110,10 @@ public class DataServiceVOS5 {
     public boolean updateDataVos5(
             Long id, Long userId,
             LocalDateTime date,
-            Double volExtract, Double volCiti,Double volBackCity,Double volBackVos15,
+            Double volExtract, Double volCiti, Double volBackCity, Double volBackVos15,
             Double cleanWaterSupply,
-            Double pressureCity,Double pressureBackCity,Double pressureBackVos15){
-        DataVos5 updateData =  dataRep5.getDataVos5ByDate(date);
+            Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
+        DataVos5 updateData = dataRep5.getDataVos5ByDate(date);
         return updateDataVos5(updateData);
     }
 

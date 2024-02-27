@@ -16,6 +16,7 @@ import java.util.List;
 
 @Service
 public class ReportService {
+
     @Autowired
     DataRepositoryVos5 dataRepositoryVos5;
     @Autowired
@@ -43,18 +44,18 @@ public class ReportService {
                 dataRepositoryVos5.getDataVos5ByDate(date),
                 dataRepositoryVos15.getDataVos15ByDate(date));
         System.out.println(dataSummary);
-        if (dataSummary!=null) dataRepositorySummary.save(dataSummary);
+        if (dataSummary != null) dataRepositorySummary.save(dataSummary);
     }
 
     public List<DataSummary> getSummaryReportToDay() {
         LocalDateTime dateBegin = LocalDateTime.now().truncatedTo(ChronoUnit.DAYS);
         LocalDateTime dateEnd = dateBegin.plusHours(23);
-        return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin,dateEnd);
+        return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin, dateEnd);
     }
 
-    public void recalcSummaryReportByDate(LocalDateTime date){
+    public void recalcSummaryReportByDate(LocalDateTime date) {
         date = date.truncatedTo(ChronoUnit.DAYS);
-        dataRepositorySummary.deleteDataSummaryByDateBetween(date,date.plusHours(23));
+        dataRepositorySummary.deleteDataSummaryByDateBetween(date, date.plusHours(23));
         for (int i = 0; i < 24; i++) {
             saveDataSummaryOneRecord(date.plusHours(i));
         }

@@ -49,7 +49,7 @@
                         <td th:text="${data.getDeltaCleanWaterSupply()}"
                             th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
                         <td th:text="${data.getPressureCity()}"></td>
-                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}" class="btn btn-sm">E</a></td>
+                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary" title="Изменить">&#9998;</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/css/bootstrap.min.css">
   <script src="/js/bootstrap.bundle.min.js"></script>
   <script src="/js/jquery-3.7.1.min.js"></script>
+
   <title>Отчеты </title>
 </head>
 
@@ -14,13 +15,15 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <nav class="navbar btn-group" >
-          <a class="btn btn-outline-primary" href="/static">Кнопка 1</a>
-          <a class="btn btn-outline-primary" href="/static">Кнопка 2</a>
-          <a class="btn btn-outline-primary" href="/static">Кнопка 3</a>
-          <a class="btn btn-outline-primary" href="/static">Кнопка 4</a>
-          <a class="btn btn-outline-primary" href="/static">Кнопка 5</a>
-        </nav>
+        <dl >
+          <dt>Отчеты:</dt>
+          <dd><a class="btn btn-outline-primary" href="/report/summary">Сводный отчет за текущий день</a></dd>
+          <dd><a class="btn btn-outline-primary" href="/report/dayreports">Сводный отчет на указанную дату</a></dd>
+          <dt>История:</dt>
+          <dd><a class="btn btn-outline-primary" href="/statistic/vos5">Расход на указанную дату ВОС5000</a></dd>
+          <dd><a class="btn btn-outline-primary" href="/statistic/vos15">Расход на указанную дату ВОС15000</a></dd>
+        </dl>
+        <a class="btn btn-outline-primary" href="/">На главную</a>
       </div>
       <div id="report" class="col-md-6" >
         

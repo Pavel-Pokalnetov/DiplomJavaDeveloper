@@ -29,7 +29,13 @@ anychart.onDocumentReady(function () {
         // Проходим по каждой ячейке строки
         for (var j = 0; j < table.rows[i].cells.length; j++) {
             // Добавляем значение ячейки в массив данных строки
-            rowData.push(table.rows[i].cells[j].innerText);
+            let temp = table.rows[i].cells[j].innerText
+            switch (j) {
+                case 3:
+                    temp /= 100;
+                    break;
+            }
+            rowData.push(temp);
         }
 
         // Добавляем массив данных строки в общий массив
