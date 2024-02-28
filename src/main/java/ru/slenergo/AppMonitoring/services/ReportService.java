@@ -26,8 +26,6 @@ public class ReportService {
     DataRepositorySummary dataRepositorySummary;
 
     public DataSummary buildDataSummary(DataVos5 dataVos5, DataVos15 dataVos15) {
-        System.out.println(dataVos5);
-        System.out.println(dataVos15);
         if (dataVos5 == null || dataVos15 == null) return null;
 //        if (dataVos5.getDate().equals(dataVos15.getDate())) return null;
         DataSummary dataSummary = new DataSummary();
@@ -36,13 +34,11 @@ public class ReportService {
         dataSummary.setVolCiti(dataVos5.getVolAll() + dataVos15.getVolCity());
         dataSummary.setCleanWaterSupply(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply());
         dataSummary.setDeltaCleanWaterSupply(dataVos5.getDeltaCleanWaterSupply() + dataVos15.getDeltaCleanWaterSupply());
-        System.out.println(dataSummary);
         return dataSummary;
     }
 
     public void saveDataSummaryOneRecord(LocalDateTime date) {
         DataSummary dataSummary = buildDataSummary(dataRepositoryVos5.getDataVos5ByDate(date), dataRepositoryVos15.getDataVos15ByDate(date));
-        System.out.println(dataSummary);
         if (dataSummary != null) dataRepositorySummary.save(dataSummary);
     }
 

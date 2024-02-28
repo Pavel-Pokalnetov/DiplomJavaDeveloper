@@ -15,13 +15,28 @@
 <div class="container">
     <div class="row">
         <div class="col-12">
-            <h4>Часовые расходы ВОС5000</h4>
-            <p><span id="current-date"></span></p>
-            <div class="btn-group-sm">
-                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos5">Ввод данных</a>
-                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Сводный отчет</a>
-                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
+            <div class="col-12">
+                <nav class="btn-group-sm">
+                    <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
+                    <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
+
+                </nav>
             </div>
+            <div id="report-form " class="col-md-12">
+                <form class="col-4 inline">
+                    <label class="form-label "><span th:text="${message}"></span></label>
+                    <input class="form-control inline col-1" id="dateInput" th:value="${currentdate}" type="date"
+                           required name="date">
+                    <script>
+                        document.getElementById('dateInput').addEventListener('change', function () {
+                            var date = this.value;
+                            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + date;
+                            window.location.href = url;
+                        });
+                    </script>
+                </form>
+            </div>
+
             <div class="table-responsive-sm">
                 <table id="dataTable" class="table table-compact table-bordered table-hover text-center table-sm">
                     <thead>

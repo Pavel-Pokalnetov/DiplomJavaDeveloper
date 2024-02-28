@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
-import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

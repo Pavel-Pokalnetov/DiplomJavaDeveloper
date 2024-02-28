@@ -8,7 +8,7 @@ import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
-import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

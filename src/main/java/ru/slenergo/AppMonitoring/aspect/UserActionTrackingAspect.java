@@ -8,17 +8,22 @@ import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-//@Aspect
-//@Component
-//public class UserActionTrackingAspect {
-//    @Around("execution(public * ru.slenergo.AppMonitoring..*.*(..))")
-//    public Object trackUserAction(ProceedingJoinPoint joinPoint) throws Throwable {
-//        Object[] args = joinPoint.getArgs();
-//        String arguments = Arrays.toString(args);
-//        System.out.println(" > Вызов метода: "
-//                + joinPoint.getSignature().getDeclaringTypeName() + "."
-//                + joinPoint.getSignature().getName() + ", аргументы: "
-//                + arguments);
-//        return joinPoint.proceed();
-//    }
-//}
+/**
+ * Клас AOP для отслеживания запускаемых методов на время разработки и отладки
+ */
+@Aspect
+@Component
+public class UserActionTrackingAspect {
+    @Around("execution(public * ru.slenergo.AppMonitoring..*.*(..))")
+    public Object trackUserAction(ProceedingJoinPoint joinPoint) throws Throwable {
+        Object[] args = joinPoint.getArgs();
+        String arguments = Arrays.toString(args);
+        System.out.println("*Вызов метода: "
+                + joinPoint.getSignature().getDeclaringTypeName() + "."
+                + joinPoint.getSignature().getName() + ", аргументы: "
+                + arguments);
+        Object result = joinPoint.proceed();
+        System.out.println("*Результат("+joinPoint.getSignature().getName()+"): "+((result!=null)?result.toString():"null"));
+        return result;
+    }
+}

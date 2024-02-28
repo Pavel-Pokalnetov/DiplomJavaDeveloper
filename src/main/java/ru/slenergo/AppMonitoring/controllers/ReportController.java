@@ -57,7 +57,6 @@ public class ReportController {
 
     @GetMapping("/dayreports")
     public String dayReports(@RequestParam(required = false) LocalDate date, Model model) {
-        System.out.println(date);
         if (date == null) {
             model.addAttribute("isReportExist", false);
             model.addAttribute("currentdate", " --- ");
@@ -65,12 +64,14 @@ public class ReportController {
         } else {
             model.addAttribute("currentdate",date);
             if(reportService.existReportByDate(date)) {
+                System.out.println(1);
                 model.addAttribute("isReportExist",true);
                 model.addAttribute("dataList", reportService.getSummaryReportByDay(date));
             }else {
+                System.out.println(0);
                 model.addAttribute("isReportExist", false);
-                model.addAttribute("currentdate", " --- ");
-                model.addAttribute("message","Нет отчета на этот день "+date.format(formatterDateOnly)+". Выберите дату отчета");
+                model.addAttribute("currentdate", "");
+                model.addAttribute("message","Нет отчета на этот день "+date.format(formatterDateOnly));
             }
         }
         return "report/dayReports";

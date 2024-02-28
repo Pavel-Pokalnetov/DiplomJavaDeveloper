@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
-import ru.slenergo.AppMonitoring.services.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -107,6 +107,7 @@ public class DataServiceVOS5 {
         return dataVos5;
     }
 
+
     public boolean updateDataVos5(
             Long id, Long userId,
             LocalDateTime date,
@@ -114,15 +115,15 @@ public class DataServiceVOS5 {
             Double cleanWaterSupply,
             Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         DataVos5 updateData = dataRep5.getDataVos5ByDate(date);
-        updateData.setUserId(userId);
-        updateData.setVolExtract(volExtract);
+        updateData.update(id,userId,date,volExtract,volCiti,volBackCity,volBackVos15,cleanWaterSupply,pressureCity,pressureBackCity,pressureBackVos15);
         return updateDataVos5(updateData);
     }
 
-    @Transactional
-    public boolean updateDataVos5(DataVos5 dataVos5) {
+
+    private boolean updateDataVos5(DataVos5 dataVos5) {
         try {
-            dataRep5.saveAndFlush(dataVos5);
+            dataRep5.deleteById(dataVos5.getId());//удаляем старую запись
+            dataRep5.saveAndFlush(dataVos5);//добавляем измененную
             updateNextDataCleanWaterSupply(dataVos5); //обновляем значение раста запаса РЧВ в следующей по времени, существующей записи
             reportService.saveDataSummaryOneRecord(dataVos5.getDate());//обновляем соответствующую запись сводного отчета
             return true;
@@ -133,27 +134,5 @@ public class DataServiceVOS5 {
 
     public DataVos5 getDataVos5ById(long id) {
         return dataRep5.findById(id).orElse(null);
-    }
-
-    public DataVos5 createDataVos5(Long id,
-                                   Long userId,
-                                   LocalDateTime date,
-                                   Double volExtract,
-                                   Double volCiti,
-                                   Double volBackCity,
-                                   Double volBackVos15,
-                                   Double cleanWaterSupply,
-                                   Double pressureCity,
-                                   Double pressureBackCity,
-                                   Double pressureBackVos15) {
-        DataVos5 prevData = dataRep5.getPrevData(date);
-        double deltaCleanWaterSupply = 0;
-        if (prevData != null) deltaCleanWaterSupply = cleanWaterSupply - prevData.getCleanWaterSupply();
-
-        return new DataVos5(id, userId, date,
-                volExtract, volCiti,
-                volBackCity, volBackVos15,
-                cleanWaterSupply, deltaCleanWaterSupply,
-                pressureCity, pressureBackCity, pressureBackVos15);
     }
 }
