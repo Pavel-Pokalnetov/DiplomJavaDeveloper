@@ -10,7 +10,6 @@ import ru.slenergo.AppMonitoring.model.DataSummary;
 import ru.slenergo.AppMonitoring.services.ReportService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class ReportController {
             model.addAttribute("message","Выберите дату отчета");
         } else {
             model.addAttribute("currentdate",date);
-            if(reportService.existReportByDate(date)) {
+            if(reportService.existsReportByDate(date)) {
                 System.out.println(1);
                 model.addAttribute("isReportExist",true);
                 model.addAttribute("dataList", reportService.getSummaryReportByDay(date));

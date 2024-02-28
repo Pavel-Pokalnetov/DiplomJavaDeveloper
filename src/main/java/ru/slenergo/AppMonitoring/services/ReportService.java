@@ -80,9 +80,9 @@ public class ReportService {
      * @param date -дата LocalDateTime
      * @return
      */
-    public boolean existReportByDate(LocalDate date) {
+    public boolean existsReportByDate(LocalDate date) {
         LocalDateTime localDate = date.atStartOfDay();
-        return !dataRepositorySummary.getDataSummaryByDateBetween(localDate, localDate.plusHours(23)).isEmpty();
+        return dataRepositorySummary.existsByDateBetween(localDate, localDate.plusHours(23));
     }
 
     /**
@@ -92,7 +92,7 @@ public class ReportService {
      * @return
      */
     public List<DataSummary> getSummaryReportByDay(LocalDate date) {
-        if (existReportByDate(date)) {
+        if (existsReportByDate(date)) {
             LocalDateTime dateBegin = date.atStartOfDay();
             LocalDateTime dateEnd = dateBegin.plusHours(23);
             return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin, dateEnd);

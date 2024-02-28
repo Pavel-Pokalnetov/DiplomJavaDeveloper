@@ -28,6 +28,18 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     @Query("SELECT d FROM DataVos5 d where d.date> :date ORDER BY d.date ASC LIMIT 1")
     DataVos5 getNextData(@Param("date") LocalDateTime date);
 
+    /**
+     * Получить предыдущий запас воды
+     */
+    @Query("select d.cleanWaterSupply from DataVos5 d where d.date<:date order by d.date desc limit 1")
+    Double getPrevCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
+
+    /**
+     * Получить следующий запас воды
+     */
+    @Query("select d.cleanWaterSupply from DataVos5 d where d.date>:date order by d.date asc limit 1")
+    Double getNextCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
+
 
     /**
      * Проверка наличия записи с заданной датой
@@ -38,12 +50,14 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
      */
     boolean existsByDate(LocalDateTime date);
 
-    /** Получить запись на указанную дату и время
+    /**
+     * Получить запись на указанную дату и время
      */
     DataVos5 getDataVos5ByDate(LocalDateTime date);
 
     /**
-     *  Получить все записи начиная с указанной даты сортировка по возрастанию даты
+     * Получить все записи начиная с указанной даты сортировка по возрастанию даты
+     *
      * @param date заданная дата и время LocalDateTime
      * @return список DataVos5
      */

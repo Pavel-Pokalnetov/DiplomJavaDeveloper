@@ -58,7 +58,7 @@ public class InputDataController {
                     pressureBackCity,
                     pressureBackVos15);
             model.addAttribute("result",
-                    dataServiceVOS5.saveDataToDbVos5(dataVos5) ?
+                    dataServiceVOS5.saveDataVos5(dataVos5) ?
                             "Запись добавлена" :
                             "Ошибка записи. Обратитесь к администратору.");
         } catch (PrematureEntryException e) {
@@ -99,7 +99,7 @@ public class InputDataController {
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
                                  Model model) {
-        if (dataServiceVOS5.updateDataVos5(
+        if (dataServiceVOS5.updateAndSaveDataVos5ByDate(
                 id, userId,
                 date, volExtract,
                 volCiti, volBackCity, volBackVos15,

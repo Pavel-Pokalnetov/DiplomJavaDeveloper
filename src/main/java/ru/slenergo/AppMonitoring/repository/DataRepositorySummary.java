@@ -13,7 +13,10 @@ import java.util.List;
 public interface DataRepositorySummary extends ListCrudRepository<DataSummary, Long> {
     List<DataSummary> getDataSummaryByDateBetween(LocalDateTime date, LocalDateTime date2);
 
-@Transactional
-    void deleteDataSummaryByDateBetween(LocalDateTime dateStart,LocalDateTime dateEnd);
+    @Transactional
+    void deleteDataSummaryByDateBetween(LocalDateTime dateStart, LocalDateTime dateEnd);
 
+
+    boolean existsByDateBetween(LocalDateTime date1,LocalDateTime date2);
 }
+

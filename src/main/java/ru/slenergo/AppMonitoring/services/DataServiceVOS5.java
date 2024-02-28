@@ -4,13 +4,14 @@ package ru.slenergo.AppMonitoring.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
-import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DataServiceVOS5 {
@@ -26,18 +27,12 @@ public class DataServiceVOS5 {
         return dataRep5.findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
     }
 
-    /**
-     * Получить последнюю запись для ВОС5000
-     */
-    public DataVos5 getLastDataItemVos5() {
-        return dataRep5.findLastItem();
-    }
 
     /**
      * Запись в базу данных для ВОС5000
      */
     @Transactional
-    public boolean saveDataToDbVos5(DataVos5 dataVos5) {
+    public boolean saveDataVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
             updateNextDataCleanWaterSupply(dataVos5);
@@ -73,8 +68,6 @@ public class DataServiceVOS5 {
      * @param pressureCity      - давление в трубопроводе в город
      * @param pressureBackCity  - давление в трубопроводе обратка из города
      * @param pressureBackVos15 - давление в трубопроводе обратка от ВОС15000
-     * @return DataVos5
-     * @throws PrematureEntryException
      */
     public DataVos5 createDataVos5(LocalDateTime date, Double volExtract, Double volCiti,
                                    Double volBackCity, Double volBackVos15, Double cleanWaterSupply,
@@ -86,12 +79,7 @@ public class DataServiceVOS5 {
             throw new PrematureEntryException(date);
         }
         DataVos5 dataVos5 = new DataVos5();
-        DataVos5 dataPrev = dataRep5.getPrevData(date); //находим предыдущую запись
-        Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
-        if (dataPrev != null) {
-            // если запись есть по устанавливаем новое значение предыдущего запаса воды
-            lostCleanWaterSupply = dataPrev.getCleanWaterSupply();
-        }
+        Double lostCleanWaterSupply = getPrevCleanWaterSuply(date);//предыдущий запас воды
 
         dataVos5.setUserId(1L);
         dataVos5.setDate(date);
@@ -107,25 +95,54 @@ public class DataServiceVOS5 {
         return dataVos5;
     }
 
+    /** Получить предыдущее значение запаса воды
+     * @param date - время перед которым ищется запись
+     * @return предыдущий запас воды или 0.0
+     */
+    private Double getPrevCleanWaterSuply(LocalDateTime date) {
+        Double cleanWaterSupply = dataRep5.getPrevCleanWaterSupplyByDate(date);
+        return Objects.requireNonNullElse(cleanWaterSupply, 0.0);
+    }
 
-    public boolean updateDataVos5(
+
+    /** Обновить запись указанными параметрами из запроса (ключевое поле - date)
+     * @param id
+     * @param userId
+     * @param date
+     * @param volExtract
+     * @param volCiti
+     * @param volBackCity
+     * @param volBackVos15
+     * @param cleanWaterSupply
+     * @param pressureCity
+     * @param pressureBackCity
+     * @param pressureBackVos15
+     */
+    public boolean updateAndSaveDataVos5ByDate(
             Long id, Long userId,
             LocalDateTime date,
             Double volExtract, Double volCiti, Double volBackCity, Double volBackVos15,
             Double cleanWaterSupply,
             Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         DataVos5 updateData = dataRep5.getDataVos5ByDate(date);
-        updateData.update(id,userId,date,volExtract,volCiti,volBackCity,volBackVos15,cleanWaterSupply,pressureCity,pressureBackCity,pressureBackVos15);
-        return updateDataVos5(updateData);
+        Double deltaCleanWaterSupply = cleanWaterSupply - getPrevCleanWaterSuply(date);
+        updateData.update(id, userId, date, volExtract, volCiti, volBackCity, volBackVos15, cleanWaterSupply, deltaCleanWaterSupply, pressureCity, pressureBackCity, pressureBackVos15);
+        return updateAndSaveDataVos5ByDate(updateData);
     }
 
 
-    private boolean updateDataVos5(DataVos5 dataVos5) {
+    /**
+     * Обновление записи в базе с параллельным обновлением строки сводного отчета
+     *
+     * @param dataVos5
+     * @return
+     */
+    private boolean updateAndSaveDataVos5ByDate(DataVos5 dataVos5) {
         try {
-            dataRep5.deleteById(dataVos5.getId());//удаляем старую запись
+//            dataRep5.deleteById(dataVos5.getId());//удаляем старую запись
             dataRep5.saveAndFlush(dataVos5);//добавляем измененную
             updateNextDataCleanWaterSupply(dataVos5); //обновляем значение раста запаса РЧВ в следующей по времени, существующей записи
-            reportService.saveDataSummaryOneRecord(dataVos5.getDate());//обновляем соответствующую запись сводного отчета
+            reportService.recalcSummaryReportByDate(dataVos5.getDate());//обновляем соответствующую запись сводного отчета
             return true;
         } catch (Exception e) {
             return false;

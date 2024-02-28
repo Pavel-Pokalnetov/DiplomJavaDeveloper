@@ -67,7 +67,7 @@ public class DataVos5 {
      */
     public DataVos5 update(Long id, Long userId, LocalDateTime date,
                            Double volExtract, Double volCiti, Double volBackCity, Double volBackVos15,
-                           Double cleanWaterSupply,
+                           Double cleanWaterSupply,Double deltaCleanWaterSupply,
                            Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         this.setId(id);
         this.setUserId(userId);
@@ -76,6 +76,7 @@ public class DataVos5 {
         this.setVolCity(volCiti);
         this.setVolBackCity(volBackCity);
         this.setVolBackVos15(volBackVos15);
+        this.setCleanWaterSupply(cleanWaterSupply);
         this.setCleanWaterSupply(cleanWaterSupply);
         this.setPressureCity(pressureCity);
         this.setPressureBackCity(pressureBackCity);
