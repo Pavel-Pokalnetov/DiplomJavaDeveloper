@@ -2,6 +2,7 @@ package ru.slenergo.AppMonitoring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.slenergo.AppMonitoring.configuration.StaticTools;
 
 import java.time.LocalDateTime;
 
@@ -26,6 +27,7 @@ public class DataVos5 {
     private Double volExtract;
     @Column
     private Double volCity;
+
     @Column
     private Double volBackCity;
     @Column
@@ -45,14 +47,14 @@ public class DataVos5 {
      * @return
      */
     public Double getDeltaCleanWaterSupplyCalculated() {
-        return getVolAll() - volCity;
+        return StaticTools.dropSmallDecimalPart(getVolAll() - volCity,1);
     }
 
     /** Общий приход воды
      * @return
      */
     public Double getVolAll() {
-        return volExtract + volBackCity + volBackVos15;
+        return StaticTools.dropSmallDecimalPart(volExtract + volBackCity + volBackVos15,1);
     }
 
     /** Представление времени для табличного вывода
@@ -77,7 +79,7 @@ public class DataVos5 {
         this.setVolBackCity(volBackCity);
         this.setVolBackVos15(volBackVos15);
         this.setCleanWaterSupply(cleanWaterSupply);
-        this.setCleanWaterSupply(cleanWaterSupply);
+        this.setDeltaCleanWaterSupply(deltaCleanWaterSupply);
         this.setPressureCity(pressureCity);
         this.setPressureBackCity(pressureBackCity);
         this.setPressureBackVos15(pressureBackVos15);

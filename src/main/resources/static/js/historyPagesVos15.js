@@ -1,39 +1,3 @@
-var countDown = 300;
-
-function countdown() {
-    setInterval(function () {
-        if (countDown == 0) {
-            location.reload();
-        } else {
-            countDown--;
-            document.getElementById('refreshCounter').innerHTML = countDown;
-        }
-    }, 1000);
-}
-
-countdown();
-
-window.onload = function () {
-    window.setInterval(function () {
-        var options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            timezone: 'UTC'
-        };
-        var currentDate = new Date()
-        var clock = document.getElementById("current-clock");
-        var date = document.getElementById("current-date");
-        // clock.innerHTML = currentDate.toLocaleDateString("ru",options);
-
-
-        date.innerHTML = currentDate.toLocaleTimeString("ru", options);
-    }, 100);
-
-
-};
-
-
 anychart.onDocumentReady(function () {
 
     // Получаем элемент таблицы
@@ -75,6 +39,7 @@ anychart.onDocumentReady(function () {
     let volCity = dataSet.mapAs({x: 0, value: 4});
     let cleanWaterSupply = dataSet.mapAs({x: 0, value: 5});
     let deltaCleanWaterSupplyCalc = dataSet.mapAs({x: 0, value: 6});
+   // let deltaCleanWaterSupply = dataSet.mapAs({x: 0, value: 5});
     let pressureCity = dataSet.mapAs({x: 0, value: 8});
 
     // создайте линейную диаграмму
@@ -89,7 +54,7 @@ anychart.onDocumentReady(function () {
     volCitySeries.name("Подача в город");
 
     var cleanWaterSupplySeries = chart.line(cleanWaterSupply);
-    cleanWaterSupplySeries.name("Запас в РЧВ (* 0.1)");
+    cleanWaterSupplySeries.name("Запас в РЧВ");
 
     var deltaCleanWaterSupplyCalcSeries = chart.line(deltaCleanWaterSupplyCalc);
     deltaCleanWaterSupplyCalcSeries.name("Рост запаса в РЧВ расчетный");
@@ -110,7 +75,7 @@ anychart.onDocumentReady(function () {
     chartP.title("Напор в трубопроводах");
 
     // названия  осей
-    chart.yAxis().title("М³");
+    chart.yAxis().title("М");
     chart.xAxis().title("Время");
 
     chartP.yAxis().title("М");

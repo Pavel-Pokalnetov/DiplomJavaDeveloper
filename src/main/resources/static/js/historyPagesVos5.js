@@ -1,32 +1,3 @@
-let countDown = 300;
-
-function countdown() {
-    setInterval(function () {
-        if (countDown === 0) {
-            location.reload();
-        } else {
-            countDown--;
-            document.getElementById('refreshCounter').innerHTML = countDown;
-        }
-    }, 1000);
-}
-
-countdown();
-
-window.onload = function () {
-    window.setInterval(function () {
-        let options = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            timezone: 'UTC'
-        };
-        let currentDate = new Date()
-        let date = document.getElementById("current-date");
-        date.innerHTML = currentDate.toLocaleTimeString("ru", options);
-    }, 100);
-};
-
 //отрисовка графиков
 anychart.onDocumentReady(function () {
     // Получаем элемент таблицы
@@ -47,7 +18,7 @@ anychart.onDocumentReady(function () {
             let tempvol = table.rows[i].cells[j].innerText
 
             switch (j) {
-                case 6:
+                case 6: 
                     tempvol /= 10;// сжатия графика для "Запас в РЧВ"
                     break;
                 case 9:
@@ -55,7 +26,6 @@ anychart.onDocumentReady(function () {
                 case 11:
                     tempvol *= 9.8;
                     break;
-
             }
             // console.log(j, tempvol)
             rowData.push(tempvol);
@@ -83,8 +53,8 @@ anychart.onDocumentReady(function () {
 
 
     // создайте линейную диаграмму
-    let chart = anychart.line();
-    let chartP = anychart.line();
+    let chart = anychart.line(); //графики расходов и запаса
+    let chartP = anychart.line(); //графики давлений
 
     // ссоздаем серии и называем их
     let volExtractSeries = chart.line(volExtract);
@@ -103,7 +73,7 @@ anychart.onDocumentReady(function () {
     volCitySeries.name("Подача в город");
 
     let cleanWaterSupplySeries = chart.line(cleanWaterSupply);
-    cleanWaterSupplySeries.name("Запас в РЧВ *0.01");
+    cleanWaterSupplySeries.name("Запас в РЧВ(*0,01)");
 
     // let deltaCleanWaterSupplySeries = chart.line(deltaCleanWaterSupply);
     // deltaCleanWaterSupplySeries.name("Запас в РЧВ *0.01 фактический");
@@ -129,7 +99,7 @@ anychart.onDocumentReady(function () {
     chart.title("Часовые расходы");
     chartP.title("Напор в трубопроводах");
 
-    // названия  осей
+    // названия осей
     chart.yAxis().title("М³");
     chart.xAxis().title("Время");
 
@@ -146,7 +116,6 @@ anychart.onDocumentReady(function () {
     volAllSeries.hovered().markers().enabled(true).type("circle").size(3);
     volCitySeries.hovered().markers().enabled(true).type("circle").size(3);
     cleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
-    // deltaCleanWaterSupplySeries.hovered().markers().enabled(true).type("circle").size(3);
     deltaCleanWaterSupplyCalcSeries.hovered().markers().enabled(true).type("circle").size(3);
     pressureCitySeries.hovered().markers().enabled(true).type("circle").size(3);
     pressureBackCitySeries.hovered().markers().enabled(true).type("circle").size(3);
@@ -162,9 +131,6 @@ anychart.onDocumentReady(function () {
     volCitySeries.stroke(function () {
         return {color: this.sourceColor, thickness: 4};
     });
-    // deltaCleanWaterSupplyCalcSeries.stroke(function () {
-    //     return {color: this.sourceColor, thickness: 4};
-    // });
 
     // включите перекрестие
     chart.crosshair().enabled(true).yStroke(null).yLabel(false);

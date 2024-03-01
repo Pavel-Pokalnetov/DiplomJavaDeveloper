@@ -122,24 +122,26 @@ public class InputDataController {
     }
 
     @RequestMapping(value = "/input/vos15", method = RequestMethod.POST)
-    public String addDataVos15(@RequestParam Double volExtract,
-                               @RequestParam LocalDateTime date,
-                               @RequestParam Double volCiti,
+    public String addDataVos15(@RequestParam LocalDateTime date,
+                               @RequestParam Double volExtract,
+                               @RequestParam Double volLeftCity,
+                               @RequestParam Double volRightCity,
                                @RequestParam Double cleanWaterSupply,
                                @RequestParam Double pressureCity,
                                Model model) {
         DataVos15 dataVos15;
+
         try {
             dataVos15 = dataServiceVOS15.createDataVos15(
                     date,
                     volExtract,
-                    volCiti,
+                    volLeftCity, volRightCity,
                     cleanWaterSupply,
                     pressureCity);
             model.addAttribute("result",
-                    dataServiceVOS15.saveDataToDbVos15(dataVos15) ?
+                    dataServiceVOS15.saveDataVos15(dataVos15) ?
                             "Запись добавлена" :
-                            "Ошибка записи. Обратитесь к администратру.");
+                            "Ошибка записи. Обратитесь к администратору.");
         } catch (PrematureEntryException e) {
             // если данные за текущий час уже были добавлены в базу
             model.addAttribute("result",
@@ -154,7 +156,8 @@ public class InputDataController {
                                   @RequestParam Long userId,
                                   @RequestParam LocalDateTime date,
                                   @RequestParam Double volExtract,
-                                  @RequestParam Double volCiti,
+                                  @RequestParam Double volLeftCity,
+                                  @RequestParam Double volRightCity,
                                   @RequestParam Double cleanWaterSupply,
                                   @RequestParam Double pressureCity,
                                   Model model) {
@@ -164,10 +167,10 @@ public class InputDataController {
                 userId,
                 date,
                 volExtract,
-                volCiti,
+                volLeftCity,volRightCity,
                 cleanWaterSupply,
                 pressureCity);
-        if (dataServiceVOS15.updateDataVos15(dataVos15)) {
+        if (dataServiceVOS15.updateAndSaveDataVos15ByDate(dataVos15)) {
             model.addAttribute("result", "Данные обновлены\n");
         } else {
             model.addAttribute("result", "Приобновлении данных произошла ошибка");

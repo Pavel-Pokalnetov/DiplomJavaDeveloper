@@ -44,4 +44,17 @@ public interface DataRepositoryVos15 extends JpaRepository<DataVos15, Long> {
      */
     List<DataVos15> findDataVos15sByDateIsAfterOrderByDateAsc(LocalDateTime date);
 
+    /**
+     * Получить предыдущий запас воды
+     */
+    @Query("select d.cleanWaterSupply from DataVos15 d where d.date<:date order by d.date desc limit 1")
+    Double getPrevCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
+
+    /**
+     * Получить следующий запас воды
+     */
+    @Query("select d.cleanWaterSupply from DataVos15 d where d.date>:date order by d.date asc limit 1")
+    Double getNextCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
+
+    List<DataVos15> findDataVos15sByDateBetweenOrderByDateAsc(LocalDateTime date, LocalDateTime date2);
 }

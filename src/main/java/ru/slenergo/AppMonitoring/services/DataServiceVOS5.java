@@ -1,6 +1,5 @@
 package ru.slenergo.AppMonitoring.services;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,22 +20,21 @@ public class DataServiceVOS5 {
     ReportService reportService;
 
     /**
-     * Получить данные для ВОС5000 за последние 24 часа
+     * Получить данные за текущий день
      */
     public List<DataVos5> getCurrentDayVos5() {
         return dataRep5.findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
     }
 
-
     /**
-     * Запись в базу данных для ВОС5000
+     * Запись в базу данных
      */
     @Transactional
     public boolean saveDataVos5(DataVos5 dataVos5) {
         try {
             dataRep5.saveAndFlush(dataVos5);
             updateNextDataCleanWaterSupply(dataVos5);
-            reportService.saveDataSummaryOneRecord(dataVos5.getDate());
+            reportService.recalcSummaryReportByDate(dataVos5.getDate());
             return true;
         } catch (Exception e) {
             return false;
@@ -78,6 +76,7 @@ public class DataServiceVOS5 {
             //проверка на повторное добавление записи
             throw new PrematureEntryException(date);
         }
+
         DataVos5 dataVos5 = new DataVos5();
         Double lostCleanWaterSupply = getPrevCleanWaterSuply(date);//предыдущий запас воды
 
@@ -95,7 +94,9 @@ public class DataServiceVOS5 {
         return dataVos5;
     }
 
-    /** Получить предыдущее значение запаса воды
+    /**
+     * Получить предыдущее значение запаса воды
+     *
      * @param date - время перед которым ищется запись
      * @return предыдущий запас воды или 0.0
      */
@@ -105,7 +106,9 @@ public class DataServiceVOS5 {
     }
 
 
-    /** Обновить запись указанными параметрами из запроса (ключевое поле - date)
+    /**
+     * Обновить запись указанными параметрами из запроса (ключевое поле - date)
+     *
      * @param id
      * @param userId
      * @param date
@@ -151,5 +154,9 @@ public class DataServiceVOS5 {
 
     public DataVos5 getDataVos5ById(long id) {
         return dataRep5.findById(id).orElse(null);
+    }
+
+    public List<DataVos5> getDataVos5ByDay(LocalDateTime date) {
+        return dataRep5.findDataVos5sByDateBetweenOrderByDateAsc(date,date.plusHours(23));
     }
 }

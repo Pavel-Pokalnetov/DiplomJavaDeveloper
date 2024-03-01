@@ -4,13 +4,15 @@ package ru.slenergo.AppMonitoring.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.slenergo.AppMonitoring.model.DataVos15;
-import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
 import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.model.DataVos15;
+import ru.slenergo.AppMonitoring.model.DataVos5;
+import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DataServiceVOS15 {
@@ -31,11 +33,11 @@ public class DataServiceVOS15 {
      * Запись в базу данных
      */
     @Transactional
-    public boolean saveDataToDbVos15(DataVos15 dataVos15) {
+    public boolean saveDataVos15(DataVos15 dataVos15) {
         try {
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
-            reportService.saveDataSummaryOneRecord(dataVos15.getDate());
+            reportService.recalcSummaryReportByDate(dataVos15.getDate());
             return true;
         } catch (Exception e) {
             return false;
@@ -55,6 +57,8 @@ public class DataServiceVOS15 {
         }
     }
 
+
+
     /**
      * Создание записи по данным из формы с проверкой на повторный ввод
      *
@@ -66,11 +70,8 @@ public class DataServiceVOS15 {
      * @return DataVos15
      * @throws PrematureEntryException
      */
-    public DataVos15 createDataVos15(LocalDateTime date,
-                                     Double volExtract,
-                                     Double volCiti,
-                                     Double cleanWaterSupply,
-                                     Double pressureCity)
+    public DataVos15 createDataVos15(LocalDateTime date, Double volExtract, Double volLeftCity, Double volRightCity,
+                                     Double cleanWaterSupply, Double pressureCity)
             throws PrematureEntryException {
         date = date.truncatedTo(ChronoUnit.HOURS); //усечение времени до часа (отбрасываем все что меньше часа)
         /* проверка на повторное добавление записи в текущем часе*/
@@ -78,30 +79,23 @@ public class DataServiceVOS15 {
             throw new PrematureEntryException(date);
         }
         DataVos15 dataVos15 = new DataVos15();
-        DataVos15 dataPrev = dataRep15.getPrevData(date); //находим предыдущую запись
-        Double lostCleanWaterSupply = 0.0; //предыдущий запас воды
-        if (dataPrev != null) {
-            // если предыдущая по времени запись есть, то устанавливаем новое значение предыдущего запаса воды
-            lostCleanWaterSupply = dataPrev.getCleanWaterSupply();
-        }
-        dataVos15.setUserId(2L);
-        dataVos15.setDate(date);
-        dataVos15.setVolExtract(volExtract);
-        dataVos15.setVolCity(volCiti);
-        dataVos15.setCleanWaterSupply(cleanWaterSupply);
-        dataVos15.setPressureCity(pressureCity);
-        dataVos15.setDeltaCleanWaterSupply(dataVos15.getCleanWaterSupply() - lostCleanWaterSupply);
-        return dataVos15;
+        return dataVos15.update(
+                dataVos15.getId(),
+                2L,
+                date,
+                volExtract,
+                volLeftCity,
+                volRightCity,
+                cleanWaterSupply,
+                pressureCity);
     }
 
 
-    public boolean updateDataVos15(DataVos15 dataVos15) {
+    public boolean updateAndSaveDataVos15ByDate(DataVos15 dataVos15) {
         try {
-            dataRep15.deleteById(dataVos15.getId());
-
             dataRep15.saveAndFlush(dataVos15);
             updateNextDataCleanWaterSupply(dataVos15);
-            reportService.saveDataSummaryOneRecord(dataVos15.getDate());
+            reportService.recalcSummaryReportByDate(dataVos15.getDate());
             return true;
         } catch (Exception e) {
             return false;
@@ -126,9 +120,10 @@ public class DataServiceVOS15 {
      * @return - dataVos15
      */
     public DataVos15 createDataVos15(Long id, Long userId, LocalDateTime date,
-                                     Double volExtract, Double volCiti,
+                                     Double volExtract, Double volLeftCiti, Double volRightCity,
                                      Double cleanWaterSupply,
                                      Double pressureCity) {
+
         DataVos15 prevData = dataRep15.getPrevData(date);
         Double deltaCleanWaterSupply;
         if (prevData != null) {
@@ -138,22 +133,12 @@ public class DataServiceVOS15 {
         }
 
         return new DataVos15(id, userId, date,
-                volExtract, volCiti,
+                volExtract, volLeftCiti, volRightCity,
                 cleanWaterSupply, deltaCleanWaterSupply,
                 pressureCity);
     }
 
-/*
-    /**
-     * Проверка двух моментов вермени на принадлежностьк одному часу
-     *
-     * @param date        - дата1
-     * @param dateToCheck - дата2
-     * @return - true, если обе даты находятся в одном астрономическом часе
-     * (23:00 и 23:59 дадут true, 23:00 и 22:59 - дадут false
-     * /
-    private boolean isHourDateInHourNow(LocalDateTime date, LocalDateTime dateToCheck) {
-        return (date == dateToCheck);
+    public List<DataVos15> getDataVos15ByDay(LocalDateTime date) {
+        return dataRep15.findDataVos15sByDateBetweenOrderByDateAsc(date,date.plusHours(23));
     }
-*/
 }

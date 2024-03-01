@@ -51,8 +51,7 @@
                         <td th:text="${data.getVolCity()}">-</td>
                         <td th:text="${data.getCleanWaterSupply()}">-</td>
                         <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
-                        <td th:text="${data.getDeltaCleanWaterSupply()}"
-                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+                        <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getPressureCity()}"></td>
                         <td th:text="${data.getPressureBackCity()}"></td>
                         <td th:text="${data.getPressureBackVos15()}"></td>

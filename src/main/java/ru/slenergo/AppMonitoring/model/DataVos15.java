@@ -1,25 +1,25 @@
 package ru.slenergo.AppMonitoring.model;
 
 import jakarta.persistence.*;
-import lombok.*;
-
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import ru.slenergo.AppMonitoring.configuration.StaticTools;
 
 import java.time.LocalDateTime;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateTimeFull;
 import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
 
 
 /**
  * Запись часового расхода по станции ВОС15000
- *
  */
 @Entity
 @Data
 @Getter
 @Setter
 @Table(name = "datavos15")
-@AllArgsConstructor
 @NoArgsConstructor
 public class DataVos15 {
     @Id
@@ -34,30 +34,52 @@ public class DataVos15 {
     @Column
     private Double volCity;
     @Column
+    private Double volLeftCity;
+    @Column
+    private Double volRightCity;
+
+    @Column
     private Double cleanWaterSupply;
     @Column
     private Double deltaCleanWaterSupply;
     @Column
     private Double pressureCity;
 
-    public Double getDeltaCleanWaterSupplyCalculated(){
-        return volExtract - volCity;
+    public DataVos15(Long id, Long userId, LocalDateTime date, Double volExtract, Double volLeftCity, Double volRightCity, Double cleanWaterSupply, Double deltaCleanWaterSupply, Double pressureCity) {
+        this.id = id;
+        this.userId = userId;
+        this.date = date;
+        this.volExtract = volExtract;
+        this.volCity = volLeftCity + volRightCity;
+        this.volLeftCity = volLeftCity;
+        this.volRightCity = volRightCity;
+        this.cleanWaterSupply = cleanWaterSupply;
+        this.deltaCleanWaterSupply = deltaCleanWaterSupply;
+        this.pressureCity = pressureCity;
     }
+
+    public Double getDeltaCleanWaterSupplyCalculated() {
+        return StaticTools.dropSmallDecimalPart(volExtract - volCity, 1);
+    }
+
 
     public String getDateT() {
         return date.format(formatterTimeOnly);
     }
 
     public DataVos15 update(Long id, Long userId, LocalDateTime date,
-                           Double volExtract, Double volCiti,
-                           Double cleanWaterSupply,
-                           Double pressureCity) {
+                            Double volExtract, Double volLeftCity, Double volRightCity,
+                            Double cleanWaterSupply,
+                            Double pressureCity) {
         this.setId(id);
         this.setUserId(userId);
         this.setDate(date);
         this.setVolExtract(volExtract);
-        this.setVolCity(volCiti);
+        this.setVolCity(volLeftCity + volRightCity);
+        this.setVolLeftCity(volLeftCity);
+        this.setVolRightCity(volRightCity);
         this.setCleanWaterSupply(cleanWaterSupply);
+        this.setDeltaCleanWaterSupply(getDeltaCleanWaterSupplyCalculated());
         this.setPressureCity(pressureCity);
         return this;
     }

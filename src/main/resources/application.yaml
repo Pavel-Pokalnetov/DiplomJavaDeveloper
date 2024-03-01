@@ -13,8 +13,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: false
-  web:
-    resources:
-      cache:
-        cachecontrol:
-          max-age: 7d
+#  web:
+#    resources:
+#      cache:
+#        cachecontrol:
+#          max-age: 1d

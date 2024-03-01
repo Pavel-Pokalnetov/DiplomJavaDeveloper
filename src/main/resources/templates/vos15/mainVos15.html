@@ -30,26 +30,29 @@
                     <tr>
                         <th>Время</th>
                         <th>Добыча воды<br>со скважин</th>
-                        <th>Объем<br>подачи в город</th>
+                        <th>Подача в город<br>левая нитка</th>
+                        <th>Подача в город<br>правая нитка</th>
+                        <th>Подача в город</th>
                         <th>Запас<br>в РЧВ</th>
                         <th>Рост запаса<br> в РЧВ расчетный</th>
-                        <th>Рост запаса<br> в РЧВ фактический</th>
+                        <th>Запас<br> в РЧВ расчетный</th>
                         <th>Давление<br>подачи в город</th>
                         <th></th>
-
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="data:${dataVos15}">
                         <td th:text="${data.getDateT()}"></td>
                         <td th:text="${data.getVolExtract()}"></td>
+                        <td th:text="${data.getVolLeftCity()}"></td>
+                        <td th:text="${data.getVolRightCity()}"></td>
                         <td th:text="${data.getVolCity()}"></td>
                         <td th:text="${data.getCleanWaterSupply()}"></td>
                         <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
-                        <td th:text="${data.getDeltaCleanWaterSupply()}"
-                            th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>
+                        <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getPressureCity()}"></td>
-                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary" title="Изменить">&#9998;</a></td>
+                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}"
+                               class="btn btn-sm btn-outline-primary" title="Изменить">&#9998;</a></td>
                     </tr>
                     </tbody>
                 </table>
