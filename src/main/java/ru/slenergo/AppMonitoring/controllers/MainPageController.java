@@ -40,4 +40,5 @@ public class MainPageController {
     public String indexPage(){
         return "redirect:/index.html";
     }
+
 }

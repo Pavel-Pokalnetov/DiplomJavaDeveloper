@@ -1,11 +1,10 @@
-package ru.slenergo.AppMonitoring.configuration;
+package ru.slenergo.AppMonitoring.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,11 +27,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home").permitAll()
-                        .requestMatchers("/public-data").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/private-data").hasAnyRole("ADMIN")
+                        .requestMatchers("/","/js/**","/css/**","/index.html",
+                                "/main/vos5",
+                                "/main/vos15",
+                                "/report/**",
+                                "/history",
+                                "/history/**"
+                        ).permitAll()
+                        .requestMatchers("/input/vos5","/update/vos5").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers("/input/vos15","/update/vos15").hasAnyRole("VOS15", "ADMIN")
                         .anyRequest().authenticated()
                 )
+                
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
@@ -49,21 +55,27 @@ public class WebSecurityConfig {
      */
     @Bean
     public UserDetailsService userDetailsService() {
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username("user")
-                        .password("user")
-                        .roles("USER")
-                        .build();
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
+                .username("vos5000")
+                .password("123456")
+                .roles("VOS5")
+                .build());
 
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username("admin")
-                        .password("admin")
-                        .roles("ADMIN")
-                        .build();
+        inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
+                .username("vos15000")
+                .password("123456")
+                .roles("VOS15")
+                .build());
 
-        return new InMemoryUserDetailsManager(user, admin);
+        inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("Admin12345")
+                .roles("ADMIN")
+                .build());
+
+
+        return inMemoryUserDetailsManager;
     }
 
 }

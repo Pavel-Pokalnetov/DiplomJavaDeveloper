@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.configuration;
+package ru.slenergo.AppMonitoring.security;
 
 
 
