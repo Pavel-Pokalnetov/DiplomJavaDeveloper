@@ -41,4 +41,8 @@ public class MainPageController {
         return "redirect:/index.html";
     }
 
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login.html";
+    }
 }

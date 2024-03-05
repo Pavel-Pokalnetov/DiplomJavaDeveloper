@@ -128,6 +128,7 @@ public class InputDataController {
     }
 
     @RequestMapping(value = "/input/vos15", method = RequestMethod.POST)
+    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String addDataVos15(@RequestParam LocalDateTime date,
                                @RequestParam Double volExtract,
                                @RequestParam Double volLeftCity,

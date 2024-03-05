@@ -28,21 +28,27 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                        "/index.html","/js/**","/css/**","/*.ico","/",
+                        "/index.html","/js/**","/css/**","/favicon.ico","/",
                         "/main/**",
                         "/report/**",
                         "/history/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/input/vos5",
+                                "/update/vos5",
                                 "/update/vos5/**").hasAnyRole("VOS5","ADMIN")
                         .requestMatchers(
                                 "/input/vos15",
+                                "/update/vos15",
                                 "/update/vos15/**").hasAnyRole("VOS15","ADMIN")
                         .anyRequest().authenticated()
                 ).formLogin((loginForm)->loginForm
                 .loginPage("/login")
-                .permitAll());
+                .permitAll())
+                .logout((logout) -> logout
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
 
         return http.build();
     }
