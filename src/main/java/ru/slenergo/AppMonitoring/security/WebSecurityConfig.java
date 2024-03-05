@@ -4,12 +4,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Конфигурация безопасности веб-приложения.
@@ -27,36 +28,39 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> requests
+
+        http
+                .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                        "/*.html","/js/*.js","/css/*.css","/*.ico","/",
-                        "/main/**",
-                        "/report/**",
-                        "/history/**"
+                                "/*.html", "/js/*.js", "/css/*.css", "/*.ico", "/",
+                                "/main/**",
+                                "/report/**",
+                                "/history/**"
                         ).permitAll()
 
                         .requestMatchers(
                                 "/input/vos5",
                                 "/update/vos5",
-                                "/update/vos5/**").hasAnyRole("VOS5","ADMIN")
+                                "/update/vos5/**").hasAnyRole("VOS5", "ADMIN")
 
                         .requestMatchers(
                                 "/input/vos15",
                                 "/update/vos15",
-                                "/update/vos15/**").hasAnyRole("VOS15","ADMIN")
+                                "/update/vos15/**").hasAnyRole("VOS15", "ADMIN")
 
                         .anyRequest().authenticated()
                 )
 
-
                 .formLogin((loginForm)->loginForm
                 .loginPage("/login")
-                .permitAll())
+                .permitAll());
 
-                .logout((logout) -> logout
+        http.logout(
+                logout->logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/")
                         .permitAll()
-                );
+        );
 
         return http.build();
     }

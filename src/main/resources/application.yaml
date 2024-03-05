@@ -17,4 +17,4 @@ spring:
     resources:
       cache:
         cachecontrol:
-          max-age: 1d
+          max-age: 365d

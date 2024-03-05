@@ -6,7 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
@@ -43,15 +42,18 @@ public class MainPageController {
     }
 
     @GetMapping("/")
-    public String indexPage(){
-        return "redirect:/index.html";
+    public String indexPage(Model model) {
+        sendAuthUserToModel(model);
+        return "index";
     }
 
     @GetMapping("/login")
     public String loginPage(Model model){
         sendAuthUserToModel(model);
-        return "login.html";
+        return "login";
     }
+
+
 
     private static void sendAuthUserToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
