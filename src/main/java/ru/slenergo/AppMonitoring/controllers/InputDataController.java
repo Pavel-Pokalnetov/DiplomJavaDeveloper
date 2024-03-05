@@ -26,7 +26,7 @@ public class InputDataController {
     /**
      * Форма ввода записи для ВОС5000
      */
-    @GetMapping("/input/vos5")
+    @GetMapping("/input/vos5/**")
     @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String inputDataVos5() {
         return "vos5/inputVos5";
@@ -121,7 +121,7 @@ public class InputDataController {
     /**
      * Форма ввода записи для ВОС15000
      */
-    @GetMapping("/input/vos15")
+    @GetMapping("/input/vos15/**")
     @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String inputDataVos15() {
         return "vos15/inputVos15";
