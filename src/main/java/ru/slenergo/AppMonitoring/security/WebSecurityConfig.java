@@ -28,17 +28,17 @@ public class WebSecurityConfig {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/","/js/**","/css/**","/index.html",
+//                                "/login","/logout",
                                 "/main/vos5",
                                 "/main/vos15",
                                 "/report/**",
-                                "/history",
                                 "/history/**"
                         ).permitAll()
                         .requestMatchers("/input/vos5","/update/vos5").hasAnyRole("VOS5", "ADMIN")
                         .requestMatchers("/input/vos15","/update/vos15").hasAnyRole("VOS15", "ADMIN")
                         .anyRequest().authenticated()
                 )
-                
+
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
@@ -50,27 +50,26 @@ public class WebSecurityConfig {
 
     /**
      * Создает сервис пользователей с предустановленными пользователями.
-     *
      * @return сервис пользователей с предустановленными пользователями
      */
     @Bean
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
-                .username("vos5000")
-                .password("123456")
+                .username("v5")
+                .password("v5")
                 .roles("VOS5")
                 .build());
 
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
-                .username("vos15000")
-                .password("123456")
+                .username("v15")
+                .password("v15")
                 .roles("VOS15")
                 .build());
 
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
                 .username("admin")
-                .password("Admin12345")
+                .password("admin")
                 .roles("ADMIN")
                 .build());
 
