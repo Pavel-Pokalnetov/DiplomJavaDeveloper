@@ -29,7 +29,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                        "/index.html","/js/**","/css/**","/favicon.ico","/",
+                        "/*.html","/js/*.js","/css/*.css","/*.ico","/",
                         "/main/**",
                         "/report/**",
                         "/history/**"
@@ -46,13 +46,13 @@ public class WebSecurityConfig {
                                 "/update/vos15/**").hasAnyRole("VOS15","ADMIN")
 
                         .anyRequest().authenticated()
-
                 )
 
 
                 .formLogin((loginForm)->loginForm
                 .loginPage("/login")
                 .permitAll())
+
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
                         .permitAll()
