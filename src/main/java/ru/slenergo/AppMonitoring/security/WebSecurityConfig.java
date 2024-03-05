@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 
 /**
  * Конфигурация безопасности веб-приложения.
@@ -33,16 +34,23 @@ public class WebSecurityConfig {
                         "/report/**",
                         "/history/**"
                         ).permitAll()
+
                         .requestMatchers(
                                 "/input/vos5",
                                 "/update/vos5",
                                 "/update/vos5/**").hasAnyRole("VOS5","ADMIN")
+
                         .requestMatchers(
                                 "/input/vos15",
                                 "/update/vos15",
                                 "/update/vos15/**").hasAnyRole("VOS15","ADMIN")
+
                         .anyRequest().authenticated()
-                ).formLogin((loginForm)->loginForm
+
+                )
+
+
+                .formLogin((loginForm)->loginForm
                 .loginPage("/login")
                 .permitAll())
                 .logout((logout) -> logout
@@ -61,19 +69,19 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService() {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
-                .username("v5")
-                .password("v5")
+                .username("ВОС5000")
+                .password("5")
                 .roles("VOS5")
                 .build());
 
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
-                .username("v15")
-                .password("v15")
+                .username("ВОС15000")
+                .password("15")
                 .roles("VOS15")
                 .build());
 
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
-                .username("admin")
+                .username("Admin")
                 .password("admin")
                 .roles("ADMIN")
                 .build());
