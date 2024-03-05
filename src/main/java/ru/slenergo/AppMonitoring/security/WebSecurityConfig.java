@@ -28,24 +28,21 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
-                                "/","/js/**","/css/**","/index.html",
-                                "/login","/logout",
-                                "/main/**",
-                                "/report/**",
-                                "/history/**"
+                        "/index.html","/js/**","/css/**","/*.ico","/",
+                        "/main/**",
+                        "/report/**",
+                        "/history/**"
                         ).permitAll()
                         .requestMatchers(
                                 "/input/vos5",
-                                "/update/vos5").authenticated()
+                                "/update/vos5/**").hasAnyRole("VOS5","ADMIN")
                         .requestMatchers(
                                 "/input/vos15",
-                                "/update/vos15").authenticated()
-                )
-                .formLogin((form) -> form
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout(LogoutConfigurer::permitAll);
+                                "/update/vos15/**").hasAnyRole("VOS15","ADMIN")
+                        .anyRequest().authenticated()
+                ).formLogin((loginForm)->loginForm
+                .loginPage("/login")
+                .permitAll());
 
         return http.build();
     }
