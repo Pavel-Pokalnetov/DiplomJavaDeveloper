@@ -15,6 +15,9 @@
 <div class="container">
   <div class="row">
     <h4>Авторизация</h4>
+    <p>На период тестирования<br>
+    Для ВОС5000 логин: вос5000 пароль: 5<br>
+    Для ВОС15000 логин: вос15000 пароль: 15</p>
     <p th:if="${loginError}" class="error">Неправильный логин или пароль</p>
     <form class="col-4" th:action="@{/login}" method="post">
       <label class="form-label" for="username">Логин</label>:
