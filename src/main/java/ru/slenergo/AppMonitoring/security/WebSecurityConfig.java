@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -25,25 +26,26 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/js/**","/css/**","/index.html",
-//                                "/login","/logout",
-                                "/main/vos5",
-                                "/main/vos15",
+        http.authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(
+                                "/","/js/**","/css/**","/index.html",
+                                "/login","/logout",
+                                "/main/**",
                                 "/report/**",
                                 "/history/**"
                         ).permitAll()
-                        .requestMatchers("/input/vos5","/update/vos5").hasAnyRole("VOS5", "ADMIN")
-                        .requestMatchers("/input/vos15","/update/vos15").hasAnyRole("VOS15", "ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers(
+                                "/input/vos5",
+                                "/update/vos5").authenticated()
+                        .requestMatchers(
+                                "/input/vos15",
+                                "/update/vos15").authenticated()
                 )
-
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout((logout) -> logout.permitAll());
+                .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
