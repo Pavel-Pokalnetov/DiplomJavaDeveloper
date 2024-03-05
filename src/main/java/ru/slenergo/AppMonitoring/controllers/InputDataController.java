@@ -37,7 +37,7 @@ public class InputDataController {
     @RequestMapping(value = "/input/vos5", method = RequestMethod.POST)
     public String addDataVos5(@RequestParam Double volExtract,
                               @RequestParam LocalDateTime date,
-                              @RequestParam Double volCiti,
+                              @RequestParam Double volCity,
                               @RequestParam Double volBackCity,
                               @RequestParam Double volBackVos15,
                               @RequestParam Double cleanWaterSupply,
@@ -50,7 +50,7 @@ public class InputDataController {
             dataVos5 = dataServiceVOS5.createDataVos5(
                     date,
                     volExtract,
-                    volCiti,
+                    volCity,
                     volBackCity,
                     volBackVos15,
                     cleanWaterSupply,

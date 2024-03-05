@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatterDateOnly;
+import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterDateOnly;
 
 @Controller
 @RequestMapping("/report")

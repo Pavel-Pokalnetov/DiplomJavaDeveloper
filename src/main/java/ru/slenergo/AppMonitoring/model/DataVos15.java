@@ -5,11 +5,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.slenergo.AppMonitoring.configuration.StaticTools;
+import ru.slenergo.AppMonitoring.etc.StaticTools;
 
 import java.time.LocalDateTime;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
+import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
 
 
 /**

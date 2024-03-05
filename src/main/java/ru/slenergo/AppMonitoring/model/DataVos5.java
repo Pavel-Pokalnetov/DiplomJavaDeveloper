@@ -2,11 +2,11 @@ package ru.slenergo.AppMonitoring.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.slenergo.AppMonitoring.configuration.StaticTools;
+import ru.slenergo.AppMonitoring.etc.StaticTools;
 
 import java.time.LocalDateTime;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
+import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
 
 @Entity
 @Data
@@ -27,7 +27,6 @@ public class DataVos5 {
     private Double volExtract;
     @Column
     private Double volCity;
-
     @Column
     private Double volBackCity;
     @Column
@@ -43,21 +42,30 @@ public class DataVos5 {
     @Column
     private Double pressureBackVos15;
 
-    /** Рост запаса чистой воды вычисленный
-     * @return
+    /**
+     * Рост запаса чистой воды вычисленный
      */
     public Double getDeltaCleanWaterSupplyCalculated() {
-        return StaticTools.dropSmallDecimalPart(getVolAll() - volCity,1);
+        return StaticTools.dropSmallDecimalPart(getVolAll() - volCity, 1);
     }
 
-    /** Общий приход воды
-     * @return
+    /**
+     * Общий приход воды
      */
     public Double getVolAll() {
-        return StaticTools.dropSmallDecimalPart(volExtract + volBackCity + volBackVos15,1);
+        return StaticTools.dropSmallDecimalPart(volExtract + volBackCity + volBackVos15, 1);
     }
 
-    /** Представление времени для табличного вывода
+    /**
+     * Расчетный запас воды
+     */
+    public Double getCleanWaterSupplyCalc() {
+        return StaticTools.dropSmallDecimalPart(cleanWaterSupply + getDeltaCleanWaterSupplyCalculated(), 1);
+    }
+
+    /**
+     * Представление времени для табличного вывода
+     *
      * @return the formatted date-time string, not null
      */
     public String getDateT() {
@@ -69,7 +77,7 @@ public class DataVos5 {
      */
     public DataVos5 update(Long id, Long userId, LocalDateTime date,
                            Double volExtract, Double volCiti, Double volBackCity, Double volBackVos15,
-                           Double cleanWaterSupply,Double deltaCleanWaterSupply,
+                           Double cleanWaterSupply, Double deltaCleanWaterSupply,
                            Double pressureCity, Double pressureBackCity, Double pressureBackVos15) {
         this.setId(id);
         this.setUserId(userId);

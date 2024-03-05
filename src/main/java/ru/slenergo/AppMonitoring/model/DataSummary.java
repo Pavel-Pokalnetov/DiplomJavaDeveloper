@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-import static ru.slenergo.AppMonitoring.configuration.Config.formatterTimeOnly;
+import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
 
 @Entity
 @Data

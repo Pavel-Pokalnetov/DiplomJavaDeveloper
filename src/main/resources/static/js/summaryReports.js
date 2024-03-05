@@ -1,5 +1,5 @@
+//
 var countDown = 1800;
-
 function countdown() {
     setInterval(function () {
         if (countDown == 0) {
@@ -32,7 +32,7 @@ anychart.onDocumentReady(function () {
             let temp = table.rows[i].cells[j].innerText
             switch (j) {
                 case 3:
-                    temp /= 100;
+                    temp /= 10;
                     break;
             }
             rowData.push(temp);
@@ -61,7 +61,7 @@ anychart.onDocumentReady(function () {
     var secondSeries = chart.line(secondSeriesData);
     secondSeries.name("Подача в город");
     var thirdSeries = chart.line(thirdSeriesData);
-    thirdSeries.name("Запас в РЧВ");
+    thirdSeries.name("Запас в РЧВ (*0,1)");
     var fourthSeries = chart.line(fourthSeriesData);
     fourthSeries.name("Рост запаса в РЧВ");
 
