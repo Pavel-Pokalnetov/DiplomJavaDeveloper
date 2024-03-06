@@ -22,7 +22,7 @@
                 <a th:if="${username=='неавторизаванный пользователь'}" class="btn btn-sm btn-warning"
                    href="/login">Авторизоваться</a></p>
             <div class="col-14 btn-group-sm">
-                <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
+                <a th:if="${username!='неавторизаванный пользователь'}" type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Сводный отчет</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
             </div>
@@ -53,7 +53,7 @@
                         <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getPressureCity()}"></td>
-                        <td><a th:href="@{/update/vos15/{id}(id=${data.getId()})}"
+                        <td><a th:if="${username!='неавторизаванный пользователь'}" th:href="@{/update/vos15/{id}(id=${data.getId()})}"
                                class="btn btn-sm btn-outline-primary" title="Изменить">&#9998;</a></td>
                     </tr>
                     </tbody>
