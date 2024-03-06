@@ -26,8 +26,8 @@ public class InputDataController {
     /**
      * Форма ввода записи для ВОС5000
      */
-    @GetMapping("/input/vos5/**")
-    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
+    @GetMapping("/input/vos5")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String inputDataVos5() {
         return "vos5/inputVos5";
     }
@@ -36,8 +36,8 @@ public class InputDataController {
     /**
      * Запись новых данных для ВОС5000 в базу
      */
-    @RequestMapping(value = "/input/vos5", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
+    @PostMapping(value = "/input/vos5")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String addDataVos5(@RequestParam Double volExtract,
                               @RequestParam LocalDateTime date,
                               @RequestParam Double volCity,
@@ -79,7 +79,7 @@ public class InputDataController {
      * @param id - id записи
      */
     @GetMapping("/update/vos5/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String updateFormVos5(@PathVariable long id, Model model) {
         DataVos5 dataVos5 = dataServiceVOS5.getDataVos5ById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
@@ -90,8 +90,8 @@ public class InputDataController {
     /**
      * Обновление данных из формы
      */
-    @RequestMapping(value = "/update/vos5", method = RequestMethod.POST)
-    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
+    @PostMapping(value = "/update/vos5")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String updateDataVos5(@RequestParam Long id,
                                  @RequestParam Long userId,
                                  @RequestParam LocalDateTime date,
@@ -121,8 +121,8 @@ public class InputDataController {
     /**
      * Форма ввода записи для ВОС15000
      */
-    @GetMapping("/input/vos15/**")
-    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
+    @GetMapping("/input/vos15")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String inputDataVos15() {
         return "vos15/inputVos15";
     }
@@ -159,7 +159,7 @@ public class InputDataController {
     }
 
     @PostMapping("/update/vos15/**")
-    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String updateDataVos15(@RequestParam Long id,
                                   @RequestParam Long userId,
                                   @RequestParam LocalDateTime date,
@@ -194,7 +194,7 @@ public class InputDataController {
      * @param id - id записи
      */
     @GetMapping("/update/vos15/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
+//    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String updateFormVos15(@PathVariable long id, Model model) {
         DataVos15 dataVos15 = dataServiceVOS15.getDataVos15ById(id);
         if (dataVos15 == null) return "redirect:/main/vos15";

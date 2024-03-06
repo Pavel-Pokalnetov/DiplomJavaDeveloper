@@ -2,14 +2,14 @@ package ru.slenergo.AppMonitoring.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
-import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
@@ -38,35 +38,37 @@ public class WebSecurityConfig {
                                 "/history/**"
                         ).permitAll()
 
-                        .requestMatchers(
-                                "/input/vos5",
-                                "/update/vos5",
-                                "/update/vos5/**").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/input/vos5").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/update/vos5/**").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/input/vos5").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/update/vos5").hasAnyRole("VOS5", "ADMIN")
 
-                        .requestMatchers(
-                                "/input/vos15",
-                                "/update/vos15",
-                                "/update/vos15/**").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/input/vos15").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/update/vos15/**").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/input/vos15").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/update/vos15").hasAnyRole("VOS15", "ADMIN")
 
                         .anyRequest().authenticated()
-                )
 
-                .formLogin((loginForm)->loginForm
-                .loginPage("/login")
-                .permitAll());
+                ).csrf(AbstractHttpConfigurer::disable)
 
-        http.logout(
-                logout->logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
-                        .permitAll()
-        );
+                .formLogin((loginForm) -> loginForm
+                        .loginPage("/login")
+                        .permitAll())
+
+                .logout(
+                        logout -> logout
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                                .logoutSuccessUrl("/")
+                                .permitAll()
+                );
 
         return http.build();
     }
 
     /**
      * Создает сервис пользователей с предустановленными пользователями.
+     *
      * @return сервис пользователей с предустановленными пользователями
      */
     @Bean

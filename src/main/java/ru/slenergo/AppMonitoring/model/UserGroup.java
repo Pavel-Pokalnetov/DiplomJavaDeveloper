@@ -14,4 +14,6 @@ public class UserGroup {
     private Long id;
     @Column
     private String name;
+    @Column
+    private String role;
 }

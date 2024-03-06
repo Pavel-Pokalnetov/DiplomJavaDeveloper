@@ -37,7 +37,6 @@ public class DataVos15 {
     private Double volLeftCity;
     @Column
     private Double volRightCity;
-
     @Column
     private Double cleanWaterSupply;
     @Column
