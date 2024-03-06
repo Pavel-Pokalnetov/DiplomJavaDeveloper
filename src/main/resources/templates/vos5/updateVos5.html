@@ -39,9 +39,8 @@
                     <label class="form-label" for="clean_water_supply">Запас воды в РЧВ м3</label>
                     <input class="form-control" type="number" step="0.01" name="cleanWaterSupply" th:value="${entity.getCleanWaterSupply()}" required>
 
-<!--                    <label class="form-label" for="delta_clean_water_supply">прирост РЧВ</label>-->
-<!--                    <input class="form-control" type="number" step="0.01" name="deltaCleanWaterSupply" th:value="${entity.getDeltaCleanWaterSupply()}">-->
-                </div><div class="col-*">
+                </div>
+                <div class="col-*">
                     <label class="form-label" for="pressure_city">Давление воды в трубопроводе - подача в город ВОС-5000. Кгс/см2</label>
                     <input class="form-control" type="number" step="0.01" name="pressureCity" th:value="${entity.getPressureCity()}" required>
 
@@ -52,11 +51,12 @@
                     <input class="form-control" type="number" step="0.01" name="pressureBackVos15" th:value="${entity.getPressureBackVos15()}" required>
                     </div>
 
-
-                    <!-- label class="form-label" for="user_id">User ID</label -->
                     <input class="form-control" type="number" step="0.01" hidden="" name="userId" th:value="${entity.getUserId()}" value="0" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Записать</button>
+                <div class="btn-group mt-2">
+                    <button type="submit" class="btn btn-primary">Записать</button>
+                    <a class="btn btn-danger" href="/main/vos5">Отмена</a>
+                </div>
             </form>
         </div>
     </div>
