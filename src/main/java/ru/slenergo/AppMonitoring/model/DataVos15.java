@@ -17,8 +17,6 @@ import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
  */
 @Entity
 @Data
-@Getter
-@Setter
 @Table(name = "datavos15")
 @NoArgsConstructor
 public class DataVos15 {

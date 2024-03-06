@@ -10,8 +10,6 @@ import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Table(name = "datavos5")
 @AllArgsConstructor
 @NoArgsConstructor
