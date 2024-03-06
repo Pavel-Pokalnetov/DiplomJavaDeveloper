@@ -8,6 +8,9 @@ import ru.slenergo.AppMonitoring.repository.UserRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис работы с пользователями
+ */
 @Service
 public class UserServices {
     @Autowired
@@ -17,13 +20,14 @@ public class UserServices {
      * @return
      */
     public List<User> getUsers() {
-        List<User> userList = new ArrayList<>();
-
-        userRepo.findAll().iterator().forEachRemaining(userList::add);
-        return userList;
+        return userRepo.findUsersByIdNotNull();;
     }
 
+    /** Получить пользователя по его id
+     * @param id
+     * @return
+     */
     public User getUserById(Long id){
-        return userRepo.findById(id).orElse(null);
+        return userRepo.getUserById(id);
     }
 }
