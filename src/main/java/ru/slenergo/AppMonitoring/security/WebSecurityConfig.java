@@ -28,7 +28,6 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(
@@ -62,7 +61,6 @@ public class WebSecurityConfig {
                                 .logoutSuccessUrl("/")
                                 .permitAll()
                 );
-
         return http.build();
     }
 
@@ -88,12 +86,9 @@ public class WebSecurityConfig {
 
         inMemoryUserDetailsManager.createUser(User.withDefaultPasswordEncoder()
                 .username("Admin")
-                .password("admin")
+                .password("admin12345")
                 .roles("ADMIN")
                 .build());
-
-
         return inMemoryUserDetailsManager;
     }
-
 }
