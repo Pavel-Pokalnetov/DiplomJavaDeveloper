@@ -158,7 +158,7 @@ public class InputDataController {
         return "result";
     }
 
-    @PostMapping("/update/vos15/**")
+    @PostMapping("/update/vos15")
 //    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String updateDataVos15(@RequestParam Long id,
                                   @RequestParam Long userId,
