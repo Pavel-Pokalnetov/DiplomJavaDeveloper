@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.aspect;
+package ru.slenergo.AppMonitoring.etc.aspect;
 
 
 import org.aspectj.lang.ProceedingJoinPoint;

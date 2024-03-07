@@ -20,7 +20,7 @@ public class UserServices {
      * @return
      */
     public List<User> getUsers() {
-        return userRepo.findUsersByIdNotNull();;
+        return userRepo.findUsersByIdNotNull();
     }
 
     /** Получить пользователя по его id

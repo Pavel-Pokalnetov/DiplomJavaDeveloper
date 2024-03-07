@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.exceptions;
+package ru.slenergo.AppMonitoring.etc.exceptions;
 
 import lombok.Getter;
 

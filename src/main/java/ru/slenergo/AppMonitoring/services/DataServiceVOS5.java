@@ -3,7 +3,7 @@ package ru.slenergo.AppMonitoring.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
 import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
 

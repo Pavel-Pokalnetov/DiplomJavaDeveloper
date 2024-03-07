@@ -4,15 +4,13 @@ package ru.slenergo.AppMonitoring.services;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.slenergo.AppMonitoring.exceptions.PrematureEntryException;
+import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
 import ru.slenergo.AppMonitoring.model.DataVos15;
-import ru.slenergo.AppMonitoring.model.DataVos5;
 import ru.slenergo.AppMonitoring.repository.DataRepositoryVos15;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class DataServiceVOS15 {
