@@ -1,11 +1,11 @@
-package ru.slenergo.AppMonitoring.services;
+package ru.slenergo.AppMonitoring.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
 import ru.slenergo.AppMonitoring.model.DataVos5;
-import ru.slenergo.AppMonitoring.repository.DataRepositoryVos5;
+import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos5;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

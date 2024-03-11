@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.slenergo.AppMonitoring.model.DataVos15;
 import ru.slenergo.AppMonitoring.model.DataVos5;
-import ru.slenergo.AppMonitoring.services.DataServiceVOS15;
-import ru.slenergo.AppMonitoring.services.DataServiceVOS5;
-import ru.slenergo.AppMonitoring.services.UserServices;
+import ru.slenergo.AppMonitoring.model.services.DataServiceVOS15;
+import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
+import ru.slenergo.AppMonitoring.model.services.UserServices;
 
 import java.util.List;
 

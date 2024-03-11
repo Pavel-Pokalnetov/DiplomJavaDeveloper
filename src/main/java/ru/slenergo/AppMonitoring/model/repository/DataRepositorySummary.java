@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.repository;
+package ru.slenergo.AppMonitoring.model.repository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.ListCrudRepository;

@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.repository;
+package ru.slenergo.AppMonitoring.model.repository;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

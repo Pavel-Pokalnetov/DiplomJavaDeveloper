@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.slenergo.AppMonitoring.model.DataSummary;
-import ru.slenergo.AppMonitoring.services.ReportService;
+import ru.slenergo.AppMonitoring.model.services.ReportService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

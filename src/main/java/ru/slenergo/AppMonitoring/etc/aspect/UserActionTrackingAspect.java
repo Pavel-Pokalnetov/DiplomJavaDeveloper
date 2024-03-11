@@ -23,7 +23,7 @@ public class UserActionTrackingAspect {
                 + joinPoint.getSignature().getName() + ", аргументы: "
                 + arguments);
         Object result = joinPoint.proceed();
-        System.out.println("*Результат("+joinPoint.getSignature().getName()+"): "+((result!=null)?result.toString():"null"));
+        System.out.println("*Результат(" + joinPoint.getSignature().getName() + "): " + ((result != null) ? result.toString() : "null"));
         return result;
     }
 }
