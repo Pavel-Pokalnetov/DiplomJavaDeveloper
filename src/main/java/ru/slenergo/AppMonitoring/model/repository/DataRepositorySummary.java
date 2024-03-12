@@ -3,7 +3,7 @@ package ru.slenergo.AppMonitoring.model.repository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.slenergo.AppMonitoring.model.DataSummary;
+import ru.slenergo.AppMonitoring.model.entity.DataSummary;
 
 import java.time.LocalDateTime;
 import java.util.List;

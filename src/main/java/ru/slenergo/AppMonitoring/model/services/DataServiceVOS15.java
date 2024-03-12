@@ -5,7 +5,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
-import ru.slenergo.AppMonitoring.model.DataVos15;
+import ru.slenergo.AppMonitoring.model.entity.DataVos15;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos15;
 
 import java.time.LocalDateTime;

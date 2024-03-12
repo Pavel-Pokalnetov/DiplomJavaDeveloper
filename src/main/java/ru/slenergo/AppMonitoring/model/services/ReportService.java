@@ -3,9 +3,9 @@ package ru.slenergo.AppMonitoring.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.slenergo.AppMonitoring.model.DataSummary;
-import ru.slenergo.AppMonitoring.model.DataVos15;
-import ru.slenergo.AppMonitoring.model.DataVos5;
+import ru.slenergo.AppMonitoring.model.entity.DataSummary;
+import ru.slenergo.AppMonitoring.model.entity.DataVos15;
+import ru.slenergo.AppMonitoring.model.entity.DataVos5;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos5;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositorySummary;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos15;

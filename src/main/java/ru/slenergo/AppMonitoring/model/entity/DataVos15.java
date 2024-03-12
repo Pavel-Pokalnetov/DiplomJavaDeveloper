@@ -1,10 +1,8 @@
-package ru.slenergo.AppMonitoring.model;
+package ru.slenergo.AppMonitoring.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import ru.slenergo.AppMonitoring.etc.StaticTools;
 
 import java.time.LocalDateTime;

@@ -6,8 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.slenergo.AppMonitoring.model.DataVos15;
-import ru.slenergo.AppMonitoring.model.DataVos5;
+import ru.slenergo.AppMonitoring.model.entity.DataVos15;
+import ru.slenergo.AppMonitoring.model.entity.DataVos5;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
 

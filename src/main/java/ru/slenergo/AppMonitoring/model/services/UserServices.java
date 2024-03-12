@@ -2,7 +2,7 @@ package ru.slenergo.AppMonitoring.model.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.slenergo.AppMonitoring.model.User;
+import ru.slenergo.AppMonitoring.model.entity.User;
 import ru.slenergo.AppMonitoring.model.repository.UserRepository;
 
 import java.util.List;

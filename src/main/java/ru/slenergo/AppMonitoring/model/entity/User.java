@@ -1,4 +1,4 @@
-package ru.slenergo.AppMonitoring.model;
+package ru.slenergo.AppMonitoring.model.entity;
 
 
 import lombok.Data;
