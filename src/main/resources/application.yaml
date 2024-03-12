@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.0.21:5432/mgpDB
+    url: jdbc:postgresql://127.0.0.1:5432/mgpDB
     username: "postgres"
     password: "postgres"
   jpa:
@@ -17,4 +17,4 @@ spring:
     resources:
       cache:
         cachecontrol:
-          max-age: 14d
+          max-age: 365d
