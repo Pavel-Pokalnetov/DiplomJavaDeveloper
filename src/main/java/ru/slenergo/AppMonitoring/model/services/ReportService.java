@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import static ru.slenergo.AppMonitoring.etc.StaticTools.dropSmallDecimalPart;
+
 @Service
 public class ReportService {
 
@@ -30,10 +32,10 @@ public class ReportService {
 //        if (dataVos5.getDate().equals(dataVos15.getDate())) return null;
         DataSummary dataSummary = new DataSummary();
         dataSummary.setDate(dataVos5.getDate());
-        dataSummary.setVolExtract(dataVos5.getVolExtract() + dataVos15.getVolExtract());
-        dataSummary.setVolCiti(dataVos5.getVolAll() + dataVos15.getVolCity());
-        dataSummary.setCleanWaterSupply(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply());
-        dataSummary.setDeltaCleanWaterSupply(dataVos5.getDeltaCleanWaterSupply() + dataVos15.getDeltaCleanWaterSupply());
+        dataSummary.setVolExtract(dropSmallDecimalPart(dataVos5.getVolExtract() + dataVos15.getVolExtract(),1));
+        dataSummary.setVolCiti(dropSmallDecimalPart(dataVos5.getVolAll() + dataVos15.getVolCity(),1));
+        dataSummary.setCleanWaterSupply(dropSmallDecimalPart(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply(),1));
+        dataSummary.setDeltaCleanWaterSupply(dropSmallDecimalPart(dataVos5.getDeltaCleanWaterSupply() + dataVos15.getDeltaCleanWaterSupply(),1));
         return dataSummary;
     }
 
