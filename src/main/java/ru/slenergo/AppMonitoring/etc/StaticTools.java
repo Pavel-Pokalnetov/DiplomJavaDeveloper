@@ -1,6 +1,9 @@
 package ru.slenergo.AppMonitoring.etc;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.Collections;
 
 /**
  * Класс вспомогательных методов
@@ -14,8 +17,6 @@ public class StaticTools {
      * @return число типа Double
      */
     public static Double dropSmallDecimalPart(Double number, int round) {
-        BigDecimal bd = new BigDecimal(number);
-        bd = bd.setScale(round, BigDecimal.ROUND_DOWN);
-        return (Double) (bd.doubleValue());
-    }
+        return new BigDecimal(number).setScale(round, RoundingMode.HALF_UP).doubleValue();
+        }
 }
