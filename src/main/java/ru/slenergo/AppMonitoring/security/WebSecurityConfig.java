@@ -38,14 +38,16 @@ public class WebSecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/input/vos5").hasAnyRole("VOS5", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/update/vos5/**").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/update/vos5/*").hasAnyRole("VOS5", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/input/vos5").hasAnyRole("VOS5", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/update/vos5").hasAnyRole("VOS5", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/delete/vos5/*").hasAnyRole("VOS5", "ADMIN")
 
                         .requestMatchers(HttpMethod.GET, "/input/vos15").hasAnyRole("VOS15", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/update/vos15/**").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/update/vos15/*").hasAnyRole("VOS15", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/input/vos15").hasAnyRole("VOS15", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/update/vos15").hasAnyRole("VOS15", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/delete/vos15/*").hasAnyRole("VOS15", "ADMIN")
 
                         .anyRequest().authenticated()
 
