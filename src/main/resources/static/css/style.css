@@ -16,15 +16,70 @@
     color: #acffac;
 }
 
+.table-responsive-sm {
+    width: 100%;
+}
+
 #graphic-container {
     height: 600px;
-    background:gainsboro;
+    /*background:gainsboro;*/
     padding: 0;
     margin: 0;
 }
-#graphic-container-pressure{
+
+#graphic-container-pressure {
     height: 300px;
-    background:gainsboro;
+    /*background:gainsboro;*/
     padding: 0;
     margin: 0;
+}
+
+@media print {
+    /* стили для печати */
+    body {
+        font-size: 4mm;
+        padding: 0;
+        margin: 0;
+    }
+
+    .btn-group-sm {
+        display: none;
+    }
+
+    .container, .col-14, .row {
+        padding: 0;
+        margin: 0;
+    }
+
+    .table-responsive-sm {
+        width: 100%;
+    }
+
+    .no-print {
+        padding: 0;
+        margin: 0;
+        display: none;
+    }
+
+    #graphic-container {
+        padding: 0;
+        margin: 0;
+        display: block;
+    }
+
+    #graphic-container-pressure {
+        padding: 0;
+        margin: 0;
+        display: block;
+    }
+
+    .graphics {
+        page-break-before: always;
+        padding: 0;
+        margin: 0;width: auto;
+    }
+
+    @page {
+        size: landscape;
+    }
 }
