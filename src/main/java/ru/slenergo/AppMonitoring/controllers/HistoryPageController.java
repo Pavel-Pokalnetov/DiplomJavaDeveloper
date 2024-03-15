@@ -38,6 +38,7 @@ public class HistoryPageController {
         if (date == null) {
             //не указана дата
             model.addAttribute(model.addAttribute("selectedDate", LocalDateTime.now()));
+
             model.addAttribute("message", "Выберите дату ");
             model.addAttribute("dataExists", false);
             return "history/historyVos5";

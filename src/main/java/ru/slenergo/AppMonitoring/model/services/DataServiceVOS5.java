@@ -25,7 +25,7 @@ public class DataServiceVOS5 {
      * Получить данные за текущий день
      */
     public List<DataVos5> getCurrentDayVos5() {
-        return dataRep5.findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
+        return getDataVos5ByDay(LocalDateTime.now());
     }
 
     /**
@@ -157,6 +157,7 @@ public class DataServiceVOS5 {
     }
 
     public List<DataVos5> getDataVos5ByDay(LocalDateTime date) {
-        return dataRep5.findDataVos5sByDateBetweenOrderByDateAsc(date, date.plusHours(23));
+        return dataRep5.getDataVos5sByDateBetweenOrderByDateAsc(date.truncatedTo(ChronoUnit.DAYS),
+                date.truncatedTo(ChronoUnit.DAYS).plusHours(23));
     }
 }

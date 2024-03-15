@@ -19,10 +19,10 @@
         <div class="col-14">
             <h4>Часовые расходы ВОС15000. </h4>
             <p><span id="current-date"></span> | Вы вошли как <b><span th:text="${username}">---</span></b>
-                <a th:if="${username=='неавторизаванный пользователь'}" class="btn btn-sm btn-warning"
+                <a th:if="${username=='анонимный пользователь'}" class="btn btn-sm btn-warning"
                    href="/login">Авторизоваться</a></p>
             <div class="col-14 btn-group-sm">
-                <a th:if="${username!='неавторизаванный пользователь'}" type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
+                <a th:if="${username!='анонимный пользователь'}" type="button" class="btn btn-outline-primary btn-sm mr-1" href="/input/vos15">Ввод данных</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/report/summary">Сводный отчет</a>
                 <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="/">На главную</a>
             </div>
@@ -39,7 +39,7 @@
                         <th>Рост запаса<br> в РЧВ расчетный</th>
                         <th>Запас<br> в РЧВ расчетный</th>
                         <th>Давление<br>подачи в город</th>
-                        <th></th>
+                        <th th:if="${username!='анонимный пользователь'}"></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,7 +53,7 @@
                         <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
                         <td th:text="${data.getPressureCity()}"></td>
-                        <td><a th:if="${username!='неавторизаванный пользователь'}" th:href="@{/update/vos15/{id}(id=${data.getId()})}"
+                        <td th:if="${username!='анонимный пользователь'}"><a th:href="@{/update/vos15/{id}(id=${data.getId()})}"
                                class="btn btn-sm btn-outline-primary" title="Изменить">&#9998;</a></td>
                     </tr>
                     </tbody>

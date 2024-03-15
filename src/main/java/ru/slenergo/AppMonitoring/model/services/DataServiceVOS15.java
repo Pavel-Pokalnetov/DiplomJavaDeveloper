@@ -24,7 +24,7 @@ public class DataServiceVOS15 {
      * Получить данные за текущий день
      */
     public List<DataVos15> getCurrentDayVos15() {
-        return dataRep15.findDataVos15sByDateIsAfterOrderByDateAsc(LocalDateTime.now().truncatedTo(ChronoUnit.DAYS));
+        return getDataVos15ByDay(LocalDateTime.now());
     }
 
     /**
@@ -136,7 +136,11 @@ public class DataServiceVOS15 {
                 pressureCity);
     }
 
+    /** Получить список записей за весь день по текущему времени
+     * @param date текущая дата
+     * @return список записей на текущий день(сутки)
+     */
     public List<DataVos15> getDataVos15ByDay(LocalDateTime date) {
-        return dataRep15.findDataVos15sByDateBetweenOrderByDateAsc(date,date.plusHours(23));
+        return dataRep15.getDataVos15sByDateBetweenOrderByDateAsc(date.truncatedTo(ChronoUnit.DAYS),date.truncatedTo(ChronoUnit.DAYS).plusHours(23));
     }
 }

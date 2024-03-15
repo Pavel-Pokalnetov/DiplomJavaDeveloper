@@ -1,6 +1,5 @@
 package ru.slenergo.AppMonitoring.model.repository;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -45,16 +44,10 @@ public interface DataRepositoryVos5 extends JpaRepository<DataVos5, Long> {
     DataVos5 getDataVos5ByDate(LocalDateTime date);
 
     /**
-     * Получить все записи начиная с указанной даты сортировка по возрастанию даты
+     * Получить все записи между указанными датами (включительно)
      *
-     * @param date заданная дата и время LocalDateTime
-     * @return список DataVos5
-     */
-    List<DataVos5> findDataVos5sByDateIsAfterOrderByDateAsc(LocalDateTime date);
-
-    /** Получить все записи между указанными датами (включительно)
-     * @param date - начало
+     * @param date  - начало
      * @param date2 - конец
      */
-    List<DataVos5> findDataVos5sByDateBetweenOrderByDateAsc(LocalDateTime date, LocalDateTime date2);
+    List<DataVos5> getDataVos5sByDateBetweenOrderByDateAsc(LocalDateTime date, LocalDateTime date2);
 }

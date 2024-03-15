@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.slenergo.AppMonitoring.model.entity.DataVos15;
+import ru.slenergo.AppMonitoring.model.entity.DataVos5;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,24 +37,14 @@ public interface DataRepositoryVos15 extends JpaRepository<DataVos15, Long> {
      */
     DataVos15 getDataVos15ByDate(LocalDateTime date);
 
-    /**
-     *  Получить все записи начиная с указанной даты сортировка по возрастанию даты
-     * @param date заданная дата и время LocalDateTime
-     * @return список DataVos15
-     */
-    List<DataVos15> findDataVos15sByDateIsAfterOrderByDateAsc(LocalDateTime date);
 
+    List<DataVos15> getDataVos15sByDateBetweenOrderByDateAsc(LocalDateTime date, LocalDateTime date2);
     /**
      * Получить предыдущий запас воды
      */
     @Query("select d.cleanWaterSupply from DataVos15 d where d.date<:date order by d.date desc limit 1")
     Double getPrevCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
 
-    /**
-     * Получить следующий запас воды
-     */
-    @Query("select d.cleanWaterSupply from DataVos15 d where d.date>:date order by d.date asc limit 1")
-    Double getNextCleanWaterSupplyByDate(@Param("date") LocalDateTime date);
 
     List<DataVos15> findDataVos15sByDateBetweenOrderByDateAsc(LocalDateTime date, LocalDateTime date2);
 }
