@@ -1,15 +1,14 @@
 package ru.slenergo.AppMonitoring.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
 import ru.slenergo.AppMonitoring.model.entity.DataVos15;
 import ru.slenergo.AppMonitoring.model.entity.DataVos5;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
-import ru.slenergo.AppMonitoring.etc.exceptions.PrematureEntryException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -17,10 +16,13 @@ import java.time.temporal.ChronoUnit;
 
 @Controller
 public class InputDataController {
-    @Autowired
-    DataServiceVOS5 dataServiceVOS5;
-    @Autowired
-    DataServiceVOS15 dataServiceVOS15;
+    final    DataServiceVOS5 dataServiceVOS5;
+    final    DataServiceVOS15 dataServiceVOS15;
+
+    public InputDataController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15) {
+        this.dataServiceVOS5 = dataServiceVOS5;
+        this.dataServiceVOS15 = dataServiceVOS15;
+    }
 
 
     /**
@@ -74,7 +76,7 @@ public class InputDataController {
 
 
     /**
-     * форма для изменения записи ВОС15000
+     * Форма для изменения записи ВОС15000
      *
      * @param id - id записи
      */
@@ -88,7 +90,7 @@ public class InputDataController {
     }
 
     /**
-     * Обновление данных из формы
+     * Обновление данных записи для ВОС5000 из web формы
      */
     @PostMapping(value = "/update/vos5")
 //    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
@@ -122,7 +124,6 @@ public class InputDataController {
      * Форма ввода записи для ВОС15000
      */
     @GetMapping("/input/vos15")
-//    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String inputDataVos15() {
         return "vos15/inputVos15";
     }
@@ -150,7 +151,7 @@ public class InputDataController {
                             "Запись добавлена" :
                             "Ошибка записи. Обратитесь к администратору.");
         } catch (PrematureEntryException e) {
-            // если данные за текущий час уже были добавлены в базу
+            // если данные за текущий час уже были добавлены в базу сообщаем об ошибке
             model.addAttribute("result",
                     e.getMessage());
         }
@@ -158,8 +159,10 @@ public class InputDataController {
         return "result";
     }
 
+    /**
+     * Обновление данных записи для ВОС15000 из web формы
+     */
     @PostMapping("/update/vos15")
-//    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String updateDataVos15(@RequestParam Long id,
                                   @RequestParam Long userId,
                                   @RequestParam LocalDateTime date,
@@ -181,7 +184,7 @@ public class InputDataController {
         if (dataServiceVOS15.updateAndSaveDataVos15ByDate(dataVos15)) {
             model.addAttribute("result", "Данные обновлены\n");
         } else {
-            model.addAttribute("result", "Приобновлении данных произошла ошибка");
+            model.addAttribute("result", "При обновлении данных произошла ошибка");
         }
         model.addAttribute("url", "/main/vos15");
         return "result";

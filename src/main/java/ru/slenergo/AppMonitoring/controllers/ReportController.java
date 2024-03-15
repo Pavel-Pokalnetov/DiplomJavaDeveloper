@@ -1,6 +1,5 @@
 package ru.slenergo.AppMonitoring.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +14,20 @@ import java.util.List;
 
 import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterDateOnly;
 
+/**
+ * Класс контроллеров страниц отчетов
+ */
 @Controller
 @RequestMapping("/report")
 public class ReportController {
-    @Autowired
-    ReportService reportService;
+    final ReportService reportService;
 
+    public ReportController(ReportService reportService) {
+        this.reportService = reportService;
+    }
+
+    /** Главная страница с выбором отчетов
+     */
     @GetMapping("")
     public String reportMainPage() {
         return "report/mainReport";
@@ -28,9 +35,7 @@ public class ReportController {
 
     /**
      * Сводный отчет за текущие сутки
-     *
-     * @param model
-     * @return
+     * возвращает сводный отчет по текущему времени(дате)
      */
     @GetMapping("/summary")
     public String summaryReport(Model model) {
@@ -39,14 +44,12 @@ public class ReportController {
             dataSummaryList=new ArrayList<>();
         }
             model.addAttribute(dataSummaryList);
-            model.addAttribute("currentdate", LocalDate.now().format(formatterDateOnly));
+            model.addAttribute("currentDate", LocalDate.now().format(formatterDateOnly));
         return "report/summaryReport";
     }
 
     /**
-     * Обновление сводного отчета за текущие сутки
-     *
-     * @return
+     * Принудительное обновление(пересчет) сводного отчета за текущие сутки
      */
     @GetMapping("/summary/update")
     public String summaryReportUpdate() {
@@ -54,14 +57,17 @@ public class ReportController {
         return "redirect:/report/summary";
     }
 
+    /** Обработчик GET запроса сводного отчета за определенный день
+     * @param date - дата (необязательный параметр)
+     */
     @GetMapping("/dayreports")
     public String dayReports(@RequestParam(required = false) LocalDate date, Model model) {
         if (date == null) {
             model.addAttribute("isReportExist", false);
-            model.addAttribute("currentdate", " --- ");
+            model.addAttribute("currentDate", " --- ");
             model.addAttribute("message","Выберите дату отчета");
         } else {
-            model.addAttribute("currentdate",date);
+            model.addAttribute("currentDate",date);
             if(reportService.existsReportByDate(date)) {
                 System.out.println(1);
                 model.addAttribute("isReportExist",true);
@@ -69,7 +75,7 @@ public class ReportController {
             }else {
                 System.out.println(0);
                 model.addAttribute("isReportExist", false);
-                model.addAttribute("currentdate", "");
+                model.addAttribute("currentDate", "");
                 model.addAttribute("message","Нет отчета на этот день "+date.format(formatterDateOnly));
             }
         }

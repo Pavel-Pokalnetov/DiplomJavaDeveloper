@@ -19,7 +19,7 @@ ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/var/app/ap
 Таким образом, этот Dockerfile создает образ Docker, который содержит OpenJDK 17 и запускает ваше Java-приложение из jar-файла на порту 8080
 
 Для работы контейнера с web-приложением совместно с контейнером базы данных создадим файл docker-compose.yml
-```YML
+```YAML
 version: '3'
 services:
   app:

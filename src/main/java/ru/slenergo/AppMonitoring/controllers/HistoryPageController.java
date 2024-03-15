@@ -1,6 +1,5 @@
 package ru.slenergo.AppMonitoring.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,63 +14,77 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Класс контроллеров обращения к разделу истории /history
+ */
 @Controller
 @RequestMapping("/history")
 public class HistoryPageController {
-    @Autowired
-    DataServiceVOS5 dataServiceVOS5;
-    @Autowired
-    DataServiceVOS15 dataServiceVOS15;
+    final DataServiceVOS5 dataServiceVOS5;
+    final DataServiceVOS15 dataServiceVOS15;
 
+    public HistoryPageController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15) {
+        this.dataServiceVOS5 = dataServiceVOS5;
+        this.dataServiceVOS15 = dataServiceVOS15;
+    }
+
+    /**
+     * Обработчик запроса данных расходов для ВОС5000
+     *
+     * @param date - дата
+     */
     @GetMapping("/vos5")
-    public String historyPageVos5(@RequestParam(required = false) LocalDate date, Model model){
-        if(date==null){
-            //неуказана дата
-            model.addAttribute(model.addAttribute("selectedDate",LocalDateTime.now()));
-            model.addAttribute("message","Выберите дату ");
-            model.addAttribute("dataExists",false);
+    public String historyPageVos5(@RequestParam(required = false) LocalDate date, Model model) {
+        if (date == null) {
+            //не указана дата
+            model.addAttribute(model.addAttribute("selectedDate", LocalDateTime.now()));
+            model.addAttribute("message", "Выберите дату ");
+            model.addAttribute("dataExists", false);
             return "history/historyVos5";
         }
-            //указана дата
-        List<DataVos5> dataVos5s  = dataServiceVOS5.getDataVos5ByDay(date.atStartOfDay());
-        model.addAttribute("selectedDate",date);
-        if (dataVos5s==null ||dataVos5s.isEmpty()){
+        //указана дата
+        List<DataVos5> dataVos5s = dataServiceVOS5.getDataVos5ByDay(date.atStartOfDay());
+        model.addAttribute("selectedDate", date);
+        if (dataVos5s == null || dataVos5s.isEmpty()) {
             //но нет данных
-            model.addAttribute("message","Нет записей за указанную дату");
-            model.addAttribute("dataExists",false);
+            model.addAttribute("message", "Нет записей за указанную дату");
+            model.addAttribute("dataExists", false);
             return "history/historyVos5";
         }
-        model.addAttribute("message","");
-        model.addAttribute("dataExists",true);
-        model.addAttribute("dataVos5",dataVos5s);
+        model.addAttribute("message", "");
+        model.addAttribute("dataExists", true);
+        model.addAttribute("dataVos5", dataVos5s);
         return "history/historyVos5";
     }
 
+    /**
+     * Обработчик запроса данных расходов для ВОС15000
+     *
+     * @param date - дата
+     */
     @GetMapping("/vos15")
-    public String historyPageVos15(@RequestParam(required = false) LocalDate date, Model model){
-        if(date==null){
-            //неуказана дата
-            model.addAttribute(model.addAttribute("selectedDate",LocalDateTime.now()));
-            model.addAttribute("message","Выберите дату ");
-            model.addAttribute("dataExists",false);
+    public String historyPageVos15(@RequestParam(required = false) LocalDate date, Model model) {
+        if (date == null) {
+            //не указана дата
+            model.addAttribute(model.addAttribute("selectedDate", LocalDateTime.now()));
+            model.addAttribute("message", "Выберите дату ");
+            model.addAttribute("dataExists", false);
             return "history/historyVos15";
         }
         //указана дата
-        List<DataVos15> dataVos15s  = dataServiceVOS15.getDataVos15ByDay(date.atStartOfDay());
-        model.addAttribute("selectedDate",date);
-        if (dataVos15s==null ||dataVos15s.isEmpty()){
+        List<DataVos15> dataVos15s = dataServiceVOS15.getDataVos15ByDay(date.atStartOfDay());
+        model.addAttribute("selectedDate", date);
+        if (dataVos15s == null || dataVos15s.isEmpty()) {
             //но нет данных
-            model.addAttribute("message","Нет записей за указанную дату");
-            model.addAttribute("dataExists",false);
+            model.addAttribute("message", "Нет записей за указанную дату");
+            model.addAttribute("dataExists", false);
             return "history/historyVos15";
         }
-        model.addAttribute("message","");
-        model.addAttribute("dataExists",true);
-        model.addAttribute("dataVos15",dataVos15s);
+        model.addAttribute("message", "");
+        model.addAttribute("dataExists", true);
+        model.addAttribute("dataVos15", dataVos15s);
         return "history/historyVos15";
     }
-
-
 
 
 }
