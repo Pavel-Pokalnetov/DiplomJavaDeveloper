@@ -22,6 +22,7 @@
 
 #graphic-container {
     height: 600px;
+    width: 800px;
     /*background:gainsboro;*/
     padding: 0;
     margin: 0;
@@ -29,15 +30,18 @@
 
 #graphic-container-pressure {
     height: 300px;
+    width: 800px;
     /*background:gainsboro;*/
     padding: 0;
     margin: 0;
 }
 
+
+
 @media print {
     /* стили для печати */
     body {
-        font-size: 4mm;
+        font-size: 10px;
         padding: 0;
         margin: 0;
     }
@@ -64,22 +68,27 @@
     #graphic-container {
         padding: 0;
         margin: 0;
-        display: block;
+
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     #graphic-container-pressure {
         padding: 0;
         margin: 0;
-        display: block;
+
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .graphics {
         page-break-before: always;
         padding: 0;
-        margin: 0;width: auto;
+        margin: 0;
     }
 
-    @page {
-        size: landscape;
-    }
 }
