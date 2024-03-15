@@ -112,7 +112,8 @@ public class DataServiceVOS15 {
      * @param userId           - идентификатор пользователя
      * @param date             - дата
      * @param volExtract       - объем добычи воды
-     * @param volCiti          - объем подачи в город
+     * @param volLeftCiti          - объем подачи в город по левой нитке водовода
+     * @param volRightCity          - объем подачи в город по правой нитке водовода
      * @param cleanWaterSupply - запас чистой воды
      * @param pressureCity     - давление в трубопроводе
      * @return - dataVos15
@@ -141,6 +142,16 @@ public class DataServiceVOS15 {
      * @return список записей на текущий день(сутки)
      */
     public List<DataVos15> getDataVos15ByDay(LocalDateTime date) {
-        return dataRep15.getDataVos15sByDateBetweenOrderByDateAsc(date.truncatedTo(ChronoUnit.DAYS),date.truncatedTo(ChronoUnit.DAYS).plusHours(23));
+        return dataRep15.getDataVos15sByDateBetweenOrderByDateAsc(date.truncatedTo(ChronoUnit.DAYS),
+                date.truncatedTo(ChronoUnit.DAYS).plusHours(23));
+    }
+
+    /** Удаление записи по id
+     * @param id
+     * @return true - если запись удалена
+     */
+    public boolean delDataVos15ById(Long id) {
+        dataRep15.deleteById(id);
+        return !dataRep15.existsById(id);
     }
 }

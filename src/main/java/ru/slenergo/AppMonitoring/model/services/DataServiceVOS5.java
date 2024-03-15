@@ -160,4 +160,13 @@ public class DataServiceVOS5 {
         return dataRep5.getDataVos5sByDateBetweenOrderByDateAsc(date.truncatedTo(ChronoUnit.DAYS),
                 date.truncatedTo(ChronoUnit.DAYS).plusHours(23));
     }
+
+    /** Удаление записи по id
+     * @param id
+     * @return true - если запись удалена
+     */
+    public boolean delDataVos5ById(Long id) {
+        dataRep5.deleteById(id);
+        return !dataRep5.existsById(id);
+    }
 }
