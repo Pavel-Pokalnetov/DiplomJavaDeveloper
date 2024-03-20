@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/mgpDB
-    url: jdbc:postgresql://postgres:5432/mgpDB
+    url: jdbc:postgresql://localhost:5432/mgpDB
+#    url: jdbc:postgresql://postgres:5432/mgpDB
     username: "postgres"
     password: "postgres"
   jpa:
