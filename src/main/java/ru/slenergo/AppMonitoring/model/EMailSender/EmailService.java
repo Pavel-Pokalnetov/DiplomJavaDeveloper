@@ -42,14 +42,22 @@ public class EmailService {
     public boolean sendMailToAdmin(EmailModel emailModel) {
         Properties properties = System.getProperties();
         properties.setProperty("mail.smtp.host", address);
+        properties.setProperty("mail.smtp.port", port);
         Session session = Session.getDefaultInstance(properties);
         try {
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(emailModel.getEmail()));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-            message.setSubject("Отзыв из формы обратной связи сервиса мониторинга гидравлических режимов СПВК от "
-                    + emailModel.getName());
-            message.setText(emailModel.getMessage());
+            message.setSubject("Отзыв из формы обратной связи сервиса мониторинга гидравлических режимов СПВК");
+
+            StringBuilder mailBodyText = new StringBuilder();
+            mailBodyText.append("От: ").append(emailModel.getName()).append("\n");
+            mailBodyText.append("Email: ").append(emailModel.getEmail()).append("\n");
+            mailBodyText.append("Тема: ").append(emailModel.getSubject()).append("\n");
+            mailBodyText.append("Сообщение: ").append(emailModel.getMessage()).append("\n");
+
+            message.setText(mailBodyText.toString());
+
             Transport.send(message);
             System.out.println("Email Sent successfully....");
             return true;

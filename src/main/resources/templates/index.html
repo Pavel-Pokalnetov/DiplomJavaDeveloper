@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Мониторинг гидравлических режимов</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <div class="container">
@@ -16,12 +17,32 @@
                 <a href="/main/vos15" class="btn btn-outline-primary">Часовые расходы ВОС 15000</a>
                 <a href="/report/summary" class="btn btn-outline-primary">Cводный дневной отчет</a>
                 <a href="/report" class="btn btn-outline-primary" >Прочие отчеты</a>
-                <a href="/dev.html" class="btn btn-outline-primary" >Обратная связь</a>
+                <a href="/feedback.html" class="btn btn-outline-primary" >Обратная связь</a>
                 <a th:if="${username=='анонимный пользователь'}" href="/login"  class="btn btn-outline-primary" >Вход</a>
                 <a th:if="${username!='анонимный пользователь'}" href="/logout"  class="btn btn-outline-danger" >Выход</a>
+                <button class="btn btn-outline-info btm-sm" type="button" onclick="turnAboutVisible()">Инфо</button>
             </div>
+            <div id="index-about" class="mt-5">
+            <p>Изменения в программе:</p>
+            <ul>
+                <li>2024-03-20 - Добавлена форма обратной связи.</li>
+                <li>2024-03-15 - Добавлена кнопка Печать и стили для вывода на печать.</li>
+                <li>2024-03-14 - Добавлены кнопки удаления записей. Исправлена форма редактирования записи.</li>
+                <li>2024-03-01 - Первый релиз приложения.
+            </ul></div>
         </div>
     </div>
 </div>
+<script>
+    let indexAboutVisible = false;
+    function turnAboutVisible() {
+        indexAboutVisible=!indexAboutVisible;
+        if (indexAboutVisible){
+            document.getElementById("index-about").style = "display:block;";
+        }else {
+            document.getElementById("index-about").style = "display:none;";
+        }
+    };
+</script>
 </body>
 </html>

@@ -30,14 +30,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers(HttpMethod.GET,
-                                "/*.html", "/js/*.js", "/css/*.css", "/*.ico", "/",
-                                "/main/**",
+                        .requestMatchers("/*.html", "/js/*.js", "/css/*.css", "/*.ico", "/",
+                                "/main/**","/feedback","/error",
                                 "/report/**",
                                 "/history/**"
                         ).permitAll()
-
-                        .requestMatchers(HttpMethod.POST,"/feedback").permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/input/vos5").hasAnyRole("VOS5", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/update/vos5/*").hasAnyRole("VOS5", "ADMIN")
