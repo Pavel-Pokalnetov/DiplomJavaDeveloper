@@ -1,5 +1,7 @@
 package ru.slenergo.AppMonitoring.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +57,7 @@ public class HistoryPageController {
         model.addAttribute("message", "");
         model.addAttribute("dataExists", true);
         model.addAttribute("dataVos5", dataVos5s);
+        sendAuthUserToModel(model);
         return "history/historyVos5";
     }
 
@@ -84,8 +87,14 @@ public class HistoryPageController {
         model.addAttribute("message", "");
         model.addAttribute("dataExists", true);
         model.addAttribute("dataVos15", dataVos15s);
+        sendAuthUserToModel(model);
         return "history/historyVos15";
     }
 
-
+    private static void sendAuthUserToModel(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if ("anonymousUser".equalsIgnoreCase(username)) username = "анонимный пользователь";
+        model.addAttribute("username", username);
+    }
 }

@@ -5,10 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import ru.slenergo.AppMonitoring.model.EMailSender.EmailModel;
 import ru.slenergo.AppMonitoring.model.EMailSender.EmailService;
 
+/**
+ * Класс контроллер обработки запросов обратной связи
+ */
 @Controller
 public class FeedbackController {
     final EmailService emailService;
@@ -16,7 +18,6 @@ public class FeedbackController {
 
     public FeedbackController(EmailService emailService) {
         this.emailService = emailService;
-
     }
 
     /**

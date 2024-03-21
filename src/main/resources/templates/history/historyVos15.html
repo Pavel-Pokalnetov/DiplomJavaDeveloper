@@ -18,6 +18,7 @@
                 <h4>История часовых расходов по ВОС15000</h4>
                 <nav class="btn-group-sm">
                     <a class="btn btn-outline-primary btn-sm" href="/report">Другие отчеты</a>
+                    <a type="button" class="btn btn-outline-primary btn-sm mr-1" href="javascript:window.print()">Распечатать</a>
                     <a class="btn btn-outline-primary btn-sm" href="/">На главную</a>
                 </nav>
             </div>
@@ -48,7 +49,7 @@
                         <th>Рост запаса<br> в РЧВ расчетный</th>
                         <th>Рост запаса<br> в РЧВ фактический</th>
                         <th>Давление<br>подачи в город</th>
-
+                        <th class="no-print" th:if="${username=='Admin'}">Инструменты</th>
                         </thead>
                         <tbody>
                         <tr th:each="data:${dataVos15}">
@@ -61,6 +62,12 @@
                             <td th:text="${data.getDeltaCleanWaterSupplyCalculated()}"></td>
                             <td th:text="${data.getCleanWaterSupply()+data.getDeltaCleanWaterSupplyCalculated()}"></td>
                             <td th:text="${data.getPressureCity()}"></td>
+                            <td class="no-print" th:if="${username=='admin'}">
+                                <a th:href="@{/update/vos15/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary"
+                                   title="Изменить">&#9998;</a>
+                                <a th:href="@{/delete/vos15/{id}(id=${data.getId()})}" class="btn btn-sm btn-outline-primary"
+                                   title="Удалить">&#10060;</a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
