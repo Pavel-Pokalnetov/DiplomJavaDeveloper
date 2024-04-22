@@ -11,8 +11,8 @@ import java.util.Arrays;
 /**
  * Клас AOP для отслеживания запускаемых методов на время разработки и отладки
  */
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class UserActionTrackingAspect {
     @Around("execution(public * ru.slenergo.AppMonitoring..*.*(..))")
     public Object trackUserAction(ProceedingJoinPoint joinPoint) throws Throwable {

@@ -1,14 +1,13 @@
 package ru.slenergo.AppMonitoring.model.services;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.slenergo.AppMonitoring.model.entity.DataSummary;
 import ru.slenergo.AppMonitoring.model.entity.DataVos15;
 import ru.slenergo.AppMonitoring.model.entity.DataVos5;
-import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos5;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositorySummary;
 import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos15;
+import ru.slenergo.AppMonitoring.model.repository.DataRepositoryVos5;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,22 +19,36 @@ import static ru.slenergo.AppMonitoring.etc.StaticTools.dropSmallDecimalPart;
 @Service
 public class ReportService {
 
-    @Autowired
     DataRepositoryVos5 dataRepositoryVos5;
-    @Autowired
     DataRepositoryVos15 dataRepositoryVos15;
-    @Autowired
     DataRepositorySummary dataRepositorySummary;
 
+    Boolean recalAllData;
+
+    public ReportService(DataRepositoryVos5 dataRepositoryVos5, DataRepositoryVos15 dataRepositoryVos15, DataRepositorySummary dataRepositorySummary) {
+        this.dataRepositoryVos5 = dataRepositoryVos5;
+        this.dataRepositoryVos15 = dataRepositoryVos15;
+        this.dataRepositorySummary = dataRepositorySummary;
+        this.recalAllData = false;
+    }
+
+
+    /**
+     * Строка сводного отчета на указанную дату
+     *
+     * @param dataVos5
+     * @param dataVos15
+     * @return
+     */
     public DataSummary buildDataSummary(DataVos5 dataVos5, DataVos15 dataVos15) {
         if (dataVos5 == null || dataVos15 == null) return null;
 //        if (dataVos5.getDate().equals(dataVos15.getDate())) return null;
         DataSummary dataSummary = new DataSummary();
         dataSummary.setDate(dataVos5.getDate());
-        dataSummary.setVolExtract(dropSmallDecimalPart(dataVos5.getVolExtract() + dataVos15.getVolExtract(),1));
-        dataSummary.setVolCiti(dropSmallDecimalPart(dataVos5.getVolAll() + dataVos15.getVolCity(),1));
-        dataSummary.setCleanWaterSupply(dropSmallDecimalPart(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply(),1));
-        dataSummary.setDeltaCleanWaterSupply(dropSmallDecimalPart(dataVos5.getDeltaCleanWaterSupply() + dataVos15.getDeltaCleanWaterSupply(),1));
+        dataSummary.setVolExtract(dropSmallDecimalPart(dataVos5.getVolExtract() + dataVos15.getVolExtract(), 1));
+        dataSummary.setVolCiti(dropSmallDecimalPart(dataVos5.getVolCity() + dataVos15.getVolCity() - dataVos5.getVolBackCity() - dataVos5.getVolBackVos15(), 1));
+        dataSummary.setCleanWaterSupply(dropSmallDecimalPart(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply(), 1));
+        dataSummary.setDeltaCleanWaterSupply(dropSmallDecimalPart(dataSummary.getVolExtract() - dataSummary.getVolCiti(), 1));
         return dataSummary;
     }
 
@@ -75,6 +88,25 @@ public class ReportService {
         recalcSummaryReportByDate(date.atStartOfDay());
     }
 
+
+    public String recalcSummaryReportFromDateToDate(LocalDate date1, LocalDate date2) {
+        if(date1==null || date2==null) return "Ошибка. Одна или обе даты не заданны";
+        if(date1.isAfter(date2)) return "Ошибка. Дата начала периода не может быть позже даты окончания.";
+        if(this.recalAllData) return "Ошибка.Уже выполняется задача пересчета сводного отчета.";
+        this.recalAllData=true;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (LocalDate date = date1; !date.isAfter(date2); date = date.plusDays(1)) {
+                    recalcSummaryReportByDate(date);
+                }
+                recalAllData=false;
+            }
+        } );
+        thread.start();
+
+        return "Задание на пересчет сводного отчета запущено.";
+    }
 
     /**
      * Проверка существования отчета на указанную дату

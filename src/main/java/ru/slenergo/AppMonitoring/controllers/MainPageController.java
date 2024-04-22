@@ -77,6 +77,7 @@ public class MainPageController {
     private static void sendAuthUserToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+        System.out.println(username);
         if ("anonymousUser".equalsIgnoreCase(username)) username = "анонимный пользователь";
         model.addAttribute("username", username);
     }

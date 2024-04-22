@@ -59,7 +59,7 @@ anychart.onDocumentReady(function () {
     var firstSeries = chart.line(firstSeriesData);
     firstSeries.name("Добыча воды со скважин");
     var secondSeries = chart.line(secondSeriesData);
-    secondSeries.name("Подача в город");
+    secondSeries.name("Потребление воды городом");
     var thirdSeries = chart.line(thirdSeriesData);
     thirdSeries.name("Запас в РЧВ (*0,1)");
     var fourthSeries = chart.line(fourthSeriesData);

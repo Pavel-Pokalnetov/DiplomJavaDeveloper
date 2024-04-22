@@ -57,6 +57,8 @@ public class ReportController {
         return "redirect:/report/summary";
     }
 
+
+
     /** Обработчик GET запроса сводного отчета за определенный день
      * @param date - дата (необязательный параметр)
      */

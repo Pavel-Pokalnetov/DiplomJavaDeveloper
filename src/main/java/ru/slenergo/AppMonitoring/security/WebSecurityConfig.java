@@ -48,6 +48,9 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/update/vos15").hasAnyRole("VOS15", "ADMIN")
                         .requestMatchers(HttpMethod.POST, "/delete/vos15/*").hasAnyRole("VOS15", "ADMIN")
 
+                        .requestMatchers(HttpMethod.POST, "/admin/**").hasAnyRole( "ADMIN")
+
+
                         .anyRequest().authenticated()
 
                 ).csrf(AbstractHttpConfigurer::disable)
