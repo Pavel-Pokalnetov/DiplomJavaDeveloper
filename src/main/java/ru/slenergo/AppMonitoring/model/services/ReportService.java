@@ -49,6 +49,7 @@ public class ReportService {
         dataSummary.setVolCiti(dropSmallDecimalPart(dataVos5.getVolCity() + dataVos15.getVolCity() - dataVos5.getVolBackCity() - dataVos5.getVolBackVos15(), 1));
         dataSummary.setCleanWaterSupply(dropSmallDecimalPart(dataVos5.getCleanWaterSupply() + dataVos15.getCleanWaterSupply(), 1));
         dataSummary.setDeltaCleanWaterSupply(dropSmallDecimalPart(dataSummary.getVolExtract() - dataSummary.getVolCiti(), 1));
+        dataSummary.setAverageVolCiti(dropSmallDecimalPart(getAverageVolCityFromDateOnTime(dataSummary.getDate()), 1));
         return dataSummary;
     }
 
@@ -90,19 +91,19 @@ public class ReportService {
 
 
     public String recalcSummaryReportFromDateToDate(LocalDate date1, LocalDate date2) {
-        if(date1==null || date2==null) return "Ошибка. Одна или обе даты не заданны";
-        if(date1.isAfter(date2)) return "Ошибка. Дата начала периода не может быть позже даты окончания.";
-        if(this.recalAllData) return "Ошибка.Уже выполняется задача пересчета сводного отчета.";
-        this.recalAllData=true;
+        if (date1 == null || date2 == null) return "Ошибка. Одна или обе даты не заданны";
+        if (date1.isAfter(date2)) return "Ошибка. Дата начала периода не может быть позже даты окончания.";
+        if (this.recalAllData) return "Ошибка.Уже выполняется задача пересчета сводного отчета.";
+        this.recalAllData = true;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (LocalDate date = date1; !date.isAfter(date2); date = date.plusDays(1)) {
                     recalcSummaryReportByDate(date);
                 }
-                recalAllData=false;
+                recalAllData = false;
             }
-        } );
+        });
         thread.start();
 
         return "Задание на пересчет сводного отчета запущено.";
@@ -132,6 +133,21 @@ public class ReportService {
             return dataRepositorySummary.getDataSummaryByDateBetween(dateBegin, dateEnd);
         }
         return null;
+    }
+
+    public Double getAverageVolCityFromDateOnTime(LocalDateTime endTime) {
+        LocalDateTime startTime = endTime.minusDays(10);
+        Double result = 0.0;
+        int count = 0;
+        for (LocalDateTime time = startTime; !time.isAfter(endTime); time = time.plusDays(1)) {
+            DataSummary data = dataRepositorySummary.getDataSummaryByDate(time);
+            if (data != null) {
+                result += data.getVolCiti();
+                count++;
+            }
+        }
+        if (count == 0) return 0.0;
+        return result / count;
     }
 }
 

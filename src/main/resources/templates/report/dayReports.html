@@ -45,8 +45,10 @@
                         <th>Время</th>
                         <th>Добыча воды со скважин</th>
                         <th>Потребление воды городом</th>
+                        <th>Среднее потребление<br>по предыдущим 10 дням</th>
                         <th>Запас в РЧВ</th>
                         <th>Рост запаса в РЧВ</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -54,6 +56,7 @@
                         <td th:text="${data.getDateT()}"></td>
                         <td th:text="${data.getVolExtract()}"></td>
                         <td th:text="${data.getVolCiti()}"></td>
+                        <td th:text="${data.getAverageVolCiti()}"></td>
                         <td th:text="${data.getCleanWaterSupply()}"></td>
                         <td th:text="${data.getDeltaCleanWaterSupply()}"
                             th:class="${data.getDeltaCleanWaterSupply()} == 0 ? '' : (${data.getDeltaCleanWaterSupply()} > 0 ? '' : 'bg-danger text-white')"></td>

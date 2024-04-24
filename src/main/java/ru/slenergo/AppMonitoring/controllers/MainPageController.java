@@ -1,5 +1,6 @@
 package ru.slenergo.AppMonitoring.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -62,9 +63,13 @@ public class MainPageController {
     /**
      * Обработчик страницы входа (авторизации)
      */
+
     @GetMapping("/login")
-    public String loginPage(Model model) {
-        sendAuthUserToModel(model);
+    public String login(HttpServletRequest request) {
+        String referrer = request.getHeader("Referer");
+        if(referrer!=null){
+            request.getSession().setAttribute("url_prior_login", referrer);
+        }
         return "login";
     }
 
@@ -77,7 +82,7 @@ public class MainPageController {
     private static void sendAuthUserToModel(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
-        System.out.println(username);
+//        System.out.println(username);
         if ("anonymousUser".equalsIgnoreCase(username)) username = "анонимный пользователь";
         model.addAttribute("username", username);
     }

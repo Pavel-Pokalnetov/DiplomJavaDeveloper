@@ -31,7 +31,7 @@ anychart.onDocumentReady(function () {
             // Добавляем значение ячейки в массив данных строки
             let temp = table.rows[i].cells[j].innerText
             switch (j) {
-                case 3:
+                case 4:
                     temp /= 10;
                     break;
             }
@@ -51,6 +51,7 @@ anychart.onDocumentReady(function () {
     var secondSeriesData = dataSet.mapAs({x: 0, value: 2});
     var thirdSeriesData = dataSet.mapAs({x: 0, value: 3});
     var fourthSeriesData = dataSet.mapAs({x: 0, value: 4});
+    var fifthSeriesData = dataSet.mapAs({x: 0, value: 5});
 
     // создайте линейную диаграмму
     var chart = anychart.line();
@@ -61,9 +62,11 @@ anychart.onDocumentReady(function () {
     var secondSeries = chart.line(secondSeriesData);
     secondSeries.name("Потребление воды городом");
     var thirdSeries = chart.line(thirdSeriesData);
-    thirdSeries.name("Запас в РЧВ (*0,1)");
+    thirdSeries.name("Среднее потребление");
     var fourthSeries = chart.line(fourthSeriesData);
-    fourthSeries.name("Рост запаса в РЧВ");
+    fourthSeries.name("Запас в РЧВ (*0,1)");
+    var fifthSeries = chart.line(fifthSeriesData);
+    fifthSeries.name("Рост запаса в РЧВ");
 
     // добавьте легенду
     chart.legend().enabled(true);
@@ -79,6 +82,7 @@ anychart.onDocumentReady(function () {
     firstSeries.hovered().markers().enabled(true).type("circle").size(4);
     secondSeries.hovered().markers().enabled(true).type("circle").size(4);
     thirdSeries.hovered().markers().enabled(true).type("circle").size(4);
+
 
     // включите перекрестие
     chart.crosshair().enabled(true).yStroke(null).yLabel(false);

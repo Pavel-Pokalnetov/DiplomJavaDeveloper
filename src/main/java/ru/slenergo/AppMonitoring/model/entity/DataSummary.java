@@ -28,6 +28,8 @@ public class DataSummary {
     private Double cleanWaterSupply;
     @Column
     private Double deltaCleanWaterSupply;
+
+    private Double averageVolCiti;
     public String getDateT(){
         return date.format(formatterTimeOnly);
     }

@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <script src="/js/bootstrap.min.js"></script>
-  <script src="/js/jquery-3.7.1.min.js"></script>
-  <link rel="stylesheet" href="/css/style.css">
+<!--  <script src="/js/bootstrap.min.js"></script>-->
+<!--  <script src="/js/jquery-3.7.1.min.js"></script>-->
+<!--  <link rel="stylesheet" href="/css/style.css">-->
   <title>Вход в систему</title>
 </head>
 
@@ -15,7 +14,10 @@
 <div class="container">
   <div class="row">
     <h4>Авторизация</h4>
-    <p th:if="${loginError}" class="error">Неправильный логин или пароль</p>
+    <div th:if="${param.error}">
+      Invalid username and password.</div>
+    <div th:if="${param.logout}">
+      You have been logged out.</div>
     <form class="col-4" th:action="@{/login}" method="post">
       <label class="form-label" for="username">Логин</label>:
       <input class="form-control" type="text" id="username" name="username" autofocus="autofocus" required> <br />

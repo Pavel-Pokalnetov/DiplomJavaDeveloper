@@ -19,5 +19,7 @@ public interface DataRepositorySummary extends ListCrudRepository<DataSummary, L
 
 
     boolean existsByDateBetween(LocalDateTime date1,LocalDateTime date2);
+
+    DataSummary getDataSummaryByDate(LocalDateTime date);
 }
 

@@ -32,7 +32,6 @@
                 <a th:if="${username=='Admin'}" class="btn btn-outline-primary" href="/admin" >Администрирование</a>
                 <a th:if="${username=='анонимный пользователь'}" href="/login"  class="btn btn-outline-primary" >Вход</a>
                 <a th:if="${username!='анонимный пользователь'}" href="/logout"  class="btn btn-outline-danger" >Выход</a>
-                <button class="btn btn-outline-info btm-sm" type="button" onclick="turnAboutVisible()"  >Инфо</button>
             </div>
             <div id="index-about" class="mt-5">
                 <p><a href="/docs/User_manual.pdf">Руководство пользователя</a></p>
@@ -50,16 +49,5 @@
         </div>
     </div>
 </div>
-<script>
-    let indexAboutVisible = True;
-    function turnAboutVisible() {
-        indexAboutVisible=!indexAboutVisible;
-        if (indexAboutVisible){
-            document.getElementById("index-about").style = "display:block;";
-        }else {
-            document.getElementById("index-about").style = "display:none;";
-        }
-    }
-</script>
 </body>
 </html>
