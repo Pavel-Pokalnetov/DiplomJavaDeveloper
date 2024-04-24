@@ -71,11 +71,9 @@ public class ReportController {
         } else {
             model.addAttribute("currentDate",date);
             if(reportService.existsReportByDate(date)) {
-                System.out.println(1);
                 model.addAttribute("isReportExist",true);
                 model.addAttribute("dataList", reportService.getSummaryReportByDay(date));
             }else {
-                System.out.println(0);
                 model.addAttribute("isReportExist", false);
                 model.addAttribute("currentDate", "");
                 model.addAttribute("message","Нет отчета на этот день "+date.format(formatterDateOnly));

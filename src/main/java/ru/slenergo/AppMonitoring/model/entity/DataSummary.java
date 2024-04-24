@@ -30,6 +30,7 @@ public class DataSummary {
     private Double deltaCleanWaterSupply;
 
     private Double averageVolCiti;
+
     public String getDateT(){
         return date.format(formatterTimeOnly);
     }

@@ -30,7 +30,6 @@ public class AdminToolsController {
         if (date1 != null && date2 == null) {
             date2 = LocalDate.now();
         }
-        System.out.println(date1 + " -- " + date2);
         model.addAttribute("report", reportService.recalcSummaryReportFromDateToDate(date1, date2));
 
         return "report/fullUpdateSynnaryReportsFromDateToDate";
