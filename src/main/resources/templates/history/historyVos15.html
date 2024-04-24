@@ -25,12 +25,38 @@
             <div id="report-form" class="col-12">
                 <form class="col-4 inline">
                     <label class="form-label "><span th:text="${message}"></span></label>
-                    <input class="form-control inline col-1" id="dateInput" th:value="${selectedDate}" type="date"
-                           required name="date">
+                    <div class="btn-group">
+                        <span id="dateInputDown" class="btn btn-outline-secondary">←</span>
+                        <input class="form-control inline col-1" id="dateInput" th:value="${selectedDate}" type="date"
+                               required name="date">
+                        <span id="dateInputUp" class="btn btn-outline-secondary">→</span>
+                    </div>
                     <script>
                         document.getElementById('dateInput').addEventListener('change', function () {
                             var date = this.value;
                             var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + date;
+                            window.location.href = url;
+                        });
+                        document.getElementById('dateInputDown').addEventListener('click', function () {
+                            var formdate = document.getElementById('dateInput').value;
+                            if (formdate == '') return;
+                            var date = new Date(new Date(formdate).getTime() - 86400000);
+                            var year = date.getFullYear();
+                            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            var day = date.getDate().toString().padStart(2, '0');
+                            var urldate = year + "-" + month + "-" + day;
+                            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
+                            window.location.href = url;
+                        });
+                        document.getElementById('dateInputUp').addEventListener('click', function () {
+                            var formdate = document.getElementById('dateInput').value;
+                            if (formdate == '') return;
+                            var date = new Date(new Date(formdate).getTime() + 86400000);
+                            var year = date.getFullYear();
+                            var month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            var day = date.getDate().toString().padStart(2, '0');
+                            var urldate = year + "-" + month + "-" + day;
+                            var url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?date=' + urldate;
                             window.location.href = url;
                         });
                     </script>
