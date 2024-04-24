@@ -81,7 +81,9 @@ anychart.onDocumentReady(function () {
     // настройка маркеров серий
     firstSeries.hovered().markers().enabled(true).type("circle").size(4);
     secondSeries.hovered().markers().enabled(true).type("circle").size(4);
-    thirdSeries.hovered().markers().enabled(true).type("circle").size(4);
+    // thirdSeries.hovered().markers().enabled(true).type("circle").size(4);
+
+    thirdSeries.normal().stroke("#ff4f00",4,"3 3","round");
 
 
     // включите перекрестие
