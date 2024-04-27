@@ -3,9 +3,7 @@ package ru.slenergo.AppMonitoring.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.slenergo.AppMonitoring.etc.StaticTools;
-
 import java.time.LocalDateTime;
-
 import static ru.slenergo.AppMonitoring.etc.DataFormats.formatterTimeOnly;
 
 @Entity
