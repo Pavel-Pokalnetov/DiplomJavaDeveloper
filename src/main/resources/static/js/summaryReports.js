@@ -2,7 +2,7 @@
 var countDown = 300;
 function countdown() {
     setInterval(function () {
-        if (countDown == 0) {
+        if (0 === countDown) {
             location.reload("/report/summary/update");
         } else {
             countDown--;

@@ -8,7 +8,6 @@ function calcAvrfValue() {
 
     var newRow = table.insertRow(-1);
     newRow.classList.add('table-secondary')
-    let newCell = newRow.insertCell(0);
 
 // Для каждого столбца
     for (let j = 1; j < cols; j++) {
