@@ -24,4 +24,4 @@ mailserver:
   address: 192.168.0.6
   port: 25
 
-recipient: pokalnetov@slenergo.ru
+recipient: admin@slenergo.ru

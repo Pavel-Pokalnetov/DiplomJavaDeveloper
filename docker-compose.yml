@@ -12,8 +12,8 @@ services:
     container_name: postgres
     image: postgres
     restart: always
-#    ports:
-#      - "5432:5432"
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_USER=postgres
@@ -24,7 +24,7 @@ services:
     networks:
       - default
 
-networks:
-  default:
-    external: true
-    name: slenergo
+#networks:
+#  default:
+#    external: true
+#    name: slenergo

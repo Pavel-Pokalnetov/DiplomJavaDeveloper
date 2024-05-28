@@ -1,5 +1,5 @@
 //
-var countDown = 1800;
+var countDown = 300;
 function countdown() {
     setInterval(function () {
         if (countDown == 0) {
