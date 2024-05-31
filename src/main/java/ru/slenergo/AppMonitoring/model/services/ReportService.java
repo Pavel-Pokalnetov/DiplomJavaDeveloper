@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static ru.slenergo.AppMonitoring.etc.StaticTools.dropSmallDecimalPart;
 
@@ -98,10 +99,16 @@ public class ReportService {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (LocalDate date = date1; !date.isAfter(date2); date = date.plusDays(1)) {
+                LocalDate date = null;
+                try {
+                    for (date = date1; !date.isAfter(date2); date = date.plusDays(1)) {
                     recalcSummaryReportByDate(date);
+                }}catch (Exception e){
+                    System.out.println("Error: " + date);
+                    e.printStackTrace();
+                }finally {
+                    recalAllData = false;
                 }
-                recalAllData = false;
             }
         });
         thread.start();

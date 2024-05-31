@@ -30,9 +30,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/*.html", "/js/*.js", "/css/*.css", "/*.ico", "/",
+                        .requestMatchers("/*.html", "/js/*", "/js/*.map","/css/*.css","/css/*.map", "/*.ico", "/",
                                 "/main/**","/feedback","/error","/docs/**",
-                                "/report/**","/login","/loguot",
+                                "/report/**","/login","/loguot","/api/log",
                                 "/history/**"
                         ).permitAll()
 

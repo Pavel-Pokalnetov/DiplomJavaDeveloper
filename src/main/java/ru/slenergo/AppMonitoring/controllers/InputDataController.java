@@ -9,6 +9,7 @@ import ru.slenergo.AppMonitoring.model.entity.DataVos15;
 import ru.slenergo.AppMonitoring.model.entity.DataVos5;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
+import ru.slenergo.AppMonitoring.model.services.LoggerService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -16,12 +17,14 @@ import java.time.temporal.ChronoUnit;
 
 @Controller
 public class InputDataController {
-    final    DataServiceVOS5 dataServiceVOS5;
-    final    DataServiceVOS15 dataServiceVOS15;
+    final DataServiceVOS5 dataServiceVOS5;
+    final DataServiceVOS15 dataServiceVOS15;
+    final LoggerService loggerService;
 
-    public InputDataController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15) {
+    public InputDataController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15, LoggerService loggerService) {
         this.dataServiceVOS5 = dataServiceVOS5;
         this.dataServiceVOS15 = dataServiceVOS15;
+        this.loggerService = loggerService;
     }
 
 
@@ -31,6 +34,7 @@ public class InputDataController {
     @GetMapping("/input/vos5")
 //    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String inputDataVos5() {
+        loggerService.create("Запрос формы ввода для ВОС5000").push();
         return "vos5/inputVos5";
     }
 
@@ -52,6 +56,7 @@ public class InputDataController {
                               Model model) {
         DataVos5 dataVos5;
         try {
+            loggerService.create("Ввод данных в базу ВОС5000").push();
             dataVos5 = dataServiceVOS5.createDataVos5(
                     date,
                     volExtract,
@@ -83,6 +88,9 @@ public class InputDataController {
     @GetMapping("/update/vos5/{id}")
 //    @PreAuthorize("hasAnyRole('ADMIN','VOS5')")
     public String updateFormVos5(@PathVariable long id, Model model) {
+        loggerService.create("Запрос данных для изменения ВОС5000")
+                .addToLog("id=" +id)
+                .push();
         DataVos5 dataVos5 = dataServiceVOS5.getDataVos5ById(id);
         if (dataVos5 == null) return "redirect:/main/vos5";
         model.addAttribute("entity", dataVos5);
@@ -106,6 +114,8 @@ public class InputDataController {
                                  @RequestParam Double pressureBackCity,
                                  @RequestParam Double pressureBackVos15,
                                  Model model) {
+        loggerService.create("Обновление записи ВОС5000")
+                .addToLog("id="+id).push();
         if (dataServiceVOS5.updateAndSaveDataVos5ByDate(
                 id, userId,
                 date, volExtract,
@@ -125,6 +135,8 @@ public class InputDataController {
      */
     @GetMapping("/input/vos15")
     public String inputDataVos15() {
+
+        loggerService.create("Запрос формы ввода данных ВОС15000").push();
         return "vos15/inputVos15";
     }
 
@@ -138,7 +150,7 @@ public class InputDataController {
                                @RequestParam Double pressureCity,
                                Model model) {
         DataVos15 dataVos15;
-
+        loggerService.create("Запись данных ВОС15000").push();
         try {
             dataVos15 = dataServiceVOS15.createDataVos15(
                     date,
@@ -172,13 +184,16 @@ public class InputDataController {
                                   @RequestParam Double cleanWaterSupply,
                                   @RequestParam Double pressureCity,
                                   Model model) {
+        loggerService.create("Обновление данных ВОС15000")
+                .addToLog("id="+id)
+                .push();
         date = date.truncatedTo(ChronoUnit.HOURS);
         if (userId == null) userId = 0L;
         DataVos15 dataVos15 = dataServiceVOS15.createDataVos15(id,
                 userId,
                 date,
                 volExtract,
-                volLeftCity,volRightCity,
+                volLeftCity, volRightCity,
                 cleanWaterSupply,
                 pressureCity);
         if (dataServiceVOS15.updateAndSaveDataVos15ByDate(dataVos15)) {
@@ -199,6 +214,9 @@ public class InputDataController {
     @GetMapping("/update/vos15/{id}")
 //    @PreAuthorize("hasAnyRole('ADMIN','VOS15')")
     public String updateFormVos15(@PathVariable long id, Model model) {
+        loggerService.create("Запрос формы для обновления данных ВОС15000")
+                .addToLog("id=" +id)
+                .push();
         DataVos15 dataVos15 = dataServiceVOS15.getDataVos15ById(id);
         if (dataVos15 == null) return "redirect:/main/vos15";
         model.addAttribute("entity", dataVos15);

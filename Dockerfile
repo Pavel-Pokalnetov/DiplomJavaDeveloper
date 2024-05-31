@@ -1,3 +1,4 @@
+#FROM appmon-app
 FROM openjdk:17-jdk-alpine
 WORKDIR /var/app
 COPY target/*.jar /var/app/app.jar

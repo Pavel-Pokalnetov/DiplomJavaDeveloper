@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS15;
 import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
+import ru.slenergo.AppMonitoring.model.services.LoggerService;
 
 /**
  * Класс контроллеров для запросов удаления данных
@@ -16,10 +17,12 @@ import ru.slenergo.AppMonitoring.model.services.DataServiceVOS5;
 public class DeleteDataController {
     final DataServiceVOS5 dataServiceVOS5;
     final DataServiceVOS15 dataServiceVOS15;
+    final LoggerService loggerService;
 
-    public DeleteDataController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15) {
+    public DeleteDataController(DataServiceVOS5 dataServiceVOS5, DataServiceVOS15 dataServiceVOS15, LoggerService loggerService) {
         this.dataServiceVOS5 = dataServiceVOS5;
         this.dataServiceVOS15 = dataServiceVOS15;
+        this.loggerService = loggerService;
     }
 
     /** Контроллер удаления записи часового расхода по id для ВОС5000
@@ -29,11 +32,15 @@ public class DeleteDataController {
      */
     @GetMapping("/vos5/{id}")
     public String delDataVos5ById(@PathVariable(required = false) Long id, Model model) {
+        loggerService.create("Удаление данных ВОС5000")
+                        .addToLog("id="+id).push();
         model.addAttribute("url", "/main/vos5");
         if (id == null) {
             //указан несуществующий id
             model.addAttribute("result", "Ошибка удаления записи. Не найдена запрошенная запись");
         } else {
+            loggerService.create("Удаление данных ВОС5000")
+                    .addToLog("id="+id).push();
             if (dataServiceVOS5.delDataVos5ById(id)) {
                 model.addAttribute("result", "Запись удалена");
             }else{
@@ -56,6 +63,8 @@ public class DeleteDataController {
             //указан несуществующий id
             model.addAttribute("result", "Ошибка удаления записи. Не найдена запрошенная запись");
         } else {
+            loggerService.create("Удаление данных ВОС15000")
+                    .addToLog("id="+id).push();
             if (dataServiceVOS15.delDataVos15ById(id)) {
                 model.addAttribute("result", "Запись удалена");
             }else{
